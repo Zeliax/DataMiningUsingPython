@@ -54,6 +54,7 @@ if __name__ == "__main__":
         print "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
 
     vid_id_list = []
+    comments = []
     comments_list = []
 
     for v in video_list:
@@ -62,20 +63,21 @@ if __name__ == "__main__":
     yts = gdata.youtube.service.YouTubeService()
     comment_limit = '25'
 
+# Have to create a 3-dimensional list with (VID ID), (VID NAME) and a (COMMENT
+# LIST)
     for v in vid_id_list:
         videoID = v
         urlpattern = ("http://gdata.youtube.com/feeds/api/videos/" + videoID +
                       "/comments?start-index=%d&max-results=" + comment_limit)
         index = 1
         url = urlpattern % index
-        comments = []
+
         while True:
             ytfeed = yts.GetYouTubeVideoCommentFeed(uri=url)
             comments.extend([comment.content.text for comment in ytfeed.entry])
-            comments_list = []
+
             if not ytfeed.GetNextLink():
                 break
             url = ytfeed.GetNextLink().href
 
-    for v, comments in comments_list:
-        print v, comments
+    print comments_list
