@@ -44,7 +44,7 @@ def youtube_search(options):
     return videos
 
 
-def get_vid_id_list(search):
+def get_vid_lists(search):
     argparser.add_argument("--q", help="Search term", default=search)
     argparser.add_argument("--max-results", help="Max results", default=25)
     args = argparser.parse_args()
@@ -58,21 +58,21 @@ def get_vid_id_list(search):
     vid_name_list = []
 
     for v in video_list:
-        print v
         vid_id_list.append(v.split('(')[-1][:-1])
-        vid_name_list.append(v.split('(')[:1][-1])
-
+        if v.count("(") > 1:
+            vid_name_list.append(v.rsplit(" (", 1)[:1][-1])
+        else:
+            vid_name_list.append(v.split(' (')[:1][-1])
 
     return vid_id_list, vid_name_list
 
 
 if __name__ == "__main__":
     search_word = "Dog"
-    vid_id_list, vid_name_list = get_vid_id_list(search_word)
+    vid_id_list, vid_name_list = get_vid_lists(search_word)
 
     urlpattern = ('http://gdata.youtube.com/feeds/api/'
-                 'videos/YoB8t0B4jx4/comments?start-index=%d&max-results=50')
-    print urlpattern
+                  'videos/YoB8t0B4jx4/comments?start-index=%d&max-results=50')
     index = 1
     url = urlpattern % index
     comments = []
