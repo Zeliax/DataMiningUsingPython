@@ -1,0 +1,4 @@
+To do:
+
+- Check for frequently used words which are not in the word list. 
+- 
