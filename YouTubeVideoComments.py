@@ -88,11 +88,8 @@ if __name__ == "__main__":
 
     # for vid_id, comment in comments.items():
     #     print comment
-    my_comments = comments.values()
+    video_comments = comments.values()[0]
+    print len(comments.values()[0])
 
-    for comment in my_comments[0]:
+    for comment in video_comments:
         print comment
-    
-    # for comment in my_comments:
-    #     print comment
-
