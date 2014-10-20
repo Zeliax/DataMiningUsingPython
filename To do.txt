@@ -1,4 +1,21 @@
 To do:
 
 - Check for frequently used words which are not in the word list. 
-- 
+
+
+Steps: 
+
+- Get comments
+- Get wordlist
+- Sort comments
+- Get rid of stopwords and symbols
+- Tokenize comments
+- Stem tokens
+- Find features
+- Train classifier
+- Test classifier
+- Make documentation
+- Make and document tests
+- Create readme.txt
+- Create requirements list
+- Make setup.py: fetches the used libraries
