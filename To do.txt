@@ -19,3 +19,7 @@ Steps:
 - Create readme.txt
 - Create requirements list
 - Make setup.py: fetches the used libraries
+
+
+If time:
+- Emoticon list
