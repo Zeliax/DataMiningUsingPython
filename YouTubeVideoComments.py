@@ -16,7 +16,8 @@ YOUTUBE_API_VERSION = config.YOUTUBE_API_VERSION
 
 USERNAME = config.EMAIL
 PASSWORD = config.PASSWORD
-VIDEO_ID = 'YoB8t0B4jx4'
+
+yts = gdata.youtube.service.YouTubeService()
 
 
 def youtube_search(options):
@@ -43,8 +44,8 @@ def youtube_search(options):
     return videos
 
 
-if __name__ == "__main__":
-    argparser.add_argument("--q", help="Search term", default="Google")
+def get_vid_id_list(search):
+    argparser.add_argument("--q", help="Search term", default=search)
     argparser.add_argument("--max-results", help="Max results", default=25)
     args = argparser.parse_args()
 
@@ -54,31 +55,31 @@ if __name__ == "__main__":
         print "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
 
     vid_id_list = []
-    comments = []
-    comments_list = []
 
     for v in video_list:
         vid_id_list.append(v.split('(')[-1][:-1])
 
-    yts = gdata.youtube.service.YouTubeService()
-    comment_limit = '25'
+    return vid_id_list
 
-# Have to create a 3-dimensional list with (VID ID), (VID NAME) and a (COMMENT
-# LIST)
-    for v in vid_id_list:
-        videoID = v
-        urlpattern = ("http://gdata.youtube.com/feeds/api/videos/" + videoID +
-                      "/comments?start-index=%d&max-results=" + comment_limit)
-        index = 1
-        url = urlpattern % index
 
-#        while True:
-#            ytfeed = yts.GetYouTubeVideoCommentFeed(uri=url)
-#            comments.extend([comment.content.text for
-#                              comment in ytfeed.entry])
+if __name__ == "__main__":
+    search_word = "Dog"
+    vid_id_list = get_vid_id_list(search_word)
 
-#            if not ytfeed.GetNextLink():
-#                break
-#            url = ytfeed.GetNextLink().href
-
+    urlpattern = ('http://gdata.youtube.com/feeds/api/'
+                 'videos/YoB8t0B4jx4/comments?start-index=%d&max-results=50')
     print urlpattern
+    index = 1
+    url = urlpattern % index
+    comments = []
+
+    #while url:
+    #    ytfeed = yts.GetYouTubeVideoCommentFeed(uri=url)
+    #    comments.extend([comment.content.text for comment in ytfeed.entry])
+    #    url = ytfeed.GetNextLink().href
+
+    for v in vid_id_list:
+        for comment in yts.GetYouTubeVideoCommentFeed(video_id = v).entry:
+            print "..."
+            print comment.content.text
+            print "..."
