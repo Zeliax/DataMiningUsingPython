@@ -72,12 +72,13 @@ if __name__ == "__main__":
         index = 1
         url = urlpattern % index
 
-        while True:
-            ytfeed = yts.GetYouTubeVideoCommentFeed(uri=url)
-            comments.extend([comment.content.text for comment in ytfeed.entry])
+#        while True:
+#            ytfeed = yts.GetYouTubeVideoCommentFeed(uri=url)
+#            comments.extend([comment.content.text for
+#                              comment in ytfeed.entry])
 
-            if not ytfeed.GetNextLink():
-                break
-            url = ytfeed.GetNextLink().href
+#            if not ytfeed.GetNextLink():
+#                break
+#            url = ytfeed.GetNextLink().href
 
-    print comments_list
+    print urlpattern
