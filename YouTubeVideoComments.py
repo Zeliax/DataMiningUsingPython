@@ -55,16 +55,20 @@ def get_vid_id_list(search):
         print "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
 
     vid_id_list = []
+    vid_name_list = []
 
     for v in video_list:
+        print v
         vid_id_list.append(v.split('(')[-1][:-1])
+        vid_name_list.append(v.split('(')[:1][-1])
 
-    return vid_id_list
+
+    return vid_id_list, vid_name_list
 
 
 if __name__ == "__main__":
     search_word = "Dog"
-    vid_id_list = get_vid_id_list(search_word)
+    vid_id_list, vid_name_list = get_vid_id_list(search_word)
 
     urlpattern = ('http://gdata.youtube.com/feeds/api/'
                  'videos/YoB8t0B4jx4/comments?start-index=%d&max-results=50')
@@ -73,13 +77,11 @@ if __name__ == "__main__":
     url = urlpattern % index
     comments = []
 
-    #while url:
-    #    ytfeed = yts.GetYouTubeVideoCommentFeed(uri=url)
-    #    comments.extend([comment.content.text for comment in ytfeed.entry])
-    #    url = ytfeed.GetNextLink().href
+    for v in vid_name_list:
+        print v
 
-    for v in vid_id_list:
-        for comment in yts.GetYouTubeVideoCommentFeed(video_id = v).entry:
-            print "..."
-            print comment.content.text
-            print "..."
+#    for v in vid_id_list:
+#        for comment in yts.GetYouTubeVideoCommentFeed(video_id = v).entry:
+#            print "..."
+#            print comment.content.text
+#            print "..."
