@@ -3,3 +3,5 @@ config.py
 *.txt
 *.pem
 *.out
+lextab.py
+yacctab.py
