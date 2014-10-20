@@ -44,9 +44,10 @@ def youtube_search(options):
     return videos
 
 
-def get_vid_lists(search):
+def get_vid_lists(search, results):
     argparser.add_argument("--q", help="Search term", default=search)
-    argparser.add_argument("--max-results", help="Max results", default=25)
+    argparser.add_argument("--max-results", help="Max results",
+                           default=results)
     args = argparser.parse_args()
 
     try:
@@ -71,17 +72,27 @@ def get_vid_lists(search):
 
 if __name__ == "__main__":
     search_word = "Dog"
-    vid_id_list, vid_name_list = get_vid_lists(search_word)
+    results = 1
+    vid_id_list, vid_name_list = get_vid_lists(search_word, results)
 
-    urlpattern = ('http://gdata.youtube.com/feeds/api/'
-                  'videos/YoB8t0B4jx4/comments?start-index=%d&max-results=20')
-    index = 1
-    url = urlpattern % index
-    comments = []
+    comments = {}
 
-    for i in range(len(vid_id_list)):
-        print "\n---------New video starting--------"
-        print vid_id_list[i], vid_name_list[i]
-        for comment in yts.GetYouTubeVideoCommentFeed(video_id=
-                                                      vid_id_list[i]).entry:
-            print comment.content.text
+    for i, _ in enumerate(vid_id_list):
+        print "---------Downloading Comments for--------"
+        print "Video ID:", vid_id_list[i]
+        print "Video Name:", vid_name_list[i], "\n"
+        comment_list = [comment.content.text for comment in yts.
+                        GetYouTubeVideoCommentFeed
+                        (video_id=vid_id_list[i]).entry]
+        comments[vid_id_list[i]] = comment_list
+
+    # for vid_id, comment in comments.items():
+    #     print comment
+    my_comments = comments.values()
+
+    for comment in my_comments[0]:
+        print comment
+    
+    # for comment in my_comments:
+    #     print comment
+
