@@ -59,8 +59,10 @@ def get_vid_lists(search):
 
     for v in video_list:
         vid_id_list.append(v.split('(')[-1][:-1])
+        #If a paranthesis exists in title get the last occurance of the
+        #paranthesis
         if v.count("(") > 1:
-            vid_name_list.append(v.rsplit(" (", 1)[:1][-1])
+            vid_name_list.append(v.rsplit(" (", -1)[:1][-1])
         else:
             vid_name_list.append(v.split(' (')[:1][-1])
 
@@ -72,16 +74,14 @@ if __name__ == "__main__":
     vid_id_list, vid_name_list = get_vid_lists(search_word)
 
     urlpattern = ('http://gdata.youtube.com/feeds/api/'
-                  'videos/YoB8t0B4jx4/comments?start-index=%d&max-results=50')
+                  'videos/YoB8t0B4jx4/comments?start-index=%d&max-results=20')
     index = 1
     url = urlpattern % index
     comments = []
 
-    for v in vid_name_list:
-        print v
-
-#    for v in vid_id_list:
-#        for comment in yts.GetYouTubeVideoCommentFeed(video_id = v).entry:
-#            print "..."
-#            print comment.content.text
-#            print "..."
+    for i in range(len(vid_id_list)):
+        print "\n---------New video starting--------"
+        print vid_id_list[i], vid_name_list[i]
+        for comment in yts.GetYouTubeVideoCommentFeed(video_id=
+                                                      vid_id_list[i]).entry:
+            print comment.content.text
