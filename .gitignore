@@ -1,6 +1,5 @@
 config.py
 *.pyc
-*.txt
 *.pem
 *.out
 lextab.py
