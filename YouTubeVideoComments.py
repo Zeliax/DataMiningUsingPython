@@ -82,10 +82,11 @@ if __name__ == "__main__":
 
     print "Downloading comments"
     for i, _ in enumerate(vid_id_list):
-        # print "---------Downloading Comments for--------"
-        # print "Video ID:", vid_id_list[i]
-        # print "Video Name:", vid_name_list[i].encode("utf-8"), "\n"11
-        comment_feed = yts.GetYouTubeVideoCommentFeed(video_id=vid_id_list[i])
+        print "---------Downloading Comments for--------"
+        print "Video ID:", vid_id_list[i]
+        print "Video Name:", vid_name_list[i].encode("utf-8"), "\n"
+        comment_feed = yts.GetYouTubeVideoCommentFeed(video_id=
+                                                      vid_id_list[i])
         # while comment_feed is not None:
         #     for comment in comment_feed.entry:
         #         yield comment
@@ -94,7 +95,10 @@ if __name__ == "__main__":
         #         comment_feed = None
         #     else:
         #         comment_feed = yts.GetYouTubeVideoCommentFeed(next_link.href)
-        comment_list = [comment.content.text for comment in comment_feed]
+        # comment_list = [comment.content.text for comment in comment_feed]
+        comment_list = [comment.content.text for comment in
+                        yts.GetYouTubeVideoCommentFeed
+                        (video_id=vid_id_list[i]).entry]
         comments[vid_id_list[i]] = comment_list
     print "Done"
 
