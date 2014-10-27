@@ -86,16 +86,16 @@ if __name__ == "__main__":
         # print "Video ID:", vid_id_list[i]
         # print "Video Name:", vid_name_list[i].encode("utf-8"), "\n"11
         comment_feed = yts.GetYouTubeVideoCommentFeed(video_id=vid_id_list[i])
-        while comment_feed is not None:
-            for comment in comment_feed.entry:
-                yield comment
-            next_link = comment_feed.GetNextLink()
-            if next_link is None:
-                comment_feed = None
-            else:
-                comment_feed = yts.GetYouTubeVideoCommentFeed(next_link.href)
-        # comment_list = [comment.content.text for comment in comment_feed
-        # comments[vid_id_list[i]] = comment_list
+        # while comment_feed is not None:
+        #     for comment in comment_feed.entry:
+        #         yield comment
+        #     next_link = comment_feed.GetNextLink()
+        #     if next_link is None:
+        #         comment_feed = None
+        #     else:
+        #         comment_feed = yts.GetYouTubeVideoCommentFeed(next_link.href)
+        comment_list = [comment.content.text for comment in comment_feed]
+        comments[vid_id_list[i]] = comment_list
     print "Done"
 
     video_comments = comments.values()[0]
