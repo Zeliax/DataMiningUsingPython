@@ -2,6 +2,7 @@ import codecs
 word_dict = {}
 
 def wordlist_to_dict(list):
+	"""Creates a dictionary from a wordlist"""
     
     s_line = []
     wordlist = codecs.open(list, "r",encoding='utf8')
