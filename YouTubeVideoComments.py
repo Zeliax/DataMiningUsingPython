@@ -103,9 +103,12 @@ def fetch_video_comments(video_ids_list):
 
 
 def save_comments_to_file(comment_list):
+    """
+    Saves comments to a file
+    """
     f = open('testfile.txt', 'w')
     for comment in comment_list:
-        f.write(comment)
+        f.writelines(comment.replace("\n", " ") + "\n")
     f.close()
 
 
