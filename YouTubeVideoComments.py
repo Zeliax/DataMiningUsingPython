@@ -81,6 +81,10 @@ def format_video_lists(search, results):
 
 
 def fetch_video_comments(video_ids_list):
+    """
+    Based on a list of video ids this function returns a dictionary with a list
+    of comments in which the key is the video id.
+    """
     comments = {}
 
     print "Downloading comments"
@@ -97,6 +101,14 @@ def fetch_video_comments(video_ids_list):
 
     return comments
 
+
+def save_comments_to_file(comment_list):
+    f = open('testfile.txt', 'w')
+    for comment in comment_list:
+        f.write(comment)
+    f.close()
+
+
 if __name__ == "__main__":
     yts = gdata.youtube.service.YouTubeService()
 
@@ -107,7 +119,4 @@ if __name__ == "__main__":
     comments = fetch_video_comments(vid_ids_list)
 
     video_comments = comments.values()[0]
-    print len(comments.values()[0])
-
-    for comment in video_comments:
-        print comment
+    save_comments_to_file(video_comments)
