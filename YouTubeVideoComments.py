@@ -18,9 +18,10 @@ USERNAME = config.EMAIL
 PASSWORD = config.PASSWORD
 
 
-def youtube_search(options):
+def fetch_video_list(options):
     """
-    Function used by other function to search through the
+    Function using YouTube API V3 to fetch videos from YouTube and returning a
+    list of video names including video id
     """
     youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
                     developerKey=DEVELOPER_KEY)
@@ -45,10 +46,11 @@ def youtube_search(options):
     return videos
 
 
-def get_vid_lists(search, results):
+def format_video_lists(search, results):
     """
-    Based on two input parameters, this function uses Google API v3 to fetch a
-    list of youtube videos and their matching IDs.
+    Based on two input parameters, this function uses another function to
+    to fetch a list of youtube videos and their matching IDs. It also sorts out
+    the list from
     """
     argparser.add_argument("--q", help="Search term", default=search)
     argparser.add_argument("--max-results", help="Max results",
@@ -56,15 +58,15 @@ def get_vid_lists(search, results):
     args = argparser.parse_args()
 
     try:
-        video_list = youtube_search(args)
+        video_list = fetch_video_list(args)
     except HttpError, e:
         print "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
 
-    vid_id_list = []
+    vid_ids_list = []
     vid_name_list = []
 
     for v in video_list:
-        vid_id_list.append(v.split('(')[-1][:-1])
+        vid_ids_list.append(v.split('(')[-1][:-1])
         paran_count = v.count("(")
         #If a paranthesis exists in title get the last occurance of the
         #paranthesis
@@ -75,8 +77,25 @@ def get_vid_lists(search, results):
         else:
             vid_name_list.append(v.split(' (')[:1][-1])
 
-    return vid_id_list, vid_name_list
+    return vid_ids_list, vid_name_list
 
+
+def fetch_video_comments(video_ids_list):
+    comments = {}
+
+    print "Downloading comments"
+    for i, _ in enumerate(vid_ids_list):
+        print "---------Downloading Comments for--------"
+        print "Video ID:", vid_ids_list[i]
+        print "Video Name:", vid_name_list[i].encode("utf-8"), "\n"
+
+        comment_list = [comment.content.text for comment in
+                        yts.GetYouTubeVideoCommentFeed
+                        (video_id=vid_ids_list[i]).entry]
+        comments[vid_ids_list[i]] = comment_list
+    print "Done"
+
+    return comments
 
 if __name__ == "__main__":
     yts = gdata.youtube.service.YouTubeService()
@@ -84,31 +103,8 @@ if __name__ == "__main__":
     search_word = "Dog"
     results = 1
 
-    vid_id_list, vid_name_list = get_vid_lists(search_word, results)
-
-    comments = {}
-
-    print "Downloading comments"
-    for i, _ in enumerate(vid_id_list):
-        print "---------Downloading Comments for--------"
-        print "Video ID:", vid_id_list[i]
-        print "Video Name:", vid_name_list[i].encode("utf-8"), "\n"
-        comment_feed = yts.GetYouTubeVideoCommentFeed(video_id=
-                                                      vid_id_list[i])
-        # while comment_feed is not None:
-        #     for comment in comment_feed.entry:
-        #         yield comment
-        #     next_link = comment_feed.GetNextLink()
-        #     if next_link is None:
-        #         comment_feed = None
-        #     else:
-        #         comment_feed = yts.GetYouTubeVideoCommentFeed(next_link.href)
-        # comment_list = [comment.content.text for comment in comment_feed]
-        comment_list = [comment.content.text for comment in
-                        yts.GetYouTubeVideoCommentFeed
-                        (video_id=vid_id_list[i]).entry]
-        comments[vid_id_list[i]] = comment_list
-    print "Done"
+    vid_ids_list, vid_name_list = format_video_lists(search_word, results)
+    comments = fetch_video_comments(vid_ids_list)
 
     video_comments = comments.values()[0]
     print len(comments.values()[0])
