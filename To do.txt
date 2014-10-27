@@ -23,3 +23,12 @@ Steps:
 
 If time:
 - Emoticon list
+
+
+
+
+
+Analyze comments
+Pie chart positive/negative
+Compare to likes/dislikes
+Graph of likes vs positiveness
