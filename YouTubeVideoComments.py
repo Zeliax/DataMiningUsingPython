@@ -60,10 +60,13 @@ def get_vid_lists(search, results):
 
     for v in video_list:
         vid_id_list.append(v.split('(')[-1][:-1])
+        paran_count = v.count("(")
         #If a paranthesis exists in title get the last occurance of the
         #paranthesis
-        if v.count("(") > 1:
-            vid_name_list.append(v.rsplit(" (", -1)[:1][-1])
+        if paran_count > 1:
+            vid = v.split("(")
+            vid_name = "(".join(vid[:paran_count])
+            vid_name_list.append(vid_name)
         else:
             vid_name_list.append(v.split(' (')[:1][-1])
 
@@ -77,17 +80,24 @@ if __name__ == "__main__":
 
     comments = {}
 
+    print "Downloading comments"
     for i, _ in enumerate(vid_id_list):
-        print "---------Downloading Comments for--------"
-        print "Video ID:", vid_id_list[i]
-        print "Video Name:", vid_name_list[i], "\n"
-        comment_list = [comment.content.text for comment in yts.
-                        GetYouTubeVideoCommentFeed
-                        (video_id=vid_id_list[i]).entry]
-        comments[vid_id_list[i]] = comment_list
+        # print "---------Downloading Comments for--------"
+        # print "Video ID:", vid_id_list[i]
+        # print "Video Name:", vid_name_list[i].encode("utf-8"), "\n"11
+        comment_feed = yts.GetYouTubeVideoCommentFeed(video_id=vid_id_list[i])
+        while comment_feed is not None:
+            for comment in comment_feed.entry:
+                yield comment
+            next_link = comment_feed.GetNextLink()
+            if next_link is None:
+                comment_feed = None
+            else:
+                comment_feed = yts.GetYouTubeVideoCommentFeed(next_link.href)
+        # comment_list = [comment.content.text for comment in comment_feed
+        # comments[vid_id_list[i]] = comment_list
+    print "Done"
 
-    # for vid_id, comment in comments.items():
-    #     print comment
     video_comments = comments.values()[0]
     print len(comments.values()[0])
 
