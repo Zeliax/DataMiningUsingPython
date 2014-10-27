@@ -17,10 +17,11 @@ YOUTUBE_API_VERSION = config.YOUTUBE_API_VERSION
 USERNAME = config.EMAIL
 PASSWORD = config.PASSWORD
 
-yts = gdata.youtube.service.YouTubeService()
-
 
 def youtube_search(options):
+    """
+    Function used by other function to search through the
+    """
     youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
                     developerKey=DEVELOPER_KEY)
 
@@ -45,6 +46,10 @@ def youtube_search(options):
 
 
 def get_vid_lists(search, results):
+    """
+    Based on two input parameters, this function uses Google API v3 to fetch a
+    list of youtube videos and their matching IDs.
+    """
     argparser.add_argument("--q", help="Search term", default=search)
     argparser.add_argument("--max-results", help="Max results",
                            default=results)
@@ -74,8 +79,11 @@ def get_vid_lists(search, results):
 
 
 if __name__ == "__main__":
+    yts = gdata.youtube.service.YouTubeService()
+
     search_word = "Dog"
     results = 1
+
     vid_id_list, vid_name_list = get_vid_lists(search_word, results)
 
     comments = {}
