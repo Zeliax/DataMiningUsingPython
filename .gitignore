@@ -1,6 +1,4 @@
-\flask
 \venv
-run.py
 scripts/config.py
 *.pyc
 *.pem
