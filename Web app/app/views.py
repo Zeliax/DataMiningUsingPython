@@ -25,9 +25,9 @@ from .forms import SearchForm
 def search():
     form = SearchForm()
     if form.validate_on_submit():
-        flash('Search requested for search_word="%s"' %
+        flash('Search requested for "%s"' %
               (form.search_word.data))
-        return redirect('templates/index')
+        return redirect('/search')
     return render_template('search.html', 
                            title='Search',
                            form=form)
