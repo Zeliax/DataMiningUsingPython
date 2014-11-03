@@ -1,0 +1,14 @@
+<html>
+  <head>
+    {% if title %}
+    <title>{{ title }} - microblog</title>
+    {% else %}
+    <title>Welcome to Youtube Sentiment Analysis</title>
+    {% endif %}
+  </head>
+  <body>
+    <div>Youtube Sentiment Analysis: <a href="/index">Home</a></div>
+    <hr>
+    {% block content %}{% endblock %}
+  </body>
+</html>
