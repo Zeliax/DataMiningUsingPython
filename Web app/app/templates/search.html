@@ -1,0 +1,14 @@
+<!-- extend from base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Search for videos</h1>
+  <form action="" method="post" name="search">
+      {{ form.hidden_tag() }}
+      <p>
+          Please enter your search word:<br>
+          {{ form.search_word(size=40) }}<br>
+      </p>
+      <p><input type="submit" value="Search"></p>
+  </form>
+{% endblock %}
