@@ -2,8 +2,8 @@
 from apiclient.discovery import build
 from apiclient.errors import HttpError
 from oauth2client.tools import argparser
+from gdata.youtube import service
 
-import gdata.youtube.service
 import config
 
 # Set DEVELOPER_KEY to the API key value from the APIs & auth > Registered apps
@@ -46,7 +46,7 @@ def fetch_video_list(options):
     return videos
 
 
-def format_video_lists(search, results):
+def format_video_lists(search, result_nr):
     """
     Based on two input parameters, this function uses another function to
     to fetch a list of youtube videos and their matching IDs. It also sorts out
@@ -54,7 +54,7 @@ def format_video_lists(search, results):
     """
     argparser.add_argument("--q", help="Search term", default=search)
     argparser.add_argument("--max-results", help="Max results",
-                           default=results)
+                           default=result_nr)
     args = argparser.parse_args()
 
     try:
@@ -102,24 +102,57 @@ def fetch_video_comments(video_ids_list):
     return comments
 
 
-def save_comments_to_file(comment_list):
+def comments_generator(client, video_id):
+    urlpattern = ('http://gdata.youtube.com/feeds/api/videos/' + video_id +
+                  '/comments?orderby=published&start-index=%d&max-results=25')
+    index = 1
+    url = urlpattern % index
+    comment_feed = client.GetYouTubeVideoCommentFeed(uri=url)
+    # comment_feed = client.GetYouTubeVideoCommentFeed(video_id=video_id)
+    while comment_feed is not None:
+        for comment in comment_feed.entry:
+            yield comment
+        next_link = comment_feed.GetNextLink()
+        if next_link is None:
+            comment_feed = None
+        else:
+            try:
+                comment_feed = client.GetYouTubeVideoCommentFeed(
+                    next_link.href)
+            except Exception, e:
+                print e
+                break
+
+
+def save_comments_to_file(comment_list, filename):
     """
     Saves comments to a file
     """
-    f = open('testfile.txt', 'w')
+    f = open(filename, 'w')
     for comment in comment_list:
         f.writelines(comment.replace("\n", " ") + "\n")
     f.close()
 
 
 if __name__ == "__main__":
-    yts = gdata.youtube.service.YouTubeService()
+    yts = service.YouTubeService()
+    # yts.ClientLogin(USERNAME, PASSWORD)
 
     search_word = "Dog"
     results = 1
 
     vid_ids_list, vid_name_list = format_video_lists(search_word, results)
-    comments = fetch_video_comments(vid_ids_list)
 
-    video_comments = comments.values()[0]
-    save_comments_to_file(video_comments)
+    comment_dict = {}
+    for video_id in vid_ids_list:
+        print video_id
+        comment_list = [comment.content.text for comment in
+                        comments_generator(yts, video_id)]
+        comment_dict[video_id] = comment_list
+
+    #comments = fetch_video_comments(vid_ids_list)
+
+    # video_comments = comments.values()[0]
+
+    # filename = 'testfile.txt'
+    # save_comments_to_file(video_comments, filename)
