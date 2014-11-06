@@ -3,12 +3,24 @@
 
 {% block content %}
   <h1>Search for videos</h1>
-  <form action="search" method="post" name="search">
-      {{ form.hidden_tag() }}
-      <p>
-          Please enter your search word:<br>
-          {{ form.search_word(size=40) }}<br>
-      </p>
-      <p><input type="submit" value="Search"></p>
+
+  <form id="searchForm" method="POST" class="form-inline">
+  	{{ form.hidden_tag() }}
+  	<div class="form-group">
+  		<label class="sr-only" for="search">Search word:</label>
+  		<input class="form-control" id="search_word" name="search_word" type="text" placeholder="Please type your search word here...">
+  	</div>
+  	<button class="btn btn-default" type="submit">Search</button>
   </form>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li>{{ message }} </li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
 {% endblock %}

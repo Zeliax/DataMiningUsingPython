@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Hi, {{ user.nickname }}!</h1>
-    {% for post in posts %}
-    <div><p>{{ post.author.nickname }} says: <b>{{ post.body }}</b></p></div>
-    {% endfor %}
-{% endblock %}
+    <h1>{{ title }}</h1>
+
+    <p>{{ paragraph }}</p>
+
+	<p>Here you can retrieve comments from youtube videos based on a search.</p>    
+	<p>Go to Search --> type your search word --> Voila! You will see the comments for the video</p> 
+
+ {% endblock %}

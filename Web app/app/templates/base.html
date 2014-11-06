@@ -1,23 +1,21 @@
 <html>
   <head>
+    <link rel="stylesheet" href="/static/bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="/static/customStyles.css" media="screen">
+    <script src="/static/jquery-1.11.1.min.js"></script>
+    <!-- <script src="/static/bootstrap.min.js"></script>
     {% if title %}
     <title>{{ title }}</title>
     {% else %}
     <title>Welcome to Youtube Sentiment Analysis</title>
-    {% endif %}
+    {% endif %} -->
   </head>
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation"><a href="/index">Home</a></li>
+      <li role="presentation"><a href="/search">Search</a></li>
+      <li role="presentation"><a href="/comments">Comments</a></li>
+    </ul>
   <body>
-    <div>Youtube Sentiment Analysis: <a href="/index">Home</a></div>
-    <hr>
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-        {% for message in messages %}
-            <li>{{ message }} </li>
-        {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
     {% block content %}{% endblock %}
   </body>
 </html>
