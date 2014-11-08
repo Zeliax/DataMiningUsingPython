@@ -1,6 +1,7 @@
 from flask import render_template, flash, redirect
 from app import app
 from .forms import SearchForm
+from .YouTubeVideoComments import main
 
 @app.route('/') #URL-path to homepage
 @app.route('/index')
@@ -25,5 +26,9 @@ def search():
         flash('Search requested for "%s"' %
               (form.search_word.data))
         return redirect('/search')
+
+    search_word = form.search_word.data
+    nr_of_results = 3
+    main_func(search_word, nr_of_results)
     return render_template('search.html',
                            form=form)
