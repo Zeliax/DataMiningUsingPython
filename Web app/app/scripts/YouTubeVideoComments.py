@@ -131,14 +131,12 @@ def save_comments_to_file(comment_list, filename):
     """
     f = open(filename, 'w')
     for comment in comment_list:
-        if '\n' in comment:
-            f.write(comment.replace("\n", " ") + "\n")
-        else:
-            f.write(comment + '\n')
+        if type(comment) is str:
+            f.write(comment + "\n")
     f.close()
 
 
-def main(search_word, nr_of_results):
+def main_func(search_word, nr_of_results):
     """
     Function that collects all other functions and performs YouTube search,
     and returns a dictionary with comments for all the videos found.
@@ -152,9 +150,9 @@ def main(search_word, nr_of_results):
                         comments_generator(YTS, video_id)]
         comment_dict[video_id] = comment_list
 
-    # video_comments = comment_dict.values()[0]
-    # filename = 'testfile.txt'
-    # save_comments_to_file(video_comments, filename)
+    video_comments = comment_dict.values()[0]
+    filename = 'testfile.txt'
+    save_comments_to_file(video_comments, filename)
 
     return comment_dict
 
@@ -163,7 +161,7 @@ if __name__ == "__main__":
     nr_of_results = 1
 
     #Dictionary containing all the videos and their corresponding comments
-    comment_dict = main(search_word, nr_of_results)
+    comment_dict = main_func(search_word, nr_of_results)
 
     #Used to print the comments "line for line"
     # for video_id in comment_dict:
