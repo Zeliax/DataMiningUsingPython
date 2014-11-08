@@ -1,5 +1,5 @@
 \venv
-scripts/config.py
+config.py
 *.pyc
 *.pem
 *.out
