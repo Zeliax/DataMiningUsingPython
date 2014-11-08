@@ -4,6 +4,3 @@ from wtforms.validators import DataRequired
 
 class SearchForm(Form):
    search_word = StringField('search_word', validators=[DataRequired()])
-   
-# class SearchForm(Form):
-#     openid = StringField('search_word', validators=[DataRequired()])
