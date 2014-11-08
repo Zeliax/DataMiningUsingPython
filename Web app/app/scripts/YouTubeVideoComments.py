@@ -13,6 +13,7 @@ import config
 DEVELOPER_KEY = config.DEVELOPER_KEY
 YOUTUBE_API_SERVICE_NAME = config.YOUTUBE_API_SERVICE_NAME
 YOUTUBE_API_VERSION = config.YOUTUBE_API_VERSION
+YTS = service.YouTubeService()
 
 USERNAME = config.EMAIL
 PASSWORD = config.PASSWORD
@@ -80,26 +81,26 @@ def format_video_lists(search, result_nr):
     return vid_ids_list, vid_name_list
 
 
-def fetch_video_comments(video_ids_list):
-    """
-    Based on a list of video ids this function returns a dictionary with a list
-    of comments in which the key is the video id.
-    """
-    comments = {}
+# def fetch_video_comments(video_ids_list):
+#     """
+#     Based on a list of video ids this function returns a dictionary with a
+#     list of comments in which the key is the video id.
+#     """
+#     comments = {}
 
-    print "Downloading comments"
-    for i, _ in enumerate(vid_ids_list):
-        print "---------Downloading Comments for--------"
-        print "Video ID:", vid_ids_list[i]
-        print "Video Name:", vid_name_list[i].encode("utf-8"), "\n"
+#     print "Downloading comments"
+#     for i, _ in enumerate(vid_ids_list):
+#         print "---------Downloading Comments for--------"
+#         print "Video ID:", vid_ids_list[i]
+#         print "Video Name:", vid_name_list[i].encode("utf-8"), "\n"
 
-        comment_list = [comment.content.text for comment in
-                        yts.GetYouTubeVideoCommentFeed
-                        (video_id=vid_ids_list[i]).entry]
-        comments[vid_ids_list[i]] = comment_list
-    print "Done"
+#         comment_list = [comment.content.text for comment in
+#                         YTS.GetYouTubeVideoCommentFeed
+#                         (video_id=vid_ids_list[i]).entry]
+#         comments[vid_ids_list[i]] = comment_list
+#     print "Done"
 
-    return comments
+#     return comments
 
 
 def comments_generator(client, video_id):
@@ -130,29 +131,41 @@ def save_comments_to_file(comment_list, filename):
     """
     f = open(filename, 'w')
     for comment in comment_list:
-        f.writelines(comment.replace("\n", " ") + "\n")
+        if '\n' in comment:
+            f.write(comment.replace("\n", " ") + "\n")
+        else:
+            f.write(comment + '\n')
     f.close()
 
 
-if __name__ == "__main__":
-    yts = service.YouTubeService()
-    # yts.ClientLogin(USERNAME, PASSWORD)
-
-    search_word = "Dog"
-    results = 1
-
-    vid_ids_list, vid_name_list = format_video_lists(search_word, results)
+def main(search_word, nr_of_results):
+    """
+    Function that collects all other functions and performs YouTube search,
+    and returns a dictionary with comments for all the videos found.
+    """
+    vid_ids_list, vid_name_list = format_video_lists(
+        search_word, nr_of_results)
 
     comment_dict = {}
     for video_id in vid_ids_list:
-        print video_id
         comment_list = [comment.content.text for comment in
-                        comments_generator(yts, video_id)]
+                        comments_generator(YTS, video_id)]
         comment_dict[video_id] = comment_list
 
-    #comments = fetch_video_comments(vid_ids_list)
-
-    # video_comments = comments.values()[0]
-
+    # video_comments = comment_dict.values()[0]
     # filename = 'testfile.txt'
     # save_comments_to_file(video_comments, filename)
+
+    return comment_dict
+
+if __name__ == "__main__":
+    search_word = "Dog"
+    nr_of_results = 1
+
+    #Dictionary containing all the videos and their corresponding comments
+    comment_dict = main(search_word, nr_of_results)
+
+    #Used to print the comments "line for line"
+    # for video_id in comment_dict:
+    #     for comment in comment_dict.values()[0]:
+    #         print video_id, comment
