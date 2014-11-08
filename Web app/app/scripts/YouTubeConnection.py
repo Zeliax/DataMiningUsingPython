@@ -3,6 +3,7 @@ from apiclient.discovery import build
 from apiclient.errors import HttpError
 from oauth2client.tools import argparser
 from gdata.youtube import service
+# from FileHandler import save_to_file
 
 import config
 
@@ -125,15 +126,15 @@ def comments_generator(client, video_id):
                 break
 
 
-def save_comments_to_file(comment_list, filename):
-    """
-    Saves comments to a file
-    """
-    f = open(filename, 'w')
-    for comment in comment_list:
-        if type(comment) is str:
-            f.write(comment + "\n")
-    f.close()
+# def save_comments_to_file(comment_list, filename):
+#     """
+#     Saves comments to a file
+#     """
+#     f = open(filename, 'w')
+#     for comment in comment_list:
+#         if type(comment) is str:
+#             f.write(comment + "\n")
+#     f.close()
 
 
 def main_func(search_word, nr_of_results):
@@ -150,20 +151,22 @@ def main_func(search_word, nr_of_results):
                         comments_generator(YTS, video_id)]
         comment_dict[video_id] = comment_list
 
-    video_comments = comment_dict.values()[0]
-    filename = 'testfile.txt'
-    save_comments_to_file(video_comments, filename)
+    # video_comments = comment_dict.values()[0]
+    # print comment_dict.values()[0]
+
+    # save_to_file(comment_dict, "testfile.txt")
 
     return comment_dict
 
 if __name__ == "__main__":
     search_word = "Dog"
-    nr_of_results = 1
+    nr_of_results = 2
 
     #Dictionary containing all the videos and their corresponding comments
     comment_dict = main_func(search_word, nr_of_results)
 
     #Used to print the comments "line for line"
     # for video_id in comment_dict:
-    #     for comment in comment_dict.values()[0]:
+    #     list_item = [line for line in list(comment_dict.values())]
+    #     for comment in list_item:
     #         print video_id, comment
