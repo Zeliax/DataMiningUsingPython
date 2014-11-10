@@ -8,10 +8,11 @@ def save_to_file(vids_dict, filename):
     """
     f = open(filename, 'w')
     for video in vids_dict:
-        f.write(video + ' Video ID')
-        for comment in vids_dict.values:
-            if type(comment) is str:
-                f.write(comment + '\n')
+        f.write(video + ' Video ID' + "\n")
+        for comments in vids_dict.values():
+            for string in comments:
+                if type(string) is str:
+                    f.write(string + '\n')
     f.close()
 
 
@@ -22,6 +23,8 @@ def load_from_file(filename):
     vids_dict = {}
 
     f = open(filename, 'r')
+
+    video_id = None
 
     for line in f:
         if line.endswith('Video ID'):
