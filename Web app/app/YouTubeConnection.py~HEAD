@@ -146,24 +146,25 @@ def main_func(search_word, nr_of_results):
 
     comment_dict = {}
     for video_id in vid_ids_list:
-        comment_list = [comment.content.text for comment in
-                        comments_generator(YTS, video_id)]
+        comment_list = [comment.content.text.decode('utf-8') for comment in
+                        comments_generator(YTS, video_id)
+                        if comment.content.text is not None]
         comment_dict[video_id] = comment_list
 
     video_comments = comment_dict.values()[0]
-    # filename = 'testfile.txt'
-    # save_comments_to_file(video_comments, filename)
+    filename = 'testfile.txt'
+    save_comments_to_file(video_comments, filename)
 
-    return comment_dict
+    return comment_list
 
 if __name__ == "__main__":
-    search_word = "Dog"
-    nr_of_results = 1
+    # search_word = "Dolphin"
+    # nr_of_results = 1
 
     #Dictionary containing all the videos and their corresponding comments
     comment_dict = main_func(search_word, nr_of_results)
 
-    # Used to print the comments "line for line"
+    #Used to print the comments "line for line"
     # for video_id in comment_dict:
     #     for comment in comment_dict.values()[0]:
     #         print video_id, comment

@@ -1,6 +1,3 @@
-WTF_CSRF_ENABLED = True
-SECRET_KEY = 'you-will-never-guess'
-
 #Gmail Account
 USERNAME = "Senti Ment"
 EMAIL = "sentiment02819@gmail.com"
