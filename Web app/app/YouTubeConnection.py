@@ -3,8 +3,6 @@ from apiclient.discovery import build
 from apiclient.errors import HttpError
 from oauth2client.tools import argparser
 from gdata.youtube import service
-# from FileHandler import save_to_file
-# from FileHandler import load_from_file
 
 import config
 
@@ -86,7 +84,6 @@ def comments_generator(client, video_id):
     index = 1
     url = urlpattern % index
     comment_feed = client.GetYouTubeVideoCommentFeed(uri=url)
-    # comment_feed = client.GetYouTubeVideoCommentFeed(video_id=video_id)
     while comment_feed is not None:
         for comment in comment_feed.entry:
             yield comment
@@ -114,17 +111,11 @@ def main_func(search_word, nr_of_results):
     for video_id in vid_ids_list:
         comment_list = [comment.content.text for comment in
                         comments_generator(YTS, video_id)]
-<<<<<<< HEAD:Web app/app/scripts/YouTubeConnection.py
-        comment_dict[video_id] = comment_list
 
-    video_comments = comment_dict.values()[0]
-    # filename = 'testfile.txt'
-    # save_comments_to_file(video_comments, filename)
-=======
-        vid_id_dict[video_id] = comment_list
->>>>>>> origin/master:Web app/app/YouTubeConnection.py
+    vid_id_dict[video_id] = comment_list
 
-    return vid_id_dict
+    return comment_list
+
 
 if __name__ == "__main__":
     search_list = ['dolphin', 'dog']
@@ -136,14 +127,7 @@ if __name__ == "__main__":
     #Dictionary containing all the videos and their corresponding comments
     comments_dict = main_func(search_word, nr_of_results)
 
-<<<<<<< HEAD:Web app/app/scripts/YouTubeConnection.py
-    # Used to print the comments "line for line"
-    # for video_id in comment_dict:
-    #     for comment in comment_dict.values()[0]:
-    #         print video_id, comment
-=======
     #Used to print the comments "line for line"
-    for comments in comments_dict.itervalues():
-        for string in comments:
-            print string
->>>>>>> origin/master:Web app/app/YouTubeConnection.py
+    # for comments in comments_dict.itervalues():
+    #     for string in comments:
+    #         print string
