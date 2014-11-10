@@ -3,7 +3,7 @@ from nltk import wordpunct_tokenize  # function to split up our words
 
 
 class LanguageDetector(object):
-    """docstring for ClassName"""
+    """Detects the language of a given string"""
     def __init__(self):
         self.lang_stopwords = {language: set(stopwords.words(language))
                                for language in stopwords._fileids}
