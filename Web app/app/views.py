@@ -23,13 +23,11 @@ def comment():
 def search():
     form = SearchForm()
     comment_list = []
-    # temp_comment_list = []
+    # table = []
     if form.validate_on_submit():
         search_word = form.search_word.data
-        # for hver gang der trykkes på "search" skal søgeordet appendes en liste 
         nr_of_results = 1
         comment_list = main_func(search_word, nr_of_results)
-        # temp_comment_list += main_func(search_word, nr_of_results)
         assert comment_list
         # for video_id, comment in comment_dict.iteritems():
         #     temp = []

@@ -117,7 +117,6 @@ def main_func(search_word, nr_of_results):
 
     return comment_list
 
-
 if __name__ == "__main__":
     search_list = ['dolphin', 'dog']
     # search_dict = {}
