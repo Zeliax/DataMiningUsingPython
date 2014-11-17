@@ -23,9 +23,9 @@
         {% endif %}
       {% endwith %}
 
-      <h2>Video comments:</h2>
-      {% for comment in commentlist %}
-        <div><p>{{ comment }}</p></div>
+      <h2>Videos:</h2>
+      {% for name in names %}
+        <div><p>{{ name }}</p></div>
       {% endfor %}
 
     {% endif %}
@@ -36,8 +36,8 @@
 
     {% endif %}
 
-    <h3>Commentlist: </h3><p>{{ commentlist }}</p>
     <h3>sentiment: </h3><p>{{ sentiment }}</p>
-    <h3>Words: </h3><p>{{ words }}</p>
+    <h3>Names: </h3><p>{{ names }}</p>
+    <h3>Links: </h3><p>{{ links }}</p>
     <h3>Worddict 'happy': </h3><p>{{ word_dict['happy'] }}</p>
 {% endblock %}

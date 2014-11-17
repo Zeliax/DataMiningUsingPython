@@ -25,25 +25,31 @@ def search():
     form = SearchForm()
     commentlist = []
     sentiment = []
+    names = []
+    links = []
     words = ["but", "he", "fails", "miserably"]
     word_dict = wordlist_to_dict(r'C:\Users\Mette\Documents\GitHub\DataMiningUsingPython\Web app\app\FINN-wordlist.txt')
     if form.validate_on_submit():
         search_word = form.search_word.data
         nr_of_results = 1
-        commentlist = main_func(search_word, nr_of_results)
+        commentlist, names, links = main_func(search_word, nr_of_results)
         assert commentlist
-        sentiment = sentiment(words, word_dict)
+        sentiment = sentiment_analysis(commentlist,word_dict)
         flash('Search requested for "%s"' %
         (search_word))
         return render_template('search.html',
                            form=form,
-                           commentlist=commentlist,
                            sentiment=sentiment,
+                           commentlist=commentlist,
                            words=words,
-                           word_dict=word_dict)
+                           word_dict=word_dict,
+                           names=names,
+                           links=links)
     return render_template('search.html',
                            form=form,
-                           commentlist=commentlist,
                            sentiment=sentiment,
+                           commentlist=commentlist,
                            words=words,
-                           word_dict=word_dict)
+                           word_dict=word_dict,
+                           names=names,
+                           links=links)

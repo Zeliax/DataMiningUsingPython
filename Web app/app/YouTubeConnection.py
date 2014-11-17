@@ -133,11 +133,10 @@ def main_func(search_word, nr_of_results):
 
     # vid_id_dict = {}
     for video_id in vid_ids_list:
-        comment_list = [comment.content.text.decode('utf-8') for comment in
+        comment_list = [comment.content.text for comment in
                         comments_generator(YTS, video_id)
                         if comment.content.text is not None]
 
-    comment_list = [comment.encode('utf-8') for comment in comment_list]
     # vid_id_dict[video_id] = comment_list
 
     return comment_list, names, links
