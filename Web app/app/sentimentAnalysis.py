@@ -3,6 +3,7 @@ from nltk.tokenize import RegexpTokenizer
 import numpy as np
 import codecs
 
+
 def wordlist_to_dict(list):
     """Creates a dictionary from a wordlist"""
     word_dict = {}
@@ -28,6 +29,7 @@ def comments_to_list(textfile):
     comments.close()
     return commentlist
 
+
 def sentiment(words, word_dict):
     """Calculaltes the sentiment score from a tokenized sentence."""
     count = 0
@@ -40,6 +42,13 @@ def sentiment(words, word_dict):
             pass
     # print "Total count is: %r" % count
     return count
+
+tokenized_words = ['but', 'he', 'fails', 'miserably']
+worddict = wordlist_to_dict("FINN-wordlist.txt")
+
+
+def test_sentiment_value():
+    assert sentiment(tokenized_words, worddict) == -2
 
 
 def sentiment_analysis(commentlist, wordlist):
@@ -65,3 +74,4 @@ def sentiment_analysis(commentlist, wordlist):
         else:
             pass
     return all_sentiments
+
