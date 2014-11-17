@@ -43,13 +43,6 @@ def sentiment(words, word_dict):
     # print "Total count is: %r" % count
     return count
 
-tokenized_words = ['but', 'he', 'fails', 'miserably']
-worddict = wordlist_to_dict("FINN-wordlist.txt")
-
-
-def test_sentiment_value():
-    assert sentiment(tokenized_words, worddict) == -2
-
 
 def sentiment_analysis(commentlist, wordlist):
     """Calculates the sentiment of each comment and the total of all comments.
@@ -74,4 +67,3 @@ def sentiment_analysis(commentlist, wordlist):
         else:
             pass
     return all_sentiments
-
