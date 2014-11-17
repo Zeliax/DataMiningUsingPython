@@ -12,21 +12,32 @@
   	</div>
   	<button class="btn btn-default" type="submit">Search</button>
   </form>
+   
+    {% if commentlist %}
+      <hr>
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+            {{ message }}
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
 
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-        {% for message in messages %}
-            <li>{{ message }} </li>
-        {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
+      <h2>Video comments:</h2>
+      {% for comment in commentlist %}
+        <div><p>{{ comment }}</p></div>
+      {% endfor %}
 
-    <h1>Video comments:</h1>  
+    {% endif %}
 
-    {% for comment in comment_list %}
-    <div><p>{{ comment }}</p></div>
-    {% endfor %}
+    {% if sentiment %}
+      <hr>
+      <h2>Sentiment Analysis:</h2>
 
+    {% endif %}
+
+    <h3>Commentlist: </h3><p>{{ commentlist }}</p>
+    <h3>sentiment: </h3><p>{{ sentiment }}</p>
+    <h3>Words: </h3><p>{{ words }}</p>
+    <h3>Worddict 'happy': </h3><p>{{ word_dict['happy'] }}</p>
 {% endblock %}
