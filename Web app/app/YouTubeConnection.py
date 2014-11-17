@@ -137,9 +137,6 @@ def main_func(search_word, nr_of_results):
                         comments_generator(YTS, video_id)
                         if comment.content.text is not None]
 
-    comment_list = [comment.encode('utf-8') for comment in comment_list]
-    # vid_id_dict[video_id] = comment_list
-
     return comment_list, names, links
 
 
