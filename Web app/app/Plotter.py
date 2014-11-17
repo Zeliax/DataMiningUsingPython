@@ -6,6 +6,12 @@ import matplotlib
 
 
 def pie_chart(fraction, labels):
+    """
+    Function for plotting a piechart of sentiment analysis of YouTube videos.
+
+    Function takes in a list of fractions and a list of labels and plots a pie
+    chart based on that.
+    """
     colors = ('g', 'r')
     matplotlib.rcParams['text.color'] = 'white'
     matplotlib.rcParams['lines.linewidth'] = 2
