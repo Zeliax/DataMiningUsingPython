@@ -150,7 +150,16 @@ if __name__ == "__main__":
     nr_of_results = 1
 
     #Dictionary containing all the videos and their corresponding comments
-    comments_dict = main_func(search_word, nr_of_results)
+    comments_dict, names_list, links_list = main_func(
+        search_word, nr_of_results)
+
+    #Used to print all the video names line for line
+    # for name in names_list:
+    #     print name
+
+    #Used to print all the links line for line
+    # for link in links_list:
+    #     print link
 
     #Used to print the comments "line for line"
     # for comments in comments_dict.itervalues():
