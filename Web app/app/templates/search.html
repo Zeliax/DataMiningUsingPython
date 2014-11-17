@@ -38,16 +38,10 @@
       {% for name in names %}
       <p><strong>Video title:</strong> {{ name }}</p>
       {% endfor %}
-      <strong>Video comments:</strong>
-      {% for comment in commentlist[:3] %}
-      <p> {{ comment.decode('utf-8') }}</p>
+      <strong>Video comments and scores:</strong>
+      {% for comment, s in zipped[:10] %}
+      <p> {{ comment.decode('utf-8') }} = {{ s }}</p>
       {% endfor %}
-      {% for s in sentiment %}
-      <p><strong>Comment score:</strong> {{ s }}</p>
-      {% endfor %}
-<!--       <p><strong>Comment score:</strong> {{ sentiment }}</p> -->
-
-
     {% endif %}
 
     <hr>
