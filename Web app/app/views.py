@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect
+from flask import render_template, flash, redirect, request
 from app import app
 from .forms import SearchForm
 from YouTubeConnection import main_func
@@ -31,7 +31,7 @@ def search():
     word_dict = wordlist_to_dict(r'C:\Users\Mette\Documents\GitHub\DataMiningUsingPython\Web app\app\FINN-wordlist.txt')
     if form.validate_on_submit():
         search_word = form.search_word.data
-        nr_of_results = 1
+        nr_of_results = request.form['nr_of_results']
         commentlist, names, links = main_func(search_word, nr_of_results)
         assert commentlist
         sentiment = sentiment_analysis(commentlist,word_dict)
@@ -41,15 +41,11 @@ def search():
                            form=form,
                            sentiment=sentiment,
                            commentlist=commentlist,
-                           words=words,
-                           word_dict=word_dict,
                            names=names,
                            links=links)
     return render_template('search.html',
                            form=form,
                            sentiment=sentiment,
                            commentlist=commentlist,
-                           words=words,
-                           word_dict=word_dict,
                            names=names,
                            links=links)

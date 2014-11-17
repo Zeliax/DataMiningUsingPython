@@ -63,6 +63,7 @@ def sentiment_analysis(commentlist, wordlist):
             words = tokenizer.tokenize(comment)
             sent_sentiment = sentiment(words, wordlist)
             all_sentiments.append(sent_sentiment)
+            mean_score = np.mean(all_sentiments)
             #total_sentiment += sent_sentiment
         else:
             pass
