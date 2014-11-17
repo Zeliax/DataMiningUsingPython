@@ -1,20 +1,39 @@
 # -*- coding: utf-8 -*-
-import pylab
-import random
+import matplotlib.pylab as plt
+import matplotlib
+# import random
+# import numpy
 
-sent_score = random.sample(range(-6, 6), 20)
 
+def pie_chart(fraction, labels):
+    colors = ('g', 'r')
+    matplotlib.rcParams['text.color'] = 'white'
+    matplotlib.rcParams['lines.linewidth'] = 2
+    matplotlib.rcParams['patch.edgecolor'] = 'white'
+    matplotlib.rcParams['font.style'] = 'oblique'
+    matplotlib.rcParams['font.size'] = 18
+    plt.figure(1, figsize=(10, 10))
+    plt.pie(fraction, labels=labels, colors=colors, autopct='%.0f%%')
+    plt.show()
 
-def main():
-    neutral, positive, negative = []
+# if __name__ == '__main__':
+    #Testing the pie chart
+    # scores = numpy.ones(50)
+    # sent_score = [random.randrange(-6, 6, 1) for nr in scores]
 
-    for nr in sent_score:
-        if nr == 0:
-            neutral.append(nr)
-        elif nr > 0:
-            positive.append(nr)
-        elif nr < 0:
-            negative.append(nr)
+    # positive = []
+    # negative = []
+    # fraction = []
 
-if __name__ == '__main__':
-    main()
+    # for nr in sent_score:
+    #     if nr > 0:
+    #         positive.append(nr)
+    #     elif nr <= 0:
+    #         negative.append(nr)
+
+    # fraction.append(len(sent_score) / len(positive))
+    # fraction.append(len(sent_score) / len(negative))
+
+    # labels = 'Positive', 'Negative'
+
+    # pie_chart(fraction, labels)
