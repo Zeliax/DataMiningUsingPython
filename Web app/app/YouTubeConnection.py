@@ -16,7 +16,7 @@ YOUTUBE_API_VERSION = config.YOUTUBE_API_VERSION
 YTS = service.YouTubeService()
 
 
-def fetch_video_list(options):
+def YouTube_V3_Search(options):
     """
     Function using YouTube API V3 to fetch videos from YouTube and returning a
     list of video names including video id
@@ -44,7 +44,7 @@ def fetch_video_list(options):
     return videos
 
 
-def format_video_lists(search, result_nr):
+def split_video_list(search, result_nr):
     """
     Based on two input parameters, this function uses another function to
     to fetch a list of youtube videos and their matching IDs. It also sorts out
@@ -56,7 +56,7 @@ def format_video_lists(search, result_nr):
     args = argparser.parse_args()
 
     try:
-        video_list = fetch_video_list(args)
+        video_list = YouTube_V3_Search(args)
     except HttpError, e:
         print "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
 
@@ -99,12 +99,24 @@ def comments_generator(client, video_id):
                 break
 
 
-def get_video_name(list):
-    break
+def get_video_name(name_list):
+    """
+    Function that returns a list with names of the videos (used in the
+    sentinemt analysis)
+    """
+    name_list = [name.encode('utf-8') for name in name_list]
+
+    return name_list
 
 
-def get_video_link(list):
-    break
+def get_video_link(link_list):
+    """
+    Function that returns a link to the videos (direct shortcut to go to video)
+    """
+    link_list = ['https://www.youtube.com/watch?v=' + str(link) for link
+                 in link_list]
+
+    return link_list
 
 
 def main_func(search_word, nr_of_results):
@@ -113,8 +125,11 @@ def main_func(search_word, nr_of_results):
     and returns a dictionary with comments for all the videos found.
     """
     #Move to another function...
-    vid_ids_list, vid_name_list = format_video_lists(
+    vid_ids_list, vid_name_list = split_video_list(
         search_word, nr_of_results)
+
+    names = get_video_name(vid_name_list)
+    links = get_video_link(vid_ids_list)
 
     vid_id_dict = {}
     for video_id in vid_ids_list:
@@ -124,7 +139,8 @@ def main_func(search_word, nr_of_results):
 
     vid_id_dict[video_id] = comment_list
 
-    return comment_list
+    return comment_list, names, links
+
 
 if __name__ == "__main__":
     search_list = ['dolphin', 'dog']
