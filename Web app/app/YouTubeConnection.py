@@ -99,11 +99,20 @@ def comments_generator(client, video_id):
                 break
 
 
+def get_video_name(list):
+    break
+
+
+def get_video_link(list):
+    break
+
+
 def main_func(search_word, nr_of_results):
     """
     Function that collects all other functions and performs YouTube search,
     and returns a dictionary with comments for all the videos found.
     """
+    #Move to another function...
     vid_ids_list, vid_name_list = format_video_lists(
         search_word, nr_of_results)
 
