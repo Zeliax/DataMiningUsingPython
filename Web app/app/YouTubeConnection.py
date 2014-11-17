@@ -131,13 +131,14 @@ def main_func(search_word, nr_of_results):
     names = get_video_name(vid_name_list)
     links = get_video_link(vid_ids_list)
 
-    vid_id_dict = {}
+    # vid_id_dict = {}
     for video_id in vid_ids_list:
         comment_list = [comment.content.text.decode('utf-8') for comment in
                         comments_generator(YTS, video_id)
                         if comment.content.text is not None]
 
-    vid_id_dict[video_id] = comment_list
+    comment_list = [comment.encode('utf-8') for comment in comment_list]
+    # vid_id_dict[video_id] = comment_list
 
     return comment_list, names, links
 
@@ -150,8 +151,14 @@ if __name__ == "__main__":
     nr_of_results = 1
 
     #Dictionary containing all the videos and their corresponding comments
-    comments_dict, names_list, links_list = main_func(
+    comments_list, names_list, links_list = main_func(
         search_word, nr_of_results)
+
+    #Save comments to a file
+    # f = open('testfile.txt', 'w')
+    # for comment in comments_list:
+    #     f.write(comment + '\n')
+    # f.close()
 
     #Used to print all the video names line for line
     # for name in names_list:
@@ -161,7 +168,7 @@ if __name__ == "__main__":
     # for link in links_list:
     #     print link
 
-    #Used to print the comments "line for line"
+    #Used to print the comments "line for line" in comment dict
     # for comments in comments_dict.itervalues():
     #     for string in comments:
     #         print string
