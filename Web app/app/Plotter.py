@@ -1,17 +1,19 @@
 # -*- coding: utf-8 -*-
 import matplotlib.pylab as plt
 import matplotlib
-# import random
-# import numpy
+import random
+import numpy
 
 
-def pie_chart(fraction, labels):
+def pie_chart(fraction):
     """
     Function for plotting a piechart of sentiment analysis of YouTube videos.
 
     Function takes in a list of fractions and a list of labels and plots a pie
     chart based on that.
     """
+    labels = 'Positive', 'Negative'
+
     colors = ('g', 'r')
     matplotlib.rcParams['text.color'] = 'white'
     matplotlib.rcParams['lines.linewidth'] = 2
@@ -22,24 +24,23 @@ def pie_chart(fraction, labels):
     plt.pie(fraction, labels=labels, colors=colors, autopct='%.0f%%')
     plt.show()
 
-# if __name__ == '__main__':
+
+def pos_neg_counter(sent_list):
+    fraction = []
+
+    fraction.append(sum(bool(elem) for elem in sent_score if elem >= 0))
+    fraction.append(sum(bool(elem) for elem in sent_score if elem < 0))
+
+    return fraction
+
+
+if __name__ == '__main__':
     #Testing the pie chart
-    # scores = numpy.ones(50)
-    # sent_score = [random.randrange(-6, 6, 1) for nr in scores]
+    scores = numpy.ones(50)
+    sent_score = [random.randrange(-6, 6, 1) for nr in scores]
 
-    # positive = []
-    # negative = []
-    # fraction = []
+    fraction = pos_neg_counter(sent_score)
 
-    # for nr in sent_score:
-    #     if nr > 0:
-    #         positive.append(nr)
-    #     elif nr <= 0:
-    #         negative.append(nr)
+    print fraction
 
-    # fraction.append(len(sent_score) / len(positive))
-    # fraction.append(len(sent_score) / len(negative))
-
-    # labels = 'Positive', 'Negative'
-
-    # pie_chart(fraction, labels)
+    pie_chart(fraction)
