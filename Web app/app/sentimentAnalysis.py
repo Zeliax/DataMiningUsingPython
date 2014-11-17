@@ -3,6 +3,7 @@ from nltk.tokenize import RegexpTokenizer
 import numpy as np
 import codecs
 
+
 def wordlist_to_dict(list):
     """Creates a dictionary from a wordlist"""
     word_dict = {}
@@ -27,6 +28,7 @@ def comments_to_list(textfile):
         commentlist.append(line)
     comments.close()
     return commentlist
+
 
 def sentiment(words, word_dict):
     """Calculaltes the sentiment score from a tokenized sentence."""
