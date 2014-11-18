@@ -4,6 +4,8 @@ import matplotlib
 import random
 import numpy
 
+from collections import Counter
+
 
 def pie_chart(fraction):
     """
@@ -28,8 +30,11 @@ def pie_chart(fraction):
 def pos_neg_counter(sent_list):
     fraction = []
 
-    fraction.append(sum(bool(elem) for elem in sent_score if elem >= 0))
-    fraction.append(sum(bool(elem) for elem in sent_score if elem < 0))
+    bar = Counter(sent_list)
+    fraction.append(sum([value for key, value in bar.items() if key >= 0 and
+                         key <= 6]))
+    fraction.append(sum([value for key, value in bar.items() if key < 0 and
+                         key >= -6]))
 
     return fraction
 
@@ -40,7 +45,5 @@ if __name__ == '__main__':
     sent_score = [random.randrange(-6, 6, 1) for nr in scores]
 
     fraction = pos_neg_counter(sent_score)
-
-    print fraction
 
     pie_chart(fraction)
