@@ -1,17 +1,1 @@
-{
-"title": "Sentiment Analysis of YouTube Comments (and Emoticons)",
-"members": [
-{ "name": "Stine Søndergaard",
-"study_number": "s113101"
-},
-{ "name": "Mette Mai Hansen",
-"study_number": "s084062"
-},
-{ "name": "Thomas Hammerbak",
-"study_number": "s093673"
-}
-],
-"git": "https://github.com/Zeliax/DataMiningUsingPython",
-"description": "Users can write comments on each YouTube video. Often these comments are outrageous and quite opinionated. Doing some sort of sentiment analysis based on emoticons would be interesting. With the YouTube API (gdata Python module) 1000 comments can be downloaded for each video. \n The text mining technique “sentiment analysis” determines how positive or negative a text is. In the simplest form a labeled word list is used where each word and/or emoticon is manually labeled for valence (positive/negative). Word sentiment analysis should be compared with the emoticon sentiment analysis to find coherence. \n This project should construct a Python program that downloads comments from YouTube videos, based on a search criteria and performs sentiment analysis to rate each video, enabling queries like “What do people think about the specific topic?”",
-"modules": ["nltk", "csv", "django", "pandas", "gensim", "sklearn"]
-}
+{"git": "https://github.com/Zeliax/DataMiningUsingPython", "description": "Users can write comments on each YouTube video. Often these comments are outrageous and quite opinionated. Doing some sort of sentiment analysis based on emoticons would be interesting. With the YouTube API (gdata Python module) 1000 comments can be downloaded for each video. \n The text mining technique \u201csentiment analysis\u201d determines how positive or negative a text is. In the simplest form a labeled word list is used where each word and/or emoticon is manually labeled for valence (positive/negative). Word sentiment analysis should be compared with the emoticon sentiment analysis to find coherence. \n This project should construct a Python program that downloads comments from YouTube videos, based on a search criteria and performs sentiment analysis to rate each video, enabling queries like \u201cWhat do people think about the specific topic?\u201d", "members": [{"name": "Stine S\u00f8ndergaard", "study_number": "s113101"}, {"name": "Mette Mai Hansen", "study_number": "s084062"}, {"name": "Thomas Hammerbak", "study_number": "s093673"}], "title": "Sentiment Analysis of YouTube Comments (and Emoticons)", "modules": ["Babel", "Flask", "Flask-Babel", "Flask-Login", "Flask-Mail", "Flask-SQLAlchemy", "Flask-WTF", "Flask-WhooshAlchemy", "Jinja2", "MarkupSafe", "Pafy", "SQLAlchemy", "Tempita", "WTForms", "Werkzeug", "Whoosh", "blinker", "colorama", "coverage", "decorator", "flake8", "flipflop", "gdata", "google-api-python-client", "guess-language", "html5lib", "httplib2", "itsdangerous", "matplotlib", "mccabe", "nltk", "numpy", "oauth2client", "pbr", "pep257", "pep8", "py", "py-dateutil", "pyasn1", "pyasn1-modules", "pyflakes", "pyparsing", "pytest", "pytz", "requests", "rsa", "simplejson", "six", "speaklater", "sqlalchemy-migrate", "sqlparse", "tweepy", "uritemplate"]}

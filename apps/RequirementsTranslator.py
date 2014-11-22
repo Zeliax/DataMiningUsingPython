@@ -3,9 +3,15 @@ import json
 
 
 def main():
+    """
+    Main function that does what the module says
+    """
     text = open('requirements.txt', 'r')
+
+    packages = []
     for line in text:
-        packages = line.split('==')[0]
+        packages.append(line.split('==')[0])
+
     text.close()
 
     json_data = open('projectproposal.json')
@@ -20,8 +26,8 @@ def main():
     new_modules = {'modules': modules}
     data.update(new_modules)
 
-    with open('projectproposal.json', 'w') as f:
-        json.dump(data, f)
+    with open('projectproposal.json', 'w') as jsonfile:
+        json.dump(data, jsonfile)
 
-    if __name__ == '__main__':
-        main()
+if __name__ == '__main__':
+    main()
