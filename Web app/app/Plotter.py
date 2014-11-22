@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import matplotlib.pylab as plt
 import matplotlib
-import random
-import numpy
+# import random
+# import numpy
 
 from collections import Counter
 
@@ -27,23 +27,29 @@ def pie_chart(fraction):
     plt.show()
 
 
+def bar_graph():
+    print "Hello"
+    
+
+
 def pos_neg_counter(sent_list):
     fraction = []
 
-    bar = Counter(sent_list)
-    fraction.append(sum([value for key, value in bar.items() if key >= 0 and
+    count = Counter(sent_list)
+    fraction.append(sum([value for key, value in count.items() if key >= 0 and
                          key <= 6]))
-    fraction.append(sum([value for key, value in bar.items() if key < 0 and
+    fraction.append(sum([value for key, value in count.items() if key < 0 and
                          key >= -6]))
 
     return fraction
 
 
 if __name__ == '__main__':
+    print "Hello"
     #Testing the pie chart
-    scores = numpy.ones(50)
-    sent_score = [random.randrange(-6, 6, 1) for nr in scores]
+    # scores = numpy.ones(50)
+    # sent_score = [random.randrange(-6, 6, 1) for nr in scores]
 
-    fraction = pos_neg_counter(sent_score)
+    # fraction = pos_neg_counter(sent_score)
 
-    pie_chart(fraction)
+    # pie_chart(fraction)

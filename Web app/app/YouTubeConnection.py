@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+"""
+This module uses YouTube API V3 and V2 (gdata) to search YouTube and
+'download' name, link and comments.
+"""
 from apiclient.discovery import build
 from apiclient.errors import HttpError
 from oauth2client.tools import argparser
@@ -17,7 +21,7 @@ YOUTUBE_API_VERSION = config.YOUTUBE_API_VERSION
 YTS = service.YouTubeService()
 
 
-def YouTube_V3_Search(options):
+def youTubeSearch(options):
     """
     Function using YouTube API V3 to fetch videos from YouTube and returning a
     list of video names including video id
@@ -36,7 +40,7 @@ def YouTube_V3_Search(options):
     videos = []
 
   # Add each result to the appropriate list, and then display the lists of
-  # matching videos, channels, and playlists.
+  # matching videos, channels, an
     for search_result in search_response.get("items", []):
         if search_result["id"]["kind"] == "youtube#video":
             videos.append("%s (%s)" % (search_result["snippet"]["title"],
@@ -57,7 +61,7 @@ def split_video_list(search, result_nr):
     args = argparser.parse_args()
 
     try:
-        video_list = YouTube_V3_Search(args)
+        video_list = youTubeSearch(args)
     except HttpError, e:
         print "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
 
@@ -80,6 +84,10 @@ def split_video_list(search, result_nr):
 
 
 def comments_generator(client, video_id):
+    """
+    Takes in a video ID and uses gdata API to search YouTube for all comments
+    within the given video with the given ID.
+    """
     urlpattern = ('http://gdata.youtube.com/feeds/api/videos/' + video_id +
                   '/comments?orderby=published&start-index=%d&max-results=25')
     index = 1
@@ -154,11 +162,12 @@ def main_func(search_word, nr_of_results):
 
 
 if __name__ == "__main__":
-    search_list = ['dolphin', 'dog']
+    print "Hello"
+    # searchList = ['dolphin', 'dog']
     # search_dict = {}
 
-    search_word = search_list[0]
-    nr_of_results = 1
+    # search_word = searchList[0]
+    # nr_of_results = 1
 
     # url = "https://www.youtube.com/watch?v=OoOHkJYeFDg"
 
