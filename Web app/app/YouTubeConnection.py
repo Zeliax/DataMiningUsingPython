@@ -5,6 +5,7 @@ from oauth2client.tools import argparser
 from gdata.youtube import service
 
 import config
+import pafy
 
 # Set DEVELOPER_KEY to the API key value from the APIs & auth > Registered apps
 # tab of
@@ -119,6 +120,16 @@ def get_video_link(link_list):
     return link_list
 
 
+def get_video_rating(url):
+    """
+    Given a url to video fetches the likes and dislikes for a video using pafy
+    """
+    video = pafy.new(url)
+
+    print video.likes
+    return video.likes, video.dislikes
+
+
 def main_func(search_word, nr_of_results):
     """
     Function that collects all other functions and performs YouTube search,
@@ -149,9 +160,13 @@ if __name__ == "__main__":
     search_word = search_list[0]
     nr_of_results = 1
 
+    # url = "https://www.youtube.com/watch?v=OoOHkJYeFDg"
+
+    # get_video_rating(url)
+
     #Dictionary containing all the videos and their corresponding comments
-    comments_list, names_list, links_list = main_func(
-        search_word, nr_of_results)
+    # comments_list, names_list, links_list = main_func(
+    #     search_word, nr_of_results)
 
     #Save comments to a file
     # f = open('testfile.txt', 'w')
