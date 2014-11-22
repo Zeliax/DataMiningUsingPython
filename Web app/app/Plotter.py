@@ -29,7 +29,6 @@ def pie_chart(fraction):
 
 def bar_graph():
     print "Hello"
-    
 
 
 def pos_neg_counter(sent_list):
