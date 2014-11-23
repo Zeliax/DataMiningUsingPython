@@ -25,7 +25,7 @@ def pie_chart(fraction):
     plt.figure(1, figsize=(10, 10))
     plt.pie(fraction, labels=labels, colors=colors, autopct='%.0f%%')
     plt.show()
-
+    
 
 def bar_graph():
     print "Hello"
