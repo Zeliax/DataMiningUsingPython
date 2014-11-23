@@ -24,6 +24,7 @@
         {% endif %}
       {% endwith %}
 
+      
       <h2>Videos:</h2>
       {% for name in names %}
         <div><p>{{ name.decode('utf-8') }}</p></div>
@@ -36,7 +37,7 @@
       <h2>Sentiment Analysis:</h2>
       
       {% for name in names %}
-      <p><strong>Video title:</strong> {{ name }}</p>
+      <p><strong>Video title:</strong> {{ name.decode('utf-8') }}</p>
       {% endfor %}
       <strong>Video comments and scores:</strong>
       {% for comment, s in zipped[:10] %}
