@@ -5,7 +5,8 @@ This module uses YouTube API V3 and V2 (gdata) to search YouTube and
 """
 from apiclient.discovery import build
 from apiclient.errors import HttpError
-from oauth2client.tools import argparser
+from oauth2client import tools
+import argparse
 from gdata.youtube import service
 
 import config
@@ -55,6 +56,7 @@ def split_video_list(search, result_nr):
     to fetch a list of youtube videos and their matching IDs. It also sorts out
     the list from
     """
+    argparser = argparse.ArgumentParser(add_help=False) 
     argparser.add_argument("--q", help="Search term", default=search)
     argparser.add_argument("--max-results", help="Max results",
                            default=result_nr)

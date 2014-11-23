@@ -43,6 +43,10 @@
       {% for comment, s in zipped[:10] %}
       <p> {{ comment.decode('utf-8') }} = {{ s }}</p>
       {% endfor %}
+
+      <hr>
+      <h2>Pie chart:</h2>
+      <div>{{ pie_chart }}</div>
     {% endif %}
 
     <hr>
