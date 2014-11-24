@@ -3,7 +3,6 @@ import matplotlib.pylab as plt
 import matplotlib
 # import random
 # import numpy
-
 from collections import Counter
 
 
@@ -33,14 +32,16 @@ def bar_graph():
 
 def pos_neg_counter(sent_list):
     fraction = []
+    lists = []
+    for s_list in sent_list:
+        count = Counter(s_list)
+        fraction.append(sum([value for key, value in count.items() if key >= 0 and
+                             key <= 6]))
+        fraction.append(sum([value for key, value in count.items() if key < 0 and
+                             key >= -6]))
+        lists.append(fraction)
 
-    count = Counter(sent_list)
-    fraction.append(sum([value for key, value in count.items() if key >= 0 and
-                         key <= 6]))
-    fraction.append(sum([value for key, value in count.items() if key < 0 and
-                         key >= -6]))
-
-    return fraction
+    return lists
 
 
 if __name__ == '__main__':
