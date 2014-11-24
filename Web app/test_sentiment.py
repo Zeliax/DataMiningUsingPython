@@ -13,19 +13,19 @@ ld = LanguageDetector()
 
 
 def test_sentiment_value():
-    assert sentiment(tokenized_words, worddict) == [-2]
+    assert sentiment(tokenized_words, worddict) == [0, 0, 4, 0]
     assert sentiment(tokenized_empty, worddict) == []
-    assert sentiment('is', worddict) == []
+    assert sentiment('is', worddict) == [0]
 
 
 def test_sentiment_analysis():
-    assert sentiment_analysis(commentslist, worddict) == [2.5]
+    assert sentiment_analysis(commentslist, worddict) == [1.7]
     assert sentiment_analysis(commentlist, worddict) == []
 
 
 def test_worddict():
     assert type(wordlist_to_dict()) == dict
-    assert worddict['happy'] == 3
+    assert worddict['happy'] == 9
 
 
 def test_language_detector():

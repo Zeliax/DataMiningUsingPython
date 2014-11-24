@@ -42,6 +42,7 @@ def sentiment_analysis(commentlist, wordlist):
     #total_sentiment = 0
     tokenizer = RegexpTokenizer(r'[a-z]+')
     sent_sentiment = []
+    all_sentiment = []
     ld = LanguageDetector()
     for c_list in commentlist:
         for comment in c_list:
@@ -52,4 +53,5 @@ def sentiment_analysis(commentlist, wordlist):
                 words = tokenizer.tokenize(comment)
                 #sent_sentiment is a list of sentiments for each comment
                 sent_sentiment.append(np.mean(sentiment(words, wordlist)))
-    return sent_sentiment
+        all_sentiment.append(sent_sentiment)
+    return all_sentiment
