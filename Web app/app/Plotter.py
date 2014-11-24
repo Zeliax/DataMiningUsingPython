@@ -25,7 +25,7 @@ def pie_chart(fraction):
     return plot
 
 
-def bar_graph():
+def hist_graph():
     print "Hello"
 
 
@@ -62,6 +62,7 @@ def main():
     lal_list.append(sent_score1)
     lal_list.append(sent_score2)
 
+    #Mette from here
     fractions = list_divider(lal_list)
     print fractions
 
