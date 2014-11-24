@@ -14,7 +14,6 @@ def pie_chart(fraction):
     chart based on that.
     """
     labels = 'Positive', 'Negative'
-
     colors = ('g', 'r')
     matplotlib.rcParams['text.color'] = 'white'
     matplotlib.rcParams['lines.linewidth'] = 2
@@ -26,6 +25,7 @@ def pie_chart(fraction):
     # plt.show()
     return plot
 
+
 def bar_graph():
     print "Hello"
 
@@ -35,13 +35,20 @@ def pos_neg_counter(sent_list):
     lists = []
     for s_list in sent_list:
         count = Counter(s_list)
-        fraction.append(sum([value for key, value in count.items() if key >= 0 and
-                             key <= 6]))
-        fraction.append(sum([value for key, value in count.items() if key < 0 and
-                             key >= -6]))
+        fraction.append(sum([value for key, value in count.items() if
+                             key >= 0 and key <= 6]))
+        fraction.append(sum([value for key, value in count.items() if
+                             key < 0 and key >= -6]))
         lists.append(fraction)
-
     return lists
+
+
+def plot_pies(lists):
+    fraction_list = pos_neg_counter(lists)
+    pie_charts = []
+    for f_list in fraction_list:
+        pie_charts.append(pie_chart(f_list))
+    return pie_charts
 
 
 if __name__ == '__main__':
