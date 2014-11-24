@@ -7,7 +7,7 @@ import os
 
 def wordlist_to_dict():
     """Creates a dictionary from a wordlist"""
-    path = os.getcwd()
+    path = os.getcwd()  # Runs from web app folder
     LIST = codecs.open(path + "\\app\\FINN-wordlist.txt", "r", encoding='utf8')
     word_dict = {}
     s_line = []
@@ -34,28 +34,28 @@ def comments_to_list(textfile):
 
 
 def sentiment(words, word_dict):
-    """Calculaltes the sentiment score from a tokenized sentence."""
-    count = 0
+    """Calculaltes the sentiment score for each word from a tokenized sentence'
+       ' and stores them in a list."""
+    sent_values = []
     for word in words:
         if word in word_dict:
-            count = count + int(word_dict[word])
+            sent_values.append(int(word_dict[word]))
             #print "The word is %s and the count is %d" %(word, count)
         else:
             #print "Word %s passed" %word
             pass
     # print "Total count is: %r" % count
-    return count
+    return sent_values
 
 
 def sentiment_analysis(commentlist, wordlist):
-    """Calculates the sentiment of each comment and the total of all comments.
+    """Calculates the mean sentiment of each comment.
 
     Keyword arguments:
     commentlist -- a list of comments
     """
     #total_sentiment = 0
     tokenizer = RegexpTokenizer(r'[a-z]+')
-    all_sentiments = []
     sent_sentiment = []
     ld = LanguageDetector()
     for c_list in commentlist:
@@ -65,10 +65,8 @@ def sentiment_analysis(commentlist, wordlist):
                 comment = " ".join([word for word in comment.split()
                                     if "http" not in word])
                 words = tokenizer.tokenize(comment)
-                sent_sentiment.append(sentiment(words, wordlist))
-                all_sentiments.append(sent_sentiment)
-                mean_score = np.mean(all_sentiments)
-                #total_sentiment += sent_sentiment
+                #sent_sentiment is a list of sentiments for each comment
+                sent_sentiment.append(np.mean(sentiment(words, wordlist)))
             else:
                 pass
-    return all_sentiments
+    return sent_sentiment
