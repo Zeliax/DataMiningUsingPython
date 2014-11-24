@@ -28,8 +28,7 @@ def sentiment(words, word_dict):
             sent_values.append(word_dict[word])
             #print "The word is %s and the count is %d" %(word, count)
         else:
-            #print "Word %s passed" %word
-             sent_values.append(0)
+            sent_values.append(0)
     # print "Total count is: %r" % count
     return sent_values
 
