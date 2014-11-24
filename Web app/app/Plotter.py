@@ -23,9 +23,9 @@ def pie_chart(fraction):
     matplotlib.rcParams['font.style'] = 'oblique'
     matplotlib.rcParams['font.size'] = 18
     plt.figure(1, figsize=(10, 10))
-    plt.pie(fraction, labels=labels, colors=colors, autopct='%.0f%%')
-    plt.show()
-    
+    plot = plt.pie(fraction, labels=labels, colors=colors, autopct='%.0f%%')
+    # plt.show()
+    return plot
 
 def bar_graph():
     print "Hello"

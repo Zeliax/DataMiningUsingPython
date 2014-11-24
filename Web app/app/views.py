@@ -23,7 +23,6 @@ def search():
     links = []
     zipped = []
     pos_neg = []
-    words = ["but", "he", "fails", "miserably"]
     word_dict = wordlist_to_dict(r'C:\Users\Mette\Documents\GitHub\DataMiningUsingPython\Web app\app\FINN-wordlist.txt')
     if form.validate_on_submit():
         search_word = request.form['search_word']
@@ -33,7 +32,7 @@ def search():
         sentiment = sentiment_analysis(commentlist,word_dict)
         zipped = zip(commentlist, sentiment)
         pos_neg = pos_neg_counter(sentiment)
-        pieChart = pie_chart(pos_neg)
+        # pieChart = pie_chart(pos_neg)
         flash('Search requested for "%s"' %
         (search_word))
         return render_template('search.html',
@@ -43,8 +42,7 @@ def search():
                            names=names,
                            links=links,
                            zipped=zipped,
-                           pos_neg=pos_neg,
-                           pieChart=pieChart)
+                           pos_neg=pos_neg)
     return render_template('search.html',
                            form=form,
                            sentiment=sentiment,
@@ -52,5 +50,4 @@ def search():
                            names=names,
                            links=links,
                            zipped=zipped,
-                           pos_neg=pos_neg,
-                           pieChart=pieChart)
+                           pos_neg=pos_neg)
