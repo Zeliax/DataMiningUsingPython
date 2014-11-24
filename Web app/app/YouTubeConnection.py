@@ -50,13 +50,13 @@ def youTubeSearch(options):
     return videos
 
 
-def split_video_list(search, result_nr):
+def split_video_list(search, result_nr=1):
     """
     Based on two input parameters, this function uses another function to
     to fetch a list of youtube videos and their matching IDs. It also sorts out
     the list from
     """
-    argparser = argparse.ArgumentParser(add_help=False) 
+    argparser = argparse.ArgumentParser(add_help=False)
     argparser.add_argument("--q", help="Search term", default=search)
     argparser.add_argument("--max-results", help="Max results",
                            default=result_nr)
