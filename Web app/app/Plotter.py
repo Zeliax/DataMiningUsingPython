@@ -1,13 +1,19 @@
-# -*- coding: utf-8 -*-
+#-*- coding: utf-8 -*-
 import matplotlib.pylab as plt
+# import matplotlib.pyplot as pplt
 import matplotlib
-# import random
-# import numpy
+# import io
+# import Image
+import random
+import numpy
 
+# from PIL import Image
 from collections import Counter
 
+LIST = open('FINN-wordlist.txt')
 
-def pie_chart(fraction):
+
+def pie_chart(fraction_list):
     """
     Function for plotting a piechart of sentiment analysis of YouTube videos.
 
@@ -22,16 +28,24 @@ def pie_chart(fraction):
     matplotlib.rcParams['patch.edgecolor'] = 'white'
     matplotlib.rcParams['font.style'] = 'oblique'
     matplotlib.rcParams['font.size'] = 18
-    plt.figure(1, figsize=(10, 10))
-    plt.pie(fraction, labels=labels, colors=colors, autopct='%.0f%%')
-    plt.show()
-    
+
+    fig = plt.figure(1, figsize=(10, 10))
+    plt.pie(fraction_list, labels=labels, colors=colors, autopct='%.0f%%')
+    return fig
+
 
 def bar_graph():
+    """
+    Bla bla bla
+    """
     print "Hello"
 
 
 def pos_neg_counter(sent_list):
+    """
+    Counts the amount of negative and positive comments based on a sentiment
+    list
+    """
     fraction = []
 
     count = Counter(sent_list)
@@ -42,13 +56,16 @@ def pos_neg_counter(sent_list):
 
     return fraction
 
+# def main():
+#     """
+#     Main function to test code
+#     """
+#     scores = numpy.ones(50)
+#     sent_score = [random.randrange(-6, 6, 1) for _ in scores]
 
-if __name__ == '__main__':
-    print "Hello"
-    #Testing the pie chart
-    # scores = numpy.ones(50)
-    # sent_score = [random.randrange(-6, 6, 1) for nr in scores]
+#     fraction = pos_neg_counter(sent_score)
 
-    # fraction = pos_neg_counter(sent_score)
+#     fig = pie_chart(fraction)
 
-    # pie_chart(fraction)
+# if __name__ == '__main__':
+#     main()
