@@ -29,15 +29,8 @@
         <div><p>{{ name.decode('utf-8') }}</p></div>
       {% endfor %}
       {% for link in links %}
-        <div><p>{{ link.decode('utf-8') }}</p></div>
+        <div><a href="{{ link.decode('utf-8') }}">See the video here</a></div>
       {% endfor %}
-
-      {% for list in commentlist %}
-        {% for comment in list %}
-          <p> {{ comment.decode('utf-8') }}</p>
-        {% endfor %}
-      {% endfor %}
-    {% endif %}
 
     {% if sentiment %}
       <hr>
@@ -48,12 +41,12 @@
       {% endfor %}
       <strong>Video comments and scores:</strong>
 
-        {% for list in commentlist %}
-          <p> {{ list[1] }}</p>
-<!--            {% for comment in list %}
-              <p> {{ comment.decode('utf-8') }}</p>
-           {% endfor %} -->
+      {% for list in commentlist %}
+          {% for comment in list %}
+            <p> {{ comment.decode('utf-8') }}</p>
+          {% endfor %}
         {% endfor %}
+      {% endif %}
 <!--       {% for comment, s in zipped[:10] %}
       <p> {{ comment.decode('utf-8') }} = {{ s }}</p>
       {% endfor %}
