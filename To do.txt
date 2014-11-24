@@ -32,3 +32,14 @@ Analyze comments
 Pie chart positive/negative
 Compare to likes/dislikes
 Graph of likes vs positiveness
+
+
+
+
+
+To know:
+- coverage run -m py.test
+- coverage report -m (-m shows the lines missing tests)
+- py.test
+
+To test pep257: python -m pep257 (tests all files)
