@@ -152,19 +152,19 @@ def main_func(search_word, nr_of_results):
     names = get_video_name(vid_name_list)
     links = get_video_link(vid_ids_list)
 
-    # vid_id_dict = {}
+    comment_list = []
     for video_id in vid_ids_list:
-        comment_list = [comment.content.text for comment in
-                        comments_generator(YTS, video_id)
-                        if comment.content.text is not None]
+        comment_list.append([comment.content.text for comment in
+                             comments_generator(YTS, video_id)
+                             if comment.content.text is not None])
 
     # vid_id_dict[video_id] = comment_list
 
     return comment_list, names, links
 
 
-if __name__ == "__main__":
-    print "Hello"
+# if __name__ == "__main__":
+#     print "Hello"
     # searchList = ['dolphin', 'dog']
     # search_dict = {}
 
