@@ -29,7 +29,7 @@
         <div><p>{{ name.decode('utf-8') }}</p></div>
       {% endfor %}
       {% for link in links %}
-        <div><p>{{ link.decode('utf-8') }}</p></div>
+        <div><a href="{{ link.decode('utf-8') }}">See the video here</a></div>
       {% endfor %}
 
       {% for list in commentlist %}

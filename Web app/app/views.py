@@ -23,7 +23,7 @@ def search():
     links = []
     zipped = []
     pos_neg = []
-    word_dict = wordlist_to_dict(r'C:\Users\Mette\Documents\GitHub\DataMiningUsingPython\Web app\app\FINN-wordlist.txt')
+    # word_dict = wordlist_to_dict()
     if form.validate_on_submit():
         nr_of_results = 1
         search_word = request.form['search_word']
