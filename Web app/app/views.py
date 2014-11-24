@@ -23,17 +23,16 @@ def search():
     links = []
     zipped = []
     pos_neg = []
-    # word_dict = wordlist_to_dict()
+    word_dict = wordlist_to_dict()
     if form.validate_on_submit():
         nr_of_results = 1
         search_word = request.form['search_word']
         nr_of_results = request.form['nr_of_results']
         commentlist, names, links = main_func(search_word, nr_of_results)
         assert commentlist
-        # sentiment = sentiment_analysis(commentlist,word_dict)
+        sentiment = sentiment_analysis(commentlist,word_dict)
         # zipped = zip(commentlist, sentiment)
-        # pos_neg = pos_neg_counter(sentiment)
-        # pieChart = pie_chart(pos_neg)
+        pos_neg = pos_neg_counter(sentiment)
         flash('Search requested for "%s"' %
         (search_word))
         return render_template('search.html',
