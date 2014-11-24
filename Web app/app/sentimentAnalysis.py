@@ -3,12 +3,14 @@ from nltk.tokenize import RegexpTokenizer
 import numpy as np
 import codecs
 
+LIST = codecs.open("FINN-wordlist.txt", "r", encoding='utf8')
 
-def wordlist_to_dict(list):
+
+def wordlist_to_dict():
     """Creates a dictionary from a wordlist"""
     word_dict = {}
     s_line = []
-    wordlist = codecs.open(list, "r", encoding='utf8')
+    wordlist = LIST
     for line in wordlist:
         s_line.append(line.split('\t'))
     wordlist.close()
