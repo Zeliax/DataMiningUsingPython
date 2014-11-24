@@ -3,17 +3,20 @@
 
 {% block content %}
   <h1>Search for videos</h1>
-
-  <form id="searchForm" method="POST" class="form-inline">
+  <br>
+  
+  <form id="searchForm" method="POST" class="form">
   	{{ form.hidden_tag() }}
   	<div class="form-group">
-  		<label class="sr-only" for="search">Search word:</label>
+  		<label for="search_word">Search word:</label>
   		<input class="form-control" id="search_word" name="search_word" type="text" placeholder="Please type your search word here...">
+      <br>
+      <label for="nr_of_results">No. of videos:</label>
       <input class="form-control" id="nr_of_results" name="nr_of_results" type="text" placeholder="Please type a number of videos...">
   	</div>
   	<button class="btn btn-default" type="submit">Search</button>
   </form>
-   
+
     {% if commentlist %}
       <hr>
       {% with messages = get_flashed_messages() %}
@@ -25,36 +28,30 @@
       {% endwith %}
       
       <h2>Videos:</h2>
-      {% for name in names %}
-        <div><p>{{ name.decode('utf-8') }}</p></div>
-      {% endfor %}
-      {% for link in links %}
-        <div><a href="{{ link.decode('utf-8') }}">See the video here</a></div>
-      {% endfor %}
 
+      {% for name, link in zipped %}
+      <div>{{ name.decode('utf-8') }}</div>
+      <div><a href="{{ link.decode('utf-8') }}">See the video here</a></div>
+      <br>
+      {% endfor %}
+    {% endif %}
+    
     {% if sentiment %}
       <hr>
       <h2>Sentiment Analysis:</h2>
-      
-      {% for name in names %}
-      <p><strong>Video title:</strong> {{ name.decode('utf-8') }}</p>
-      {% endfor %}
-      <strong>Video comments and scores:</strong>
+      <strong>Video comments:</strong>
 
       {% for list in commentlist %}
           {% for comment in list %}
             <p> {{ comment.decode('utf-8') }}</p>
           {% endfor %}
         {% endfor %}
-      {% endif %}
-<!--       {% for comment, s in zipped[:10] %}
-      <p> {{ comment.decode('utf-8') }} = {{ s }}</p>
-      {% endfor %}
- -->
-      <hr>
-      <h2>Pie chart:</h2>
-      <div>{{ pos_neg }}</div>
     {% endif %}
 
-    <hr>
+<!--     {% if pos_neg %}
+      <hr>
+      <h2>Pie chart:</h2>
+      <iframe class="plot" src="http://localhost:5000/simple.png"></iframe>
+    {% endif %}     -->
+
 {% endblock %}

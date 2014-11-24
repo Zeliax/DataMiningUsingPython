@@ -4,6 +4,7 @@ from .forms import SearchForm
 from YouTubeConnection import main_func
 from sentimentAnalysis import sentiment_analysis, wordlist_to_dict, sentiment
 from Plotter import pie_chart, pos_neg_counter
+import requests
 
 @app.route('/') #URL-path to homepage
 @app.route('/index')
@@ -31,7 +32,7 @@ def search():
         commentlist, names, links = main_func(search_word, nr_of_results)
         assert commentlist
         sentiment = sentiment_analysis(commentlist,word_dict)
-        # zipped = zip(commentlist, sentiment)
+        zipped = zip(names, links)
         pos_neg = pos_neg_counter(sentiment)
         flash('Search requested for "%s"' %
         (search_word))
@@ -39,16 +40,12 @@ def search():
                            form=form,
                            sentiment=sentiment,
                            commentlist=commentlist,
-                           names=names,
-                           links=links,
                            zipped=zipped,
                            pos_neg=pos_neg)
     return render_template('search.html',
                            form=form,
                            sentiment=sentiment,
                            commentlist=commentlist,
-                           names=names,
-                           links=links,
                            zipped=zipped,
                            pos_neg=pos_neg)
 

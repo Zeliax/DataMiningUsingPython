@@ -2,5 +2,9 @@ body{
 	margin: 20px 50px 0 50px;
 }
 .form-control{
-	min-width:280px;
+	max-width:260px;
+}
+.plot{
+	width: 645px;
+	height: 485px;
 }
