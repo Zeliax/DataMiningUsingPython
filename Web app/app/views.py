@@ -1,9 +1,9 @@
-from flask import render_template, flash, redirect, request, make_response
+from flask import render_template, flash, redirect, request, make_response, g
 from app import app
 from .forms import SearchForm
 from YouTubeConnection import main_func
 from sentimentAnalysis import sentiment_analysis, wordlist_to_dict, sentiment
-from Plotter import pie_chart, pos_neg_counter
+from Plotter import list_divider
 import requests
 
 @app.route('/') #URL-path to homepage
@@ -32,8 +32,8 @@ def search():
         commentlist, names, links = main_func(search_word, nr_of_results)
         assert commentlist
         sentiment = sentiment_analysis(commentlist,word_dict)
+        g.sentiment = sentiment
         zipped = zip(names, links)
-        pos_neg = pos_neg_counter(sentiment)
         flash('Search requested for "%s"' %
         (search_word))
         return render_template('search.html',
@@ -49,29 +49,33 @@ def search():
                            zipped=zipped,
                            pos_neg=pos_neg)
 
-@app.route("/simple.png")
-def simple():
-    import datetime
-    import StringIO
-    import random
+@app.route("/plot.png")
+def plot():
+    # import datetime
+    # import StringIO
+    # import random
  
-    from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-    from matplotlib.figure import Figure
-    from matplotlib.dates import DateFormatter
- 
-    fig=Figure()
-    ax=fig.add_subplot(111)
-    x=[]
-    y=[]
-    now=datetime.datetime.now()
-    delta=datetime.timedelta(days=1)
-    for i in range(10):
-        x.append(now)
-        now+=delta
-        y.append(random.randint(0, 1000))
-    ax.plot_date(x, y, '-')
-    ax.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
-    fig.autofmt_xdate()
+    # from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+    # from matplotlib.figure import Figure
+    # from matplotlib.dates import DateFormatter
+
+    # fig=Figure()
+    # ax=fig.add_subplot(111)
+    # x=[]
+    # y=[]
+    # now=datetime.datetime.now()
+    # delta=datetime.timedelta(days=1)
+    # for i in range(10):
+    #     x.append(now)
+    #     now+=delta
+    #     y.append(random.randint(0, 1000))
+    # ax.plot_date(x, y, '-')
+    # ax.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
+    # fig.autofmt_xdate()
+    plot = []
+    g.sentiment = sentiment
+    plot = list_divider(sentiment)
+    fig = pie_chart(plot)
     canvas=FigureCanvas(fig)
     png_output = StringIO.StringIO()
     canvas.print_png(png_output)

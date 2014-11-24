@@ -46,12 +46,14 @@
             <p> {{ comment.decode('utf-8') }}</p>
           {% endfor %}
         {% endfor %}
+
+        <div>{{ sentiment }}</div>
     {% endif %}
 
-<!--     {% if pos_neg %}
+
       <hr>
       <h2>Pie chart:</h2>
-      <iframe class="plot" src="http://localhost:5000/simple.png"></iframe>
-    {% endif %}     -->
+      <iframe class="plot" src="http://localhost:5000/plot.png"></iframe>
+
 
 {% endblock %}
