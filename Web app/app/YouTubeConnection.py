@@ -5,7 +5,7 @@ This module uses YouTube API V3 and V2 (gdata) to search YouTube and
 """
 from apiclient.discovery import build
 from apiclient.errors import HttpError
-from oauth2client import tools
+# from oauth2client import tools
 import argparse
 from gdata.youtube import service
 
@@ -22,7 +22,7 @@ YOUTUBE_API_VERSION = config.YOUTUBE_API_VERSION
 YTS = service.YouTubeService()
 
 
-def youTubeSearch(options):
+def youtube_search(options):
     """
     Function using YouTube API V3 to fetch videos from YouTube and returning a
     list of video names including video id
@@ -63,7 +63,7 @@ def split_video_list(search, result_nr=1):
     args = argparser.parse_args()
 
     try:
-        video_list = youTubeSearch(args)
+        video_list = youtube_search(args)
     except HttpError, e:
         print "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
 
@@ -163,37 +163,39 @@ def main_func(search_word, nr_of_results):
     return comment_list, names, links
 
 
-# if __name__ == "__main__":
-#     print "Hello"
-    # searchList = ['dolphin', 'dog']
-    # search_dict = {}
+def main():
+    searchList = ['dolphin', 'dog']
+    search_dict = {}
 
-    # search_word = searchList[0]
-    # nr_of_results = 1
+    search_word = searchList[0]
+    nr_of_results = 1
 
-    # url = "https://www.youtube.com/watch?v=OoOHkJYeFDg"
+    url = "https://www.youtube.com/watch?v=OoOHkJYeFDg"
 
-    # get_video_rating(url)
+    get_video_rating(url)
 
-    #Dictionary containing all the videos and their corresponding comments
-    # comments_list, names_list, links_list = main_func(
-    #     search_word, nr_of_results)
+    # Dictionary containing all the videos and their corresponding comments
+    comments_list, names_list, links_list = main_func(
+        search_word, nr_of_results)
 
-    #Save comments to a file
-    # f = open('testfile.txt', 'w')
-    # for comment in comments_list:
-    #     f.write(comment + '\n')
-    # f.close()
+    # Save comments to a file
+    f = open('testfile.txt', 'w')
+    for comment in comments_list:
+        f.write(comment + '\n')
+    f.close()
 
-    #Used to print all the video names line for line
-    # for name in names_list:
-    #     print name
+    # Used to print all the video names line for line
+    for name in names_list:
+        print name
 
-    #Used to print all the links line for line
-    # for link in links_list:
-    #     print link
+    # Used to print all the links line for line
+    for link in links_list:
+        print link
 
-    #Used to print the comments "line for line" in comment dict
-    # for comments in comments_dict.itervalues():
-    #     for string in comments:
-    #         print string
+    # Used to print the comments "line for line" in comment dict
+    for comments in comments_dict.itervalues():
+        for string in comments:
+            print string
+
+if __name__ == "__main__":
+    main()

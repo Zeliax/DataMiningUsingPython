@@ -3,7 +3,6 @@ import matplotlib.pylab as plt
 import matplotlib
 import random
 import numpy
-import time
 
 
 def pie_chart(fraction):
@@ -40,16 +39,9 @@ def list_divider(list_list):
     return map(pos_neg_counter, list_list)
 
 
-def generate_subplot(plot_list, plot_names):
+def generate_subplot_2d(plot_list, plot_names):
     for plot in plot_list:
         plot.show()
-
-
-def plot_pies(lists):
-    pie_charts = []
-    for f_list in lists:
-        pie_charts.append(pie_chart(f_list))
-    return pie_charts
 
 
 def main():
@@ -64,12 +56,10 @@ def main():
 
     #Mette from here
     fractions = list_divider(lal_list)
-    print fractions
 
     for fraction in fractions:
         fig = pie_chart(fraction)
         fig.show()
-    time.sleep(2)
 
 if __name__ == '__main__':
     main()
