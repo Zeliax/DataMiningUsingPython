@@ -25,13 +25,14 @@ def search():
     pos_neg = []
     word_dict = wordlist_to_dict(r'C:\Users\Mette\Documents\GitHub\DataMiningUsingPython\Web app\app\FINN-wordlist.txt')
     if form.validate_on_submit():
+        nr_of_results = 1
         search_word = request.form['search_word']
         nr_of_results = request.form['nr_of_results']
         commentlist, names, links = main_func(search_word, nr_of_results)
         assert commentlist
-        sentiment = sentiment_analysis(commentlist,word_dict)
-        zipped = zip(commentlist, sentiment)
-        pos_neg = pos_neg_counter(sentiment)
+        # sentiment = sentiment_analysis(commentlist,word_dict)
+        # zipped = zip(commentlist, sentiment)
+        # pos_neg = pos_neg_counter(sentiment)
         # pieChart = pie_chart(pos_neg)
         flash('Search requested for "%s"' %
         (search_word))

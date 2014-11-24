@@ -23,7 +23,6 @@
           {% endfor %}
         {% endif %}
       {% endwith %}
-
       
       <h2>Videos:</h2>
       {% for name in names %}
@@ -33,6 +32,11 @@
         <div><p>{{ link.decode('utf-8') }}</p></div>
       {% endfor %}
 
+      {% for list in commentlist %}
+        {% for comment in list %}
+          <p> {{ comment.decode('utf-8') }}</p>
+        {% endfor %}
+      {% endfor %}
     {% endif %}
 
     {% if sentiment %}
@@ -43,13 +47,20 @@
       <p><strong>Video title:</strong> {{ name.decode('utf-8') }}</p>
       {% endfor %}
       <strong>Video comments and scores:</strong>
-      {% for comment, s in zipped[:10] %}
+
+        {% for list in commentlist %}
+          <p> {{ list[1] }}</p>
+<!--            {% for comment in list %}
+              <p> {{ comment.decode('utf-8') }}</p>
+           {% endfor %} -->
+        {% endfor %}
+<!--       {% for comment, s in zipped[:10] %}
       <p> {{ comment.decode('utf-8') }} = {{ s }}</p>
       {% endfor %}
-
+ -->
       <hr>
       <h2>Pie chart:</h2>
-      <div>{{ pie_chart }}</div>
+      <div></div>
     {% endif %}
 
     <hr>
