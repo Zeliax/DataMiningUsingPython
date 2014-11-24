@@ -2,12 +2,13 @@ from detect_lang import LanguageDetector
 from nltk.tokenize import RegexpTokenizer
 import numpy as np
 import codecs
-
-LIST = codecs.open("FINN-wordlist.txt", "r", encoding='utf8')
+import os
 
 
 def wordlist_to_dict():
     """Creates a dictionary from a wordlist"""
+    path = os.getcwd()
+    LIST = codecs.open(path + "\\app\\FINN-wordlist.txt", "r", encoding='utf8')
     word_dict = {}
     s_line = []
     wordlist = LIST
