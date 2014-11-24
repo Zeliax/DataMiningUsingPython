@@ -1,7 +1,7 @@
 #from detect_lang import LanguageDetector
-from sentimentAnalysis import wordlist_to_dict, sentiment, sentiment_analysis
+from app.sentimentAnalysis import wordlist_to_dict, sentiment, sentiment_analysis
 
-worddict = wordlist_to_dict("FINN-wordlist.txt")
+worddict = wordlist_to_dict()
 tokenized_words = ['but', 'he', 'fails', 'miserably']
 
 
