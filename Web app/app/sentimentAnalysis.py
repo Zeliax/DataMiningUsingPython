@@ -53,18 +53,19 @@ def sentiment_analysis(commentlist, wordlist):
     #total_sentiment = 0
     tokenizer = RegexpTokenizer(r'[a-z]+')
     all_sentiments = []
-    sent_sentiment = 100
+    sent_sentiment = []
     ld = LanguageDetector()
-    for comment in commentlist:
-        if ((ld.get_language(comment) == 'english') and (type(comment) is str)):
-            comment = comment.lower()
-            comment = " ".join([word for word in comment.split()
-                                if "http" not in word])
-            words = tokenizer.tokenize(comment)
-            sent_sentiment = sentiment(words, wordlist)
-            all_sentiments.append(sent_sentiment)
-            mean_score = np.mean(all_sentiments)
-            #total_sentiment += sent_sentiment
-        else:
-            pass
+    for c_list in commentlist:
+        for comment in c_list:
+            if ((ld.get_language(comment) == 'english') and (type(comment) is str)):
+                comment = comment.lower()
+                comment = " ".join([word for word in comment.split()
+                                    if "http" not in word])
+                words = tokenizer.tokenize(comment)
+                sent_sentiment.append(sentiment(words, wordlist))
+                all_sentiments.append(sent_sentiment)
+                mean_score = np.mean(all_sentiments)
+                #total_sentiment += sent_sentiment
+            else:
+                pass
     return all_sentiments
