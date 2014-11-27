@@ -51,13 +51,13 @@ def search():
 
 @app.route("/plot.png")
 def plot():
-    # import datetime
-    # import StringIO
-    # import random
+    import datetime
+    import StringIO
+    import random
  
-    # from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-    # from matplotlib.figure import Figure
-    # from matplotlib.dates import DateFormatter
+    from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+    from matplotlib.figure import Figure
+    from matplotlib.dates import DateFormatter
 
     # fig=Figure()
     # ax=fig.add_subplot(111)
@@ -73,9 +73,9 @@ def plot():
     # ax.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
     # fig.autofmt_xdate()
     plot = []
-    plot2 = [(1,2),(3,4)]
-    # g.sentiment = sentiment
-    plot = list_divider(plot2)
+    # plot2 = [[1,2],[3,4]]
+    g.sentiment = sentiment
+    plot = list_divider(sentiment)
     fig = pie_chart(plot)
     canvas=FigureCanvas(fig)
     png_output = StringIO.StringIO()
