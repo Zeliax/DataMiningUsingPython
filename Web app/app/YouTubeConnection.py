@@ -136,8 +136,7 @@ def get_video_rating(url):
     """
     video = pafy.new(url)
 
-    print video.likes
-    return video.likes, video.dislikes
+    return [video.likes, video.dislikes]
 
 
 def main_func(search_word, nr_of_results):
@@ -165,7 +164,7 @@ def main_func(search_word, nr_of_results):
 
 def main():
     searchList = ['dolphin', 'dog']
-    search_dict = {}
+    # search_dict = {}
 
     search_word = searchList[0]
     nr_of_results = 1
@@ -177,25 +176,6 @@ def main():
     # Dictionary containing all the videos and their corresponding comments
     comments_list, names_list, links_list = main_func(
         search_word, nr_of_results)
-
-    # Save comments to a file
-    f = open('testfile.txt', 'w')
-    for comment in comments_list:
-        f.write(comment + '\n')
-    f.close()
-
-    # Used to print all the video names line for line
-    for name in names_list:
-        print name
-
-    # Used to print all the links line for line
-    for link in links_list:
-        print link
-
-    # Used to print the comments "line for line" in comment dict
-    for comments in comments_dict.itervalues():
-        for string in comments:
-            print string
 
 if __name__ == "__main__":
     main()
