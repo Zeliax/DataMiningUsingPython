@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-This module uses YouTube API V3 and V2 (gdata) to search YouTube and
-'download' name, link and comments.
-"""
 from apiclient.discovery import build
 from apiclient.errors import HttpError
 # from oauth2client import tools
@@ -23,7 +19,8 @@ YTS = service.YouTubeService()
 
 
 def youtube_search(options):
-    """
+    """Performs a YouTube search using Google API V3
+
     Function using YouTube API V3 to fetch videos from YouTube and returning a
     list of video names including video id
     """
@@ -41,8 +38,9 @@ def youtube_search(options):
     videos = []
 
   # Add each result to the appropriate list, and then display the lists of
-  # matching videos, channels, an
+  # matching videos, channels, and playlists
     for search_result in search_response.get("items", []):
+        # If result matches a video, append it to the video list
         if search_result["id"]["kind"] == "youtube#video":
             videos.append("%s (%s)" % (search_result["snippet"]["title"],
                                        search_result["id"]["videoId"]))
@@ -51,10 +49,11 @@ def youtube_search(options):
 
 
 def split_video_list(search, result_nr=1):
-    """
+    """Splits internal list into a more desired format
+
     Based on two input parameters, this function uses another function to
-    to fetch a list of youtube videos and their matching IDs. It also sorts out
-    the list from
+    to fetch a list of youtube videos and their matching IDs. It also formats
+    the list and splits it into two
     """
     argparser = argparse.ArgumentParser(add_help=False)
     argparser.add_argument("--q", help="Search term", default=search)
@@ -86,10 +85,7 @@ def split_video_list(search, result_nr=1):
 
 
 def comments_generator(client, video_id):
-    """
-    Takes in a video ID and uses gdata API to search YouTube for all comments
-    within the given video with the given ID.
-    """
+    """Uses gdata api to download comments given a video id"""
     urlpattern = ('http://gdata.youtube.com/feeds/api/videos/' + video_id +
                   '/comments?orderby=published&start-index=%d&max-results=25')
     index = 1
@@ -111,31 +107,21 @@ def comments_generator(client, video_id):
 
 
 def get_video_name(name_list):
-    """
-    Function that returns a list with names of the videos (used in the
-    sentinemt analysis)
-    """
+    """Given a list of video names, returns utf-8 encoded names"""
     name_list = [name.encode('utf-8') for name in name_list]
-
     return name_list
 
 
-def get_video_link(link_list):
-    """
-    Function that returns a link to the videos (direct shortcut to go to video)
-    """
-    link_list = ['https://www.youtube.com/watch?v=' + str(link) for link
-                 in link_list]
-
+def get_video_link(id_list):
+    """Given a list of IDs, returns a list of links"""
+    link_list = ['https://www.youtube.com/watch?v=' + str(ids) for ids
+                 in id_list]
     return link_list
 
 
 def get_video_rating(url):
-    """
-    Given a url to video fetches the likes and dislikes for a video using pafy
-    """
+    """Downloads likes and dislikes in a list based on video url"""
     video = pafy.new(url)
-
     return [video.likes, video.dislikes]
 
 
@@ -161,6 +147,7 @@ def main_func(search_word, nr_of_results):
 
 
 def main():
+    """Used for manual testing of functions"""
     searchList = ['dolphin', 'dog']
     # search_dict = {}
 

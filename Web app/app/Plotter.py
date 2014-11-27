@@ -4,6 +4,8 @@ import matplotlib
 import random
 import numpy
 
+from time import sleep
+
 
 def pie_chart(fractions_list):
     """
@@ -18,7 +20,7 @@ def pie_chart(fractions_list):
     matplotlib.rcParams['lines.linewidth'] = 2
     matplotlib.rcParams['patch.edgecolor'] = 'white'
     matplotlib.rcParams['font.style'] = 'oblique'
-    matplotlib.rcParams['font.size'] = 18
+    matplotlib.rcParams['font.size'] = 12
 
     fig = plt.figure()
     for i in xrange(1, 3):
@@ -31,10 +33,22 @@ def pie_chart(fractions_list):
 
 
 def hist_graph(interval_list):
-    """Method for plotting a historgraph of input
+    """Method for plotting a historgraph of input"""
 
+    matplotlib.rcParams['text.color'] = 'white'
+    matplotlib.rcParams['lines.linewidth'] = 2
+    matplotlib.rcParams['patch.edgecolor'] = 'white'
+    matplotlib.rcParams['font.style'] = 'oblique'
+    matplotlib.rcParams['font.size'] = 12
 
-    """
+    fig = plt.figure()
+
+    bins = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    n, bins, patches = plt.hist(interval_list, bins, normed=1, histtype='bar',
+                                rwidth=0.8, stacked=True)
+    plt.setp(patches, 'facecolor', 'b', 'alpha', 0.75)
+
+    return fig
 
 
 def pos_neg_counter(sent_list):
@@ -59,19 +73,27 @@ def list_divider2(list_list):
 
 def main():
     """Manual testing of all internal methods"""
-    scores1 = numpy.ones(50)
-    sent_score1 = [random.randrange(0, 12, 1) for _ in scores1]
-    scores2 = numpy.ones(50)
-    sent_score2 = [random.randrange(0, 12, 1) for _ in scores2]
+    # scores1 = numpy.ones(50)
+    # sent_score1 = [random.randrange(0, 12, 1) for _ in scores1]
+    # scores2 = numpy.ones(50)
+    # sent_score2 = [random.randrange(0, 12, 1) for _ in scores2]
 
-    lal_list = []
-    lal_list.append(sent_score1)
-    lal_list.append(sent_score2)
+    # lal_list = []
+    # lal_list.append(sent_score1)
+    # lal_list.append(sent_score2)
 
-    fractions_list = list_divider1(lal_list)
+    # fractions_list = list_divider1(lal_list)
 
-    chart = pie_chart(fractions_list)
-    chart.show()
+    # chart = pie_chart(fractions_list)
+    # chart.show()
+
+    #Testing histogram
+    ones_list = numpy.ones(50)
+    interval_list = [random.randrange(0, 12, 1) for _ in ones_list]
+
+    hist = hist_graph(interval_list)
+    hist.show()
+    sleep(2)
 
 if __name__ == '__main__':
     main()
