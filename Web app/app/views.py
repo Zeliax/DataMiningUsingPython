@@ -73,7 +73,7 @@ def plot():
     # ax.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
     # fig.autofmt_xdate()
     plot = []
-    plot2 = [[1,2],[3,4]]
+    plot2 = [(1,2),(3,4)]
     # g.sentiment = sentiment
     plot = list_divider(plot2)
     fig = pie_chart(plot)
