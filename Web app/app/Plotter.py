@@ -12,7 +12,7 @@ def pie_chart(fractions_list):
     Plotting a piechart of input.
 
     Keyword arguments:
-    fractions_list -- list of two components: positive and negative counts
+    fractions_list -- list of two components; positive and negative counts.
     """
     labels = 'Positive', 'Negative'
     colors = ('g', 'r')
@@ -33,8 +33,11 @@ def pie_chart(fractions_list):
 
 
 def hist_graph(interval_list):
-    """Method for plotting a historgraph of input"""
+    """Method for plotting a historgraph of input.
 
+    Keyword arguments:
+    interval_list -- list of sentiment scores; scores between 0-12.
+    """
     matplotlib.rcParams['text.color'] = 'white'
     matplotlib.rcParams['lines.linewidth'] = 2
     matplotlib.rcParams['patch.edgecolor'] = 'white'
@@ -59,7 +62,7 @@ def pos_neg_counter(sent_list):
 
 
 def list_divider1(list_list):
-    """Maps input based on pos_neg_counter function."""
+    """Input is mapped based on pos_neg_counter function."""
     return map(pos_neg_counter, list_list)
 
 
@@ -73,6 +76,7 @@ def list_divider2(list_list):
 
 def main():
     """Manual testing of all internal methods"""
+    #Testing pie chart
     # scores1 = numpy.ones(50)
     # sent_score1 = [random.randrange(0, 12, 1) for _ in scores1]
     # scores2 = numpy.ones(50)

@@ -19,10 +19,10 @@ YTS = service.YouTubeService()
 
 
 def youtube_search(options):
-    """Performs a YouTube search using Google API V3
+    """Performs a YouTube search using Google API V3.
 
     Function using YouTube API V3 to fetch videos from YouTube and returning a
-    list of video names including video id
+    list of video names including video id.
     """
     youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
                     developerKey=DEVELOPER_KEY)
@@ -49,11 +49,11 @@ def youtube_search(options):
 
 
 def split_video_list(search, result_nr=1):
-    """Splits internal list into a more desired format
+    """Splits internal list into a more desired format.
 
     Based on two input parameters, this function uses another function to
     to fetch a list of youtube videos and their matching IDs. It also formats
-    the list and splits it into two
+    the list and splits it into two, which is returns.
     """
     argparser = argparse.ArgumentParser(add_help=False)
     argparser.add_argument("--q", help="Search term", default=search)
@@ -85,7 +85,7 @@ def split_video_list(search, result_nr=1):
 
 
 def comments_generator(client, video_id):
-    """Uses gdata api to download comments given a video id"""
+    """Uses gdata api to download comments given a video id."""
     urlpattern = ('http://gdata.youtube.com/feeds/api/videos/' + video_id +
                   '/comments?orderby=published&start-index=%d&max-results=25')
     index = 1
@@ -107,20 +107,20 @@ def comments_generator(client, video_id):
 
 
 def get_video_name(name_list):
-    """Given a list of video names, returns utf-8 encoded names"""
+    """Given a list of strings, returns a list utf-8 encoded strings."""
     name_list = [name.encode('utf-8') for name in name_list]
     return name_list
 
 
 def get_video_link(id_list):
-    """Given a list of IDs, returns a list of links"""
+    """Given a list of IDs, returns a list of links."""
     link_list = ['https://www.youtube.com/watch?v=' + str(ids) for ids
                  in id_list]
     return link_list
 
 
 def get_video_rating(url):
-    """Downloads likes and dislikes in a list based on video url"""
+    """Downloads likes and dislikes in a list based on video url."""
     video = pafy.new(url)
     return [video.likes, video.dislikes]
 
@@ -147,7 +147,7 @@ def main_func(search_word, nr_of_results):
 
 
 def main():
-    """Used for manual testing of functions"""
+    """Used for manual testing of functions."""
     searchList = ['dolphin', 'dog']
     # search_dict = {}
 
