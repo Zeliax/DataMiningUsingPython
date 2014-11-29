@@ -3,17 +3,19 @@ from app import app
 from .forms import SearchForm
 from YouTubeConnection import main_func
 from sentimentAnalysis import sentiment_analysis, wordlist_to_dict, sentiment
-from Plotter import list_divider, pie_chart
+from Plotter import list_divider1, pie_chart
 import requests
 
-@app.route('/') #URL-path to homepage
+
+@app.route('/')  # URL-path to homepage
 @app.route('/index')
 def index():
-	title='Youtube Sentiment Analysis' #setting the title
-	paragraph = "Welcome!"
-	return render_template('index.html',
+    title = 'Youtube Sentiment Analysis'  # setting the title
+    paragraph = "Welcome!"
+    return render_template('index.html',
                            title=title,
                            paragraph=paragraph)
+
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
@@ -31,7 +33,7 @@ def search():
         nr_of_results = request.form['nr_of_results']
         commentlist, names, links = main_func(search_word, nr_of_results)
         assert commentlist
-        sentiment = sentiment_analysis(commentlist,word_dict)
+        sentiment = sentiment_analysis(commentlist, word_dict)
         g.sentiment = sentiment
         zipped = zip(names, links)
         flash('Search requested for "%s"' %
@@ -49,12 +51,13 @@ def search():
                            zipped=zipped,
                            pos_neg=pos_neg)
 
+
 @app.route("/plot.png")
 def plot():
     import datetime
     import StringIO
     import random
- 
+
     from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
     from matplotlib.figure import Figure
     from matplotlib.dates import DateFormatter
@@ -75,11 +78,11 @@ def plot():
     plot = []
     # plot2 = [[1,2],[3,4]]
     g.sentiment = sentiment
-    plot = list_divider(sentiment)
+    plot = list_divider1(sentiment)
     fig = pie_chart(plot)
-    canvas=FigureCanvas(fig)
+    canvas = FigureCanvas(fig)
     png_output = StringIO.StringIO()
     canvas.print_png(png_output)
-    response=make_response(png_output.getvalue())
+    response = make_response(png_output.getvalue())
     response.headers['Content-Type'] = 'image/png'
     return response
