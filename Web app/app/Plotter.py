@@ -56,7 +56,7 @@ def hist_graph(interval_list):
 
 def pos_neg_counter(sentiment_list):
     """Method that counts the positive/negative comments in a list."""
-    pos = len([sent for sent in sentiment_list if sent >= 6 and sent <= 12])
+    pos = len([sent for sent in sentiment_list if sent > 6 and sent <= 12])
     neg = len([sent for sent in sentiment_list if sent < 6 and sent >= 0])
     return [pos, neg]
 
