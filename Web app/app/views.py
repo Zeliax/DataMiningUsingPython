@@ -3,27 +3,20 @@ from app import app
 from .forms import SearchForm
 from YouTubeConnection import main_func
 from sentimentAnalysis import sentiment_analysis, wordlist_to_dict, sentiment
-<<<<<<< HEAD
-from Plotter import list_divider2, pie_chart
-=======
 from Plotter import list_divider1, pie_chart
->>>>>>> origin/master
+
 import requests
 
 
 @app.route('/')  # URL-path to homepage
 @app.route('/index')
 def index():
-<<<<<<< HEAD
     """Calculates the mean sentiment of each comment.
 
     Keyword arguments:
     commentlist -- a list of lists of comments
     """
     title='Youtube Sentiment Analysis' #setting the title
-=======
-    title = 'Youtube Sentiment Analysis'  # setting the title
->>>>>>> origin/master
     paragraph = "Welcome!"
     return render_template('index.html',
                            title=title,
