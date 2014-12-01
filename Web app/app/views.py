@@ -3,7 +3,7 @@ from app import app
 from .forms import SearchForm
 from YouTubeConnection import YouTubeConnection
 from sentimentAnalysis import sentiment_analysis, wordlist_to_dict, sentiment
-from Plotter import list_divider, pie_chart
+from Plotter import list_divider, pie_chart, generate_plot_list
 import config
 import requests
 
@@ -94,7 +94,9 @@ def plot():
     # fig.autofmt_xdate()
     plot = []
     sentiment = eval(request.args['sentiment'])
-    plot = list_divider(zipped2)
+    ratings = eval(request.args['ratings'])
+    pos_neg = list_divider(sentiment)
+    plot_list = generate_plot_list(pos_neg, ratings)
     fig = pie_chart(plot)
     canvas = FigureCanvas(fig)
     png_output = StringIO.StringIO()
