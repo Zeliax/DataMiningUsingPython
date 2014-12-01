@@ -18,7 +18,7 @@
   </form>
 
         <div>{{ sentiment }}</div>
-        <div>{{ ratings }}</div>
+        <div>{{ ratings }}</div> 
 
     {% if commentlist %}
       <hr>
@@ -32,9 +32,11 @@
       
       <h2>Videos:</h2>
 
-      {% for name, link in zipped %}
+      {% for name, link, plot in zipped %}
       <div>{{ name.decode('utf-8') }}</div>
       <div><a href="{{ link.decode('utf-8') }}">See the video here</a></div>
+      <div>{{ plot|safe }}</div>
+
       <br>
       {% endfor %}
     {% endif %}
@@ -50,7 +52,9 @@
           {% endfor %}
         {% endfor %}
  -->
-
+<!--       {% for plot in plot_list %}
+      <div>{{ plot|safe }}</div>
+      {% endfor %} -->
     {% endif %}
 
 <!--       {% for plot in plots %}
