@@ -3,9 +3,10 @@ from apiclient.discovery import build
 from apiclient.errors import HttpError
 from gdata.youtube import service
 
-import config
-import pafy
 import argparse
+import pafy
+
+import config
 
 
 class YouTubeConnection(object):

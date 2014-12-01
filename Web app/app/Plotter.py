@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
+"""Modules used to plot pie chart and histogram regarding sentiment."""
 import matplotlib.pylab as plt
 import matplotlib
 import random
 import numpy
+import mpld3
 
 from time import sleep
 
@@ -55,11 +57,14 @@ def hist_graph(interval_list):
 
 
 def generate_plot_list(sentiment_list, rating_list):
-    """Given a nested list of sentiments and a nested list of ratings, plots
-    each element on both lists together and returns a list of plots"""
+    """Given a nested list of sentiments and a nested list of ratings.
+
+    Each element in both lists together and returns a list of plots.
+    """
     plot_list = []
     for sentiment, rating in zip(sentiment_list, rating_list):
-        plot_list.append(pie_chart([sentiment, rating]))
+        fig = pie_chart([sentiment, rating])
+        plot_list.append(mpld3.fig_to_html(fig))
     return plot_list
 
 
