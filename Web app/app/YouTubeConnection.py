@@ -104,10 +104,13 @@ class YouTubeConnection(object):
                          ids_list]
         return embedded_list
 
-    def get_video_rating(self, url):
+    def get_video_rating(self, url_list):
         """Downloads likes and dislikes to a list based on video url."""
-        video = pafy.new(url)
-        return [video.likes, video.dislikes]
+        rating_list = []
+        for url in url_list:
+            video = pafy.new(url)
+            rating_list.append([video.likes, video.dislikes])
+        return rating_list
 
     def main_func(self, search_word, nr_of_results):
         """Performs a youtube_search and returns a nested list with comments, a
@@ -152,6 +155,8 @@ def main():
     nr_of_results = 1
 
     commentlist, names, links = ytc.main_func(search_word, nr_of_results)
+
+    print ytc.get_video_rating(links)
 
     # for name in names:
     #     print name
