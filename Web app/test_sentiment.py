@@ -4,7 +4,7 @@ from app.sentimentAnalysis import wordlist_to_dict, sentiment, sentiment_analysi
 from app.Plotter import pie_chart, hist_graph, pos_neg_counter, list_divider1, list_divider2
 from app.detect_lang import LanguageDetector
 from gdata.youtube import service
-#from matplotlib.testing.decorators import cleanup
+from matplotlib.testing.decorators import cleanup
 
 worddict = wordlist_to_dict()
 tokenized_words = ['but', 'he', 'fails', 'miserably']
@@ -45,27 +45,27 @@ def test_list_divider():
     assert list_divider2(list_) == [[2, 2], [3, 2]]
 
 
-#@cleanup
-#def test_pie():
-#    assert pie_chart([4, 2]) == figure()
+@cleanup
+def test_pie():
+    assert pie_chart([4, 2]) == figure()
 
 
 #def test_main_func():
 #    assert main_func(search_word, 1) == 
 
 
-def test_rating():
-    assert get_video_rating(url) == [4579, 509]
+#def test_rating():
+#    assert get_video_rating(url) == [4579, 509]  # The rating changes with more likes/disklikes
 
 
 def test_sentiment_value():
-    assert sentiment(tokenized_words, worddict) == [0, 0, 4, 0]
-    assert sentiment(tokenized_empty, worddict) == []
-    assert sentiment(['is'], worddict) == [0]
+    assert sentiment(tokenized_words, worddict) == [[4]]
+    assert sentiment(tokenized_empty, worddict) == [[]]
+    assert sentiment(['is'], worddict) == [[]]
 
 
 def test_sentiment_analysis():
-    assert sentiment_analysis(commentslist, worddict) == [[1.7]]
+    assert sentiment_analysis(commentslist, worddict) == [[8.5]]
     assert sentiment_analysis(commentlist, worddict) == [[]]
 
 

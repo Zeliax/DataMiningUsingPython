@@ -23,13 +23,7 @@ def sentiment(words, word_dict):
     """Calculaltes the sentiment score for each word from a tokenized sentence'
        ' and stores them in a list."""
     sent_values = []
-    for word in words:
-        if word in word_dict:
-            sent_values.append(word_dict[word])
-            #print "The word is %s and the count is %d" %(word, count)
-        else:
-            sent_values.append(0)
-    # print "Total count is: %r" % count
+    sent_values.append([word_dict[word] for word in words if word in word_dict])
     return sent_values
 
 
