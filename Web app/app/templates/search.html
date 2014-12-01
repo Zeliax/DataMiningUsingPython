@@ -17,6 +17,7 @@
   	<button class="btn btn-default" type="submit">Search</button>
   </form>
 
+        <div>{{ sentiment }}</div>
     {% if commentlist %}
       <hr>
       {% with messages = get_flashed_messages() %}
@@ -37,7 +38,7 @@
     {% endif %}
     
     {% if sentiment %}
-      <hr>
+<!--       <hr>
       <h2>Sentiment Analysis:</h2>
       <strong>Video comments:</strong>
 
@@ -46,14 +47,18 @@
             <p> {{ comment.decode('utf-8') }}</p>
           {% endfor %}
         {% endfor %}
+ -->
 
-        <div>{{ sentiment }}</div>
     {% endif %}
 
 
       <hr>
       <h2>Pie chart:</h2>
+      <img src="http://localhost:5000/plot.png?sentiment={{sentiment}}" alt="plot" height="485" width="645">
+      <br>
+      
       <iframe class="plot" src="http://localhost:5000/plot.png"></iframe>
+    
 
 
 {% endblock %}

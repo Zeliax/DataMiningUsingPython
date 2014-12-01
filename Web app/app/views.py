@@ -3,15 +3,20 @@ from app import app
 from .forms import SearchForm
 from YouTubeConnection import main_func
 from sentimentAnalysis import sentiment_analysis, wordlist_to_dict, sentiment
-from Plotter import list_divider, pie_chart
+from Plotter import list_divider2, pie_chart
 import requests
 
 @app.route('/') #URL-path to homepage
 @app.route('/index')
 def index():
-	title='Youtube Sentiment Analysis' #setting the title
-	paragraph = "Welcome!"
-	return render_template('index.html',
+    """Calculates the mean sentiment of each comment.
+
+    Keyword arguments:
+    commentlist -- a list of lists of comments
+    """
+    title='Youtube Sentiment Analysis' #setting the title
+    paragraph = "Welcome!"
+    return render_template('index.html',
                            title=title,
                            paragraph=paragraph)
 
@@ -24,6 +29,7 @@ def search():
     links = []
     zipped = []
     pos_neg = []
+    # sentiment = [[7.5,6.6],[7.7,2.2]]
     word_dict = wordlist_to_dict()
     if form.validate_on_submit():
         nr_of_results = 1
@@ -32,7 +38,6 @@ def search():
         commentlist, names, links = main_func(search_word, nr_of_results)
         assert commentlist
         sentiment = sentiment_analysis(commentlist,word_dict)
-        g.sentiment = sentiment
         zipped = zip(names, links)
         flash('Search requested for "%s"' %
         (search_word))
@@ -49,15 +54,16 @@ def search():
                            zipped=zipped,
                            pos_neg=pos_neg)
 
-@app.route("/plot.png")
+@app.route("/plot.png", methods=['GET', 'POST'])
 def plot():
     import datetime
     import StringIO
     import random
- 
     from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
     from matplotlib.figure import Figure
     from matplotlib.dates import DateFormatter
+    import matplotlib.pylab as plt
+    import matplotlib
 
     # fig=Figure()
     # ax=fig.add_subplot(111)
@@ -73,9 +79,9 @@ def plot():
     # ax.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
     # fig.autofmt_xdate()
     plot = []
-    # plot2 = [[1,2],[3,4]]
-    g.sentiment = sentiment
-    plot = list_divider(sentiment)
+    sentiment = eval(request.args['sentiment'])
+    #sentiment = g.get('sentiment')
+    plot = list_divider2(sentiment)
     fig = pie_chart(plot)
     canvas=FigureCanvas(fig)
     png_output = StringIO.StringIO()
