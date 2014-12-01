@@ -26,7 +26,7 @@ def pie_chart(fractions_list):
 
     fig = plt.figure()
     for i in xrange(1, 3):
-        plt.subplot(220 + i)
+        plt.subplot(1, 2, i)
         plt.pie(fractions_list[i - 1], labels=labels, autopct='%1.1f%%',
                 colors=colors)
 
