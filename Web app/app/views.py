@@ -36,6 +36,7 @@ def search():
     links = []
     zipped = []
     pos_neg = []
+    ratings = []
     # sentiment = [[7.5,6.6],[7.7,2.2]]
     word_dict = wordlist_to_dict()
     if form.validate_on_submit():
@@ -43,9 +44,10 @@ def search():
         search_word = request.form['search_word']
         nr_of_results = request.form['nr_of_results']
         commentlist, names, links = ytc.main_func(search_word, nr_of_results)
-        ratings = ytc.get_video_rating()
         assert commentlist
         sentiment = sentiment_analysis(commentlist, word_dict)
+        ratings = ytc.get_video_rating(links)
+        assert ratings
         zipped = zip(names, links)
         flash('Search requested for "%s"' %
         (search_word))
@@ -54,13 +56,17 @@ def search():
                            sentiment=sentiment,
                            commentlist=commentlist,
                            zipped=zipped,
-                           pos_neg=pos_neg)
+                           pos_neg=pos_neg,
+                           links=links,
+                           ratings=ratings)
     return render_template('search.html',
                            form=form,
                            sentiment=sentiment,
                            commentlist=commentlist,
                            zipped=zipped,
-                           pos_neg=pos_neg)
+                           pos_neg=pos_neg,
+                           links=links,
+                           ratings=ratings)
 
 @app.route("/plot.png", methods=['GET', 'POST'])
 def plot():
@@ -88,8 +94,7 @@ def plot():
     # fig.autofmt_xdate()
     plot = []
     sentiment = eval(request.args['sentiment'])
-    #sentiment = g.get('sentiment')
-    plot = list_divider(sentiment)
+    plot = list_divider(zipped2)
     fig = pie_chart(plot)
     canvas = FigureCanvas(fig)
     png_output = StringIO.StringIO()
