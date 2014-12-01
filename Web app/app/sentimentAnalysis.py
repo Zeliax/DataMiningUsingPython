@@ -6,7 +6,7 @@ import os
 
 
 def wordlist_to_dict():
-    """Creates a dictionary from a wordlist"""
+    """Create a dictionary from a wordlist"""
     path = os.getcwd()  # Runs from web app folder
     word_list = codecs.open(path + "\\app\\FINN-wordlist.txt", "r", encoding='utf8')
 
