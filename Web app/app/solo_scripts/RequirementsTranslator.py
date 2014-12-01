@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 import json
+import pprint
 
 
 def main():
-    """
-    Main function that does what the module says
-    """
+    """Function that reads in packages from the requirements.txt file and puts
+    them into the projectproposal.json file"""
     text = open('requirements.txt', 'r')
 
     packages = []
@@ -26,6 +26,9 @@ def main():
     new_modules = {'modules': modules}
     data.update(new_modules)
 
+    pp = pprint.PrettyPrinter(indent=4)
+    pp.pprint(data)
+    
     with open('projectproposal.json', 'w') as jsonfile:
         json.dump(data, jsonfile)
 

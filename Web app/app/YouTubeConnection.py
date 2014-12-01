@@ -2,11 +2,11 @@
 from apiclient.discovery import build
 from apiclient.errors import HttpError
 # from oauth2client import tools
-import argparse
 from gdata.youtube import service
 
 import config
 import pafy
+import argparse
 
 # Set DEVELOPER_KEY to the API key value from the APIs & auth > Registered apps
 # tab of
@@ -19,10 +19,12 @@ YTS = service.YouTubeService()
 
 
 def youtube_search(options):
-    """Performs a YouTube search using Google API V3.
+    """Performs a YouTube search using Google API V3 and formats list to
+    desired output.
 
     Function using YouTube API V3 to fetch videos from YouTube and returning a
-    list of video names including video id.
+    list of video ids and a list video names by splitting the list returned
+    returned from the api call.
     """
     youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
                     developerKey=DEVELOPER_KEY)
@@ -45,43 +47,59 @@ def youtube_search(options):
             videos.append("%s (%s)" % (search_result["snippet"]["title"],
                                        search_result["id"]["videoId"]))
 
-    return videos
+    #Splitting and formatting the video list:
+    video_ids_list = []
+    video_names_list = []
 
-
-def split_video_list(search, result_nr=1):
-    """Splits internal list into a more desired format.
-
-    Based on two input parameters, this function uses another function to
-    to fetch a list of youtube videos and their matching IDs. It also formats
-    the list and splits it into two, which is returns.
-    """
-    argparser = argparse.ArgumentParser(add_help=False)
-    argparser.add_argument("--q", help="Search term", default=search)
-    argparser.add_argument("--max-results", help="Max results",
-                           default=result_nr)
-    args = argparser.parse_args()
-
-    try:
-        video_list = youtube_search(args)
-    except HttpError, e:
-        print "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
-
-    vid_ids_list = []
-    vid_name_list = []
-
-    for v in video_list:
-        vid_ids_list.append(v.split('(')[-1][:-1])
-        paran_count = v.count("(")
+    for video in videos:
+        video_ids_list.append(video.split('(')[-1][:-1])
+        paran_count = video.count("(")
         #If a paranthesis exists in title get the last occurance of the
         #paranthesis
         if paran_count > 1:
-            vid = v.split("(")
-            vid_name = "(".join(vid[:paran_count])
-            vid_name_list.append(vid_name)
+            video = video.split("(")
+            video_name = "(".join(video[:paran_count])
+            video_names_list.append(video_name)
         else:
-            vid_name_list.append(v.split(' (')[:1][-1])
+            video_names_list.append(video.split(' (')[:1][-1])
 
-    return vid_ids_list, vid_name_list
+    return video_ids_list, video_names_list
+
+
+# def split_video_list(search, result_nr=1):
+#     """Splits internal list into a more desired format.
+
+#     Based on two input parameters, this function uses another function to
+#     to fetch a list of youtube videos and their matching IDs. It also formats
+#     the list and splits it into two, which is returns.
+#     """
+#     argparser = argparse.ArgumentParser(add_help=False)
+#     argparser.add_argument("--q", help="Search term", default=search)
+#     argparser.add_argument("--max-results", help="Max results",
+#                            default=result_nr)
+#     args = argparser.parse_args()
+
+#     try:
+#         video_list = youtube_search(args)
+#     except HttpError, e:
+#         print "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
+
+#     vid_ids_list = []
+#     vid_name_list = []
+
+#     for v in video_list:
+#         vid_ids_list.append(v.split('(')[-1][:-1])
+#         paran_count = v.count("(")
+#         #If a paranthesis exists in title get the last occurance of the
+#         #paranthesis
+#         if paran_count > 1:
+#             vid = v.split("(")
+#             vid_name = "(".join(vid[:paran_count])
+#             vid_name_list.append(vid_name)
+#         else:
+#             vid_name_list.append(v.split(' (')[:1][-1])
+
+#     return vid_ids_list, vid_name_list
 
 
 def comments_generator(client, video_id):
@@ -130,15 +148,23 @@ def main_func(search_word, nr_of_results):
     Function that collects all other functions and performs YouTube search,
     and returns a dictionary with comments for all the videos found.
     """
-    #Move to another function...
-    vid_ids_list, vid_name_list = split_video_list(
-        search_word, nr_of_results)
 
-    names = get_video_name(vid_name_list)
-    links = get_video_link(vid_ids_list)
+    argparser = argparse.ArgumentParser(add_help=False)
+    argparser.add_argument("--q", help="Search term", default=search_word)
+    argparser.add_argument("--max-results", help="Max results",
+                           default=nr_of_results)
+    args = argparser.parse_args()
+
+    try:
+        video_ids_list, video_names_list = youtube_search(args)
+    except HttpError, e:
+        print "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
+
+    names = get_video_name(video_names_list)
+    links = get_video_link(video_ids_list)
 
     comment_list = []
-    for video_id in vid_ids_list:
+    for video_id in video_ids_list:
         comment_list.append([comment.content.text for comment in
                              comments_generator(YTS, video_id)
                              if comment.content.text is not None])
