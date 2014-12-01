@@ -54,16 +54,16 @@ def hist_graph(interval_list):
     return fig
 
 
-def pos_neg_counter(sent_list):
+def pos_neg_counter(sentiment_list):
     """Method that counts the positive/negative comments in a list."""
-    pos = len([sent for sent in sent_list if sent >= 6 and sent <= 12])
-    neg = len([sent for sent in sent_list if sent < 6 and sent >= 0])
+    pos = len([sent for sent in sentiment_list if sent >= 6 and sent <= 12])
+    neg = len([sent for sent in sentiment_list if sent < 6 and sent >= 0])
     return [pos, neg]
 
 
-def list_divider1(list_list):
+def list_divider1(nested_list):
     """Input is mapped based on pos_neg_counter function."""
-    return map(pos_neg_counter, list_list)
+    return map(pos_neg_counter, nested_list)
 
 
 def main():

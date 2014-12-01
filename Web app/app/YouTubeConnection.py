@@ -18,7 +18,7 @@ YOUTUBE_API_VERSION = config.YOUTUBE_API_VERSION
 YTS = service.YouTubeService()
 
 
-def youtube_search(options):
+def youtube_search(arguments):
     """Performs a YouTube search using Google API V3 and formats list to
     desired output.
 
@@ -32,9 +32,9 @@ def youtube_search(options):
     # Call the search.list method to retrieve results matching the specified
     # query term.
     search_response = youtube.search().list(
-        q=options.q,
+        q=arguments.q,
         part="id,snippet",
-        maxResults=options.max_results
+        maxResults=arguments.max_results
     ).execute()
 
     videos = []
@@ -47,7 +47,7 @@ def youtube_search(options):
             videos.append("%s (%s)" % (search_result["snippet"]["title"],
                                        search_result["id"]["videoId"]))
 
-    #Splitting and formatting the video list:
+    #Splitting and formatting the ''videos'' list:
     video_ids_list = []
     video_names_list = []
 
@@ -119,8 +119,8 @@ def comments_generator(client, video_id):
             try:
                 comment_feed = client.GetYouTubeVideoCommentFeed(
                     next_link.href)
-            except Exception, e:
-                print e
+            except Exception, error_:
+                print error_
                 break
 
 
@@ -130,11 +130,18 @@ def get_video_name(name_list):
     return name_list
 
 
-def get_video_link(id_list):
+def get_video_link(ids_list):
     """Given a list of IDs, returns a list of links."""
     link_list = ['https://www.youtube.com/watch?v=' + str(ids) for ids
-                 in id_list]
+                 in ids_list]
     return link_list
+
+
+def get_embedded_links(ids_list):
+    """Given a list of IDs, returns a list of links with embeeded tag."""
+    embedded_list = ['https://www.youtube.com/embed/' + str(ids) for ids in
+                     ids_list]
+    return embedded_list
 
 
 def get_video_rating(url):
@@ -144,9 +151,10 @@ def get_video_rating(url):
 
 
 def main_func(search_word, nr_of_results):
-    """
-    Function that collects all other functions and performs YouTube search,
-    and returns a dictionary with comments for all the videos found.
+    """Performs a youtube_search and returns a nested list with comments, a
+    list with names, and a list with links of the videos
+
+
     """
 
     argparser = argparse.ArgumentParser(add_help=False)
@@ -157,8 +165,9 @@ def main_func(search_word, nr_of_results):
 
     try:
         video_ids_list, video_names_list = youtube_search(args)
-    except HttpError, e:
-        print "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
+    except HttpError, error_:
+        print "An HTTP error %d occurred:\n%s" % (error_.resp.status,
+                                                  error_.content)
 
     names = get_video_name(video_names_list)
     links = get_video_link(video_ids_list)
