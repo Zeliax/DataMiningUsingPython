@@ -21,8 +21,9 @@ def wordlist_to_dict():
 def sentiment(words, word_dict):
     """Calculaltes the sentiment score for each word from a tokenized sentence'
        ' and stores them in a list."""
-    sent_values = []
-    sent_values.append([word_dict[word] for word in words if word in word_dict])
+    sent_values = [word_dict[word] for word in words if word in word_dict]
+    if not sent_values:
+        sent_values = [6]
     return sent_values
 
 
