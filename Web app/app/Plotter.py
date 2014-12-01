@@ -61,7 +61,7 @@ def pos_neg_counter(sentiment_list):
     return [pos, neg]
 
 
-def list_divider1(nested_list):
+def list_divider(nested_list):
     """Input is mapped based on pos_neg_counter function."""
     return map(pos_neg_counter, nested_list)
 

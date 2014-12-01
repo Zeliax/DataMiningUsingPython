@@ -12,190 +12,157 @@ import argparse
 # tab of
 #   https://cloud.google.com/console
 # Please ensure that you have enabled the YouTube Data API for your project.
-DEVELOPER_KEY = config.DEVELOPER_KEY
-YOUTUBE_API_SERVICE_NAME = config.YOUTUBE_API_SERVICE_NAME
-YOUTUBE_API_VERSION = config.YOUTUBE_API_VERSION
-YTS = service.YouTubeService()
 
 
-def youtube_search(arguments):
-    """Performs a YouTube search using Google API V3 and formats list to
-    desired output.
+class YouTubeConnection(object):
+    """    """
+    def __init__(self, developer_key, youtube_api_version,
+                 youtube_api_service_name):
+        self.yts = service.YouTubeService()
+        self.developer_key = config.DEVELOPER_KEY
+        self.youtube_api_version = config.YOUTUBE_API_VERSION
+        self.youtube_api_service_name = config.YOUTUBE_API_SERVICE_NAME
 
-    Function using YouTube API V3 to fetch videos from YouTube and returning a
-    list of video ids and a list video names by splitting the list returned
-    returned from the api call.
-    """
-    youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
-                    developerKey=DEVELOPER_KEY)
+    def youtube_search(self, arguments):
+        """Performs a YouTube search using Google API V3 and formats list to
+        desired output.
 
-    # Call the search.list method to retrieve results matching the specified
-    # query term.
-    search_response = youtube.search().list(
-        q=arguments.q,
-        part="id,snippet",
-        maxResults=arguments.max_results
-    ).execute()
+        Function using YouTube API V3 to fetch videos from YouTube and
+        returning a list of video ids and a list video names by splitting the
+        list returned returned from the api call.
+        """
+        youtube = build(self.youtube_api_service_name,
+                        self.youtube_api_version,
+                        developerKey=self.developer_key)
 
-    videos = []
+        # Call the search.list method to retrieve results matching the
+        # specified query term.
+        search_response = youtube.search().list(
+            q=arguments.q,
+            part="id,snippet",
+            maxResults=arguments.max_results
+        ).execute()
 
-  # Add each result to the appropriate list, and then display the lists of
-  # matching videos, channels, and playlists
-    for search_result in search_response.get("items", []):
-        # If result matches a video, append it to the video list
-        if search_result["id"]["kind"] == "youtube#video":
-            videos.append("%s (%s)" % (search_result["snippet"]["title"],
-                                       search_result["id"]["videoId"]))
+        videos = []
 
-    #Splitting and formatting the ''videos'' list:
-    video_ids_list = []
-    video_names_list = []
+      # Add each result to the appropriate list, and then display the lists of
+      # matching videos, channels, and playlists
+        for search_result in search_response.get("items", []):
+            # If result matches a video, append it to the video list
+            if search_result["id"]["kind"] == "youtube#video":
+                videos.append("%s (%s)" % (search_result["snippet"]["title"],
+                                           search_result["id"]["videoId"]))
 
-    for video in videos:
-        video_ids_list.append(video.split('(')[-1][:-1])
-        paran_count = video.count("(")
-        #If a paranthesis exists in title get the last occurance of the
-        #paranthesis
-        if paran_count > 1:
-            video = video.split("(")
-            video_name = "(".join(video[:paran_count])
-            video_names_list.append(video_name)
-        else:
-            video_names_list.append(video.split(' (')[:1][-1])
+        #Splitting and formatting the ''videos'' list:
+        video_ids_list = []
+        video_names_list = []
 
-    return video_ids_list, video_names_list
+        for video in videos:
+            video_ids_list.append(video.split('(')[-1][:-1])
+            paran_count = video.count("(")
+            #If a paranthesis exists in title get the last occurance of the
+            #paranthesis
+            if paran_count > 1:
+                video = video.split("(")
+                video_name = "(".join(video[:paran_count])
+                video_names_list.append(video_name)
+            else:
+                video_names_list.append(video.split(' (')[:1][-1])
 
+        return video_ids_list, video_names_list
 
-# def split_video_list(search, result_nr=1):
-#     """Splits internal list into a more desired format.
+    def comments_generator(self, video_id):
+        """Uses gdata api to download comments given a video id."""
+        urlpattern = ('http://gdata.youtube.com/feeds/api/videos/' + video_id +
+                      '/comments?orderby=published&start-index=%d&'
+                      'max-results=25')
+        index = 1
+        url = urlpattern % index
+        comment_feed = self.yts.GetYouTubeVideoCommentFeed(uri=url)
+        while comment_feed is not None:
+            for comment in comment_feed.entry:
+                yield comment
+            next_link = comment_feed.GetNextLink()
+            if next_link is None:
+                comment_feed = None
+            else:
+                try:
+                    comment_feed = self.yts.GetYouTubeVideoCommentFeed(
+                        next_link.href)
+                except Exception, error_:
+                    print error_
+                    break
 
-#     Based on two input parameters, this function uses another function to
-#     to fetch a list of youtube videos and their matching IDs. It also formats
-#     the list and splits it into two, which is returns.
-#     """
-#     argparser = argparse.ArgumentParser(add_help=False)
-#     argparser.add_argument("--q", help="Search term", default=search)
-#     argparser.add_argument("--max-results", help="Max results",
-#                            default=result_nr)
-#     args = argparser.parse_args()
+    def get_video_names(self, names_list):
+        """Given a list of strings, returns a list utf-8 encoded strings."""
+        names_list = [name.encode('utf-8') for name in names_list]
+        return names_list
 
-#     try:
-#         video_list = youtube_search(args)
-#     except HttpError, e:
-#         print "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
+    def get_video_links(self, ids_list):
+        """Given a list of IDs, returns a list of links."""
+        links_list = ['https://www.youtube.com/watch?v=' + str(ids) for ids
+                      in ids_list]
+        return links_list
 
-#     vid_ids_list = []
-#     vid_name_list = []
+    def get_embedded_links(self, ids_list):
+        """Given a list of IDs, returns a list of links with embeeded tag."""
+        embedded_list = ['https://www.youtube.com/embed/' + str(ids) for ids in
+                         ids_list]
+        return embedded_list
 
-#     for v in video_list:
-#         vid_ids_list.append(v.split('(')[-1][:-1])
-#         paran_count = v.count("(")
-#         #If a paranthesis exists in title get the last occurance of the
-#         #paranthesis
-#         if paran_count > 1:
-#             vid = v.split("(")
-#             vid_name = "(".join(vid[:paran_count])
-#             vid_name_list.append(vid_name)
-#         else:
-#             vid_name_list.append(v.split(' (')[:1][-1])
+    def get_video_rating(self, url):
+        """Downloads likes and dislikes to a list based on video url."""
+        video = pafy.new(url)
+        return [video.likes, video.dislikes]
 
-#     return vid_ids_list, vid_name_list
+    def main_func(self, search_word, nr_of_results):
+        """Performs a youtube_search and returns a nested list with comments, a
+        list with names, and a list with links of the videos (optionally: a
+        list with embedded video links).
+        """
+        argparser = argparse.ArgumentParser(add_help=False)
+        argparser.add_argument("--q", help="Search term", default=search_word)
+        argparser.add_argument("--max-results", help="Max results",
+                               default=nr_of_results)
+        args = argparser.parse_args()
 
+        try:
+            video_ids_list, video_names_list = self.youtube_search(args)
+        except HttpError, error_:
+            print "An HTTP error %d occurred:\n%s" % (error_.resp.status,
+                                                      error_.content)
 
-def comments_generator(client, video_id):
-    """Uses gdata api to download comments given a video id."""
-    urlpattern = ('http://gdata.youtube.com/feeds/api/videos/' + video_id +
-                  '/comments?orderby=published&start-index=%d&max-results=25')
-    index = 1
-    url = urlpattern % index
-    comment_feed = client.GetYouTubeVideoCommentFeed(uri=url)
-    while comment_feed is not None:
-        for comment in comment_feed.entry:
-            yield comment
-        next_link = comment_feed.GetNextLink()
-        if next_link is None:
-            comment_feed = None
-        else:
-            try:
-                comment_feed = client.GetYouTubeVideoCommentFeed(
-                    next_link.href)
-            except Exception, error_:
-                print error_
-                break
+        names = self.get_video_names(video_names_list)
+        links = self.get_video_links(video_ids_list)
 
+        comment_list = []
+        for video_id in video_ids_list:
+            comment_list.append([comment.content.text for comment in
+                                 self.comments_generator(video_id)
+                                 if comment.content.text is not None])
 
-def get_video_name(name_list):
-    """Given a list of strings, returns a list utf-8 encoded strings."""
-    name_list = [name.encode('utf-8') for name in name_list]
-    return name_list
-
-
-def get_video_link(ids_list):
-    """Given a list of IDs, returns a list of links."""
-    link_list = ['https://www.youtube.com/watch?v=' + str(ids) for ids
-                 in ids_list]
-    return link_list
-
-
-def get_embedded_links(ids_list):
-    """Given a list of IDs, returns a list of links with embeeded tag."""
-    embedded_list = ['https://www.youtube.com/embed/' + str(ids) for ids in
-                     ids_list]
-    return embedded_list
-
-
-def get_video_rating(url):
-    """Downloads likes and dislikes in a list based on video url."""
-    video = pafy.new(url)
-    return [video.likes, video.dislikes]
-
-
-def main_func(search_word, nr_of_results):
-    """Performs a youtube_search and returns a nested list with comments, a
-    list with names, and a list with links of the videos
-
-
-    """
-
-    argparser = argparse.ArgumentParser(add_help=False)
-    argparser.add_argument("--q", help="Search term", default=search_word)
-    argparser.add_argument("--max-results", help="Max results",
-                           default=nr_of_results)
-    args = argparser.parse_args()
-
-    try:
-        video_ids_list, video_names_list = youtube_search(args)
-    except HttpError, error_:
-        print "An HTTP error %d occurred:\n%s" % (error_.resp.status,
-                                                  error_.content)
-
-    names = get_video_name(video_names_list)
-    links = get_video_link(video_ids_list)
-
-    comment_list = []
-    for video_id in video_ids_list:
-        comment_list.append([comment.content.text for comment in
-                             comments_generator(YTS, video_id)
-                             if comment.content.text is not None])
-
-    return comment_list, names, links
+        return comment_list, names, links
 
 
 def main():
     """Used for manual testing of functions."""
-    searchList = ['dolphin', 'dog']
-    # search_dict = {}
+    #How to run YouTubeConnection now
+    developer_key = config.DEVELOPER_KEY
+    youtube_api_version = config.YOUTUBE_API_VERSION
+    youtube_api_service_name = config.YOUTUBE_API_SERVICE_NAME
+    ytc = YouTubeConnection(developer_key, youtube_api_version,
+                            youtube_api_service_name)
 
+    searchList = ['cocio', 'dog']
     search_word = searchList[0]
     nr_of_results = 1
 
-    url = "https://www.youtube.com/watch?v=OoOHkJYeFDg"
+    commentlist, names, links = ytc.main_func(search_word, nr_of_results)
 
-    get_video_rating(url)
-
-    # Dictionary containing all the videos and their corresponding comments
-    comments_list, names_list, links_list = main_func(
-        search_word, nr_of_results)
+    for name in names:
+        print name
+        for comment in commentlist:
+            print comment
 
 if __name__ == "__main__":
     main()
