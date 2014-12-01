@@ -54,8 +54,18 @@ def hist_graph(interval_list):
     return fig
 
 
+def generate_plot_list(sentiment_list, rating_list):
+    """Given a nested list of sentiments and a nested list of ratings, this
+    this function plots each element on both lists together and returns a list
+    of plots"""
+    plot_list = []
+    for sentiment, rating in zip(sentiment_list, rating_list):
+        plot_list.append(pie_chart(sentiment, rating))
+    return plot_list
+
+
 def pos_neg_counter(sentiment_list):
-    """Method that counts the positive/negative comments in a list."""
+    """Count the positive/negative comments in a list."""
     pos = len([sent for sent in sentiment_list if sent > 6 and sent <= 12])
     neg = len([sent for sent in sentiment_list if sent < 6 and sent >= 0])
     return [pos, neg]
@@ -67,7 +77,7 @@ def list_divider(nested_list):
 
 
 def main():
-    """Manual testing of all internal methods"""
+    """Manual testing of all internal methods."""
     #Testing pie chart
     # scores1 = numpy.ones(50)
     # sent_score1 = [random.randrange(0, 12, 1) for _ in scores1]
