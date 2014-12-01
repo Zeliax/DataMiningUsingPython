@@ -8,12 +8,12 @@ import os
 def wordlist_to_dict():
     """Creates a dictionary from a wordlist"""
     path = os.getcwd()  # Runs from web app folder
-    LIST = codecs.open(path + "\\app\\FINN-wordlist.txt", "r", encoding='utf8')
+    word_list = codecs.open(path + "\\app\\FINN-wordlist.txt", "r", encoding='utf8')
     word_dict = {}
     s_line = []
-    for line in LIST:
+    for line in word_list:
         s_line.append(line.split('\t'))
-    LIST.close()
+    word_list.close()
     for word, sentiment in s_line:
         word_dict[word] = int(sentiment)
     return word_dict
