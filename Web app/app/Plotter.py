@@ -66,14 +66,6 @@ def list_divider1(list_list):
     return map(pos_neg_counter, list_list)
 
 
-def list_divider2(list_list):
-    """Manual mapping of input based on pos_neg_counter function."""
-    new_list = []
-    for a_list in list_list:
-        new_list.append(pos_neg_counter(a_list))
-    return new_list
-
-
 def main():
     """Manual testing of all internal methods"""
     #Testing pie chart
