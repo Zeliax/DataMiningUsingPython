@@ -16,12 +16,6 @@
   	</div>
   	<button class="btn btn-default" type="submit">Search</button>
   </form>
-
-        <div>{{ sentiment }}</div>
-        <div>{{ ratings }}</div> 
-
-    {% if commentlist %}
-      <hr>
       {% with messages = get_flashed_messages() %}
         {% if messages %}
           {% for message in messages %}
@@ -30,15 +24,27 @@
         {% endif %}
       {% endwith %}
       
-      <h2>Videos:</h2>
+      {% if commentlist %}
+      <hr>
+      
+      <h2>Videos and analysis</h2>
+      <div class="container">
+        <div class="row">
+          {% for name, emb, link, plot, hist in zipped %}
+          <div class="col-md-6">
+            <h4>{{ name.decode('utf-8') }}</h4>
+            <embed src="{{ emb }}" width="450" height="300"><br>
+            <a href="{{ link.decode('utf-8') }}">See it on youtube</a>
+          </div>
+          <div class="col-md-6">
+            <h4>Sentiment analysis</h4>
+            {{ plot|safe }}
+            {{ hist|safe }}
+          </div>
+        </div>
+      </div>
 
-      {% for name, link, plot in zipped %}
-      <div>{{ name.decode('utf-8') }}</div>
-      <div><a href="{{ link.decode('utf-8') }}">See the video here</a></div>
-      <div>{{ plot|safe }}</div>
-
-      <br>
-      {% endfor %}
+     {% endfor %}
     {% endif %}
     
     {% if sentiment %}
@@ -52,22 +58,5 @@
           {% endfor %}
         {% endfor %}
  -->
-<!--       {% for plot in plot_list %}
-      <div>{{ plot|safe }}</div>
-      {% endfor %} -->
     {% endif %}
-
-<!--       {% for plot in plots %}
-      <div>{{ plot|safe }}</div>
-      {% endfor %} -->
-
-      <hr>
-      <h2>Pie chart:</h2>
-      <img src="http://localhost:5000/plot.png?sentiment={{sentiment}}" alt="plot" height="485" width="645">
-      <br>
-      
-<!--       <iframe class="plot" src="http://localhost:5000/plot.png"></iframe> -->
-    
-
-
 {% endblock %}

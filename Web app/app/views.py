@@ -35,10 +35,11 @@ def search():
     names = []
     links = []
     zipped = []
+    zip_plots = []
     pos_neg = []
     ratings = []
     plot_list = []
-    # sentiment = [[7.5,6.6],[7.7,2.2]]
+    embedded = []
     word_dict = wordlist_to_dict()
     if form.validate_on_submit():
         nr_of_results = 1
@@ -50,8 +51,8 @@ def search():
         ratings = ytc.get_video_rating(links)
         assert ratings
         pos_neg = list_divider(sentiment)
-        plot_list = generate_plot_list(pos_neg, ratings)
-        zipped = zip(names, links, plot_list)
+        plot_list, hist_plot_list = generate_plot_list(pos_neg, ratings)
+        zipped = zip(names, embedded, links, plot_list, hist_plot_list)
         flash('Search requested for "%s"' %
         (search_word))
         return render_template('search.html',
@@ -61,7 +62,8 @@ def search():
                            zipped=zipped,
                            pos_neg=pos_neg,
                            links=links,
-                           ratings=ratings)
+                           ratings=ratings,
+                           embedded=embedded)
     return render_template('search.html',
                            form=form,
                            sentiment=sentiment,
@@ -69,41 +71,5 @@ def search():
                            zipped=zipped,
                            pos_neg=pos_neg,
                            links=links,
-                           ratings=ratings)
-
-@app.route("/plot.png", methods=['GET', 'POST'])
-def plot():
-    import datetime
-    import StringIO
-    import random
-    from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-    from matplotlib.figure import Figure
-    from matplotlib.dates import DateFormatter
-    import matplotlib.pylab as plt
-    import matplotlib
-
-    # fig=Figure()
-    # ax=fig.add_subplot(111)
-    # x=[]
-    # y=[]
-    # now=datetime.datetime.now()
-    # delta=datetime.timedelta(days=1)
-    # for i in range(10):
-    #     x.append(now)
-    #     now+=delta
-    #     y.append(random.randint(0, 1000))
-    # ax.plot_date(x, y, '-')
-    # ax.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
-    # fig.autofmt_xdate()
-    plot = []
-    sentiment = eval(request.args['sentiment'])
-    ratings = eval(request.args['ratings'])
-    pos_neg = list_divider(sentiment)
-    plot_list = generate_plot_list(pos_neg, ratings)
-    fig = pie_chart(plot)
-    canvas = FigureCanvas(fig)
-    png_output = StringIO.StringIO()
-    canvas.print_png(png_output)
-    response = make_response(png_output.getvalue())
-    response.headers['Content-Type'] = 'image/png'
-    return response
+                           ratings=ratings,
+                           embedded=embedded)

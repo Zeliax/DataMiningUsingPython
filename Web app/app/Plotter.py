@@ -62,10 +62,14 @@ def generate_plot_list(sentiment_list, rating_list):
     Each element in both lists together and returns a list of plots.
     """
     plot_list = []
+    hist_plot_list = []
     for sentiment, rating in zip(sentiment_list, rating_list):
         fig = pie_chart([sentiment, rating])
         plot_list.append(mpld3.fig_to_html(fig))
-    return plot_list
+    for sentiment in sentiment_list:
+        fig = hist_graph([sentiment])
+        hist_plot_list.append(mpld3.fig_to_html(fig))
+    return plot_list, hist_plot_list
 
 
 def pos_neg_counter(sentiment_list):
