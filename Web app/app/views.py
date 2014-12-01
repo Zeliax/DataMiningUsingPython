@@ -1,10 +1,10 @@
 from flask import render_template, flash, redirect, request, make_response, g
 from app import app
 from .forms import SearchForm
-from YouTubeConnection import main_func
+from YouTubeConnection import YouTubeConnection
 from sentimentAnalysis import sentiment_analysis, wordlist_to_dict, sentiment
-from Plotter import list_divider1, pie_chart
-
+from Plotter import list_divider, pie_chart
+import config
 import requests
 
 
@@ -33,12 +33,16 @@ def search():
     zipped = []
     pos_neg = []
     # sentiment = [[7.5,6.6],[7.7,2.2]]
+    developer_key = config.DEVELOPER_KEY
+    youtube_api_version = config.YOUTUBE_API_VERSION
+    youtube_api_service_name = config.YOUTUBE_API_SERVICE_NAME
+    ytc = YouTubeConnection(developer_key, youtube_api_version, youtube_api_service_name)
     word_dict = wordlist_to_dict()
     if form.validate_on_submit():
         nr_of_results = 1
         search_word = request.form['search_word']
         nr_of_results = request.form['nr_of_results']
-        commentlist, names, links = main_func(search_word, nr_of_results)
+        commentlist, names, links = ytc.main_func(search_word, nr_of_results)
         assert commentlist
         sentiment = sentiment_analysis(commentlist, word_dict)
         zipped = zip(names, links)
@@ -84,7 +88,7 @@ def plot():
     plot = []
     sentiment = eval(request.args['sentiment'])
     #sentiment = g.get('sentiment')
-    plot = list_divider2(sentiment)
+    plot = list_divider(sentiment)
     fig = pie_chart(plot)
     canvas = FigureCanvas(fig)
     png_output = StringIO.StringIO()
