@@ -37,18 +37,21 @@ def search():
     zipped = []
     pos_neg = []
     ratings = []
+    plot_list = []
     # sentiment = [[7.5,6.6],[7.7,2.2]]
     word_dict = wordlist_to_dict()
     if form.validate_on_submit():
         nr_of_results = 1
         search_word = request.form['search_word']
         nr_of_results = request.form['nr_of_results']
-        commentlist, names, links = ytc.main_func(search_word, nr_of_results)
+        commentlist, names, links, embedded = ytc.main_func(search_word, nr_of_results)
         assert commentlist
         sentiment = sentiment_analysis(commentlist, word_dict)
         ratings = ytc.get_video_rating(links)
         assert ratings
-        zipped = zip(names, links)
+        pos_neg = list_divider(sentiment)
+        plot_list = generate_plot_list(pos_neg, ratings)
+        zipped = zip(names, links, plot_list)
         flash('Search requested for "%s"' %
         (search_word))
         return render_template('search.html',
