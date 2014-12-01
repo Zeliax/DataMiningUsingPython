@@ -132,6 +132,7 @@ class YouTubeConnection(object):
 
         names = self.get_video_names(video_names_list)
         links = self.get_video_links(video_ids_list)
+        embedded = self.get_embedded_links(video_ids_list)
 
         comment_list = []
         for video_id in video_ids_list:
@@ -139,7 +140,7 @@ class YouTubeConnection(object):
                                  self.comments_generator(video_id)
                                  if comment.content.text is not None])
 
-        return comment_list, names, links
+        return comment_list, names, links, embedded
 
 
 def main():
