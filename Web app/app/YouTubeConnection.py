@@ -1,16 +1,12 @@
 # -*- coding: utf-8 -*-
-"""
-This module uses YouTube API V3 and V2 (gdata) to search YouTube and
-'download' name, link and comments.
-"""
 from apiclient.discovery import build
 from apiclient.errors import HttpError
 # from oauth2client import tools
-import argparse
 from gdata.youtube import service
 
 import config
 import pafy
+import argparse
 
 # Set DEVELOPER_KEY to the API key value from the APIs & auth > Registered apps
 # tab of
@@ -23,9 +19,12 @@ YTS = service.YouTubeService()
 
 
 def youtube_search(options):
-    """
+    """Performs a YouTube search using Google API V3 and formats list to
+    desired output.
+
     Function using YouTube API V3 to fetch videos from YouTube and returning a
-    list of video names including video id
+    list of video ids and a list video names by splitting the list returned
+    returned from the api call.
     """
     youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
                     developerKey=DEVELOPER_KEY)
@@ -41,55 +40,70 @@ def youtube_search(options):
     videos = []
 
   # Add each result to the appropriate list, and then display the lists of
-  # matching videos, channels, an
+  # matching videos, channels, and playlists
     for search_result in search_response.get("items", []):
+        # If result matches a video, append it to the video list
         if search_result["id"]["kind"] == "youtube#video":
             videos.append("%s (%s)" % (search_result["snippet"]["title"],
                                        search_result["id"]["videoId"]))
 
-    return videos
+    #Splitting and formatting the video list:
+    video_ids_list = []
+    video_names_list = []
 
-
-def split_video_list(search, result_nr=1):
-    """
-    Based on two input parameters, this function uses another function to
-    to fetch a list of youtube videos and their matching IDs. It also sorts out
-    the list from
-    """
-    argparser = argparse.ArgumentParser(add_help=False)
-    argparser.add_argument("--q", help="Search term", default=search)
-    argparser.add_argument("--max-results", help="Max results",
-                           default=result_nr)
-    args = argparser.parse_args()
-
-    try:
-        video_list = youtube_search(args)
-    except HttpError, e:
-        print "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
-
-    vid_ids_list = []
-    vid_name_list = []
-
-    for v in video_list:
-        vid_ids_list.append(v.split('(')[-1][:-1])
-        paran_count = v.count("(")
+    for video in videos:
+        video_ids_list.append(video.split('(')[-1][:-1])
+        paran_count = video.count("(")
         #If a paranthesis exists in title get the last occurance of the
         #paranthesis
         if paran_count > 1:
-            vid = v.split("(")
-            vid_name = "(".join(vid[:paran_count])
-            vid_name_list.append(vid_name)
+            video = video.split("(")
+            video_name = "(".join(video[:paran_count])
+            video_names_list.append(video_name)
         else:
-            vid_name_list.append(v.split(' (')[:1][-1])
+            video_names_list.append(video.split(' (')[:1][-1])
 
-    return vid_ids_list, vid_name_list
+    return video_ids_list, video_names_list
+
+
+# def split_video_list(search, result_nr=1):
+#     """Splits internal list into a more desired format.
+
+#     Based on two input parameters, this function uses another function to
+#     to fetch a list of youtube videos and their matching IDs. It also formats
+#     the list and splits it into two, which is returns.
+#     """
+#     argparser = argparse.ArgumentParser(add_help=False)
+#     argparser.add_argument("--q", help="Search term", default=search)
+#     argparser.add_argument("--max-results", help="Max results",
+#                            default=result_nr)
+#     args = argparser.parse_args()
+
+#     try:
+#         video_list = youtube_search(args)
+#     except HttpError, e:
+#         print "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
+
+#     vid_ids_list = []
+#     vid_name_list = []
+
+#     for v in video_list:
+#         vid_ids_list.append(v.split('(')[-1][:-1])
+#         paran_count = v.count("(")
+#         #If a paranthesis exists in title get the last occurance of the
+#         #paranthesis
+#         if paran_count > 1:
+#             vid = v.split("(")
+#             vid_name = "(".join(vid[:paran_count])
+#             vid_name_list.append(vid_name)
+#         else:
+#             vid_name_list.append(v.split(' (')[:1][-1])
+
+#     return vid_ids_list, vid_name_list
 
 
 def comments_generator(client, video_id):
-    """
-    Takes in a video ID and uses gdata API to search YouTube for all comments
-    within the given video with the given ID.
-    """
+    """Uses gdata api to download comments given a video id."""
     urlpattern = ('http://gdata.youtube.com/feeds/api/videos/' + video_id +
                   '/comments?orderby=published&start-index=%d&max-results=25')
     index = 1
@@ -111,33 +125,22 @@ def comments_generator(client, video_id):
 
 
 def get_video_name(name_list):
-    """
-    Function that returns a list with names of the videos (used in the
-    sentinemt analysis)
-    """
+    """Given a list of strings, returns a list utf-8 encoded strings."""
     name_list = [name.encode('utf-8') for name in name_list]
-
     return name_list
 
 
-def get_video_link(link_list):
-    """
-    Function that returns a link to the videos (direct shortcut to go to video)
-    """
-    link_list = ['https://www.youtube.com/watch?v=' + str(link) for link
-                 in link_list]
-
+def get_video_link(id_list):
+    """Given a list of IDs, returns a list of links."""
+    link_list = ['https://www.youtube.com/watch?v=' + str(ids) for ids
+                 in id_list]
     return link_list
 
 
 def get_video_rating(url):
-    """
-    Given a url to video fetches the likes and dislikes for a video using pafy
-    """
+    """Downloads likes and dislikes in a list based on video url."""
     video = pafy.new(url)
-
-    print video.likes
-    return video.likes, video.dislikes
+    return [video.likes, video.dislikes]
 
 
 def main_func(search_word, nr_of_results):
@@ -145,27 +148,34 @@ def main_func(search_word, nr_of_results):
     Function that collects all other functions and performs YouTube search,
     and returns a dictionary with comments for all the videos found.
     """
-    #Move to another function...
-    vid_ids_list, vid_name_list = split_video_list(
-        search_word, nr_of_results)
 
-    names = get_video_name(vid_name_list)
-    links = get_video_link(vid_ids_list)
+    argparser = argparse.ArgumentParser(add_help=False)
+    argparser.add_argument("--q", help="Search term", default=search_word)
+    argparser.add_argument("--max-results", help="Max results",
+                           default=nr_of_results)
+    args = argparser.parse_args()
+
+    try:
+        video_ids_list, video_names_list = youtube_search(args)
+    except HttpError, e:
+        print "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
+
+    names = get_video_name(video_names_list)
+    links = get_video_link(video_ids_list)
 
     comment_list = []
-    for video_id in vid_ids_list:
+    for video_id in video_ids_list:
         comment_list.append([comment.content.text for comment in
                              comments_generator(YTS, video_id)
                              if comment.content.text is not None])
-
-    # vid_id_dict[video_id] = comment_list
 
     return comment_list, names, links
 
 
 def main():
+    """Used for manual testing of functions."""
     searchList = ['dolphin', 'dog']
-    search_dict = {}
+    # search_dict = {}
 
     search_word = searchList[0]
     nr_of_results = 1
@@ -177,25 +187,6 @@ def main():
     # Dictionary containing all the videos and their corresponding comments
     comments_list, names_list, links_list = main_func(
         search_word, nr_of_results)
-
-    # Save comments to a file
-    f = open('testfile.txt', 'w')
-    for comment in comments_list:
-        f.write(comment + '\n')
-    f.close()
-
-    # Used to print all the video names line for line
-    for name in names_list:
-        print name
-
-    # Used to print all the links line for line
-    for link in links_list:
-        print link
-
-    # Used to print the comments "line for line" in comment dict
-    for comments in comments_dict.itervalues():
-        for string in comments:
-            print string
 
 if __name__ == "__main__":
     main()
