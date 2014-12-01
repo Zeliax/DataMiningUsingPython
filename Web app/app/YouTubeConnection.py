@@ -1,17 +1,11 @@
 # -*- coding: utf-8 -*-
 from apiclient.discovery import build
 from apiclient.errors import HttpError
-# from oauth2client import tools
 from gdata.youtube import service
 
 import config
 import pafy
 import argparse
-
-# Set DEVELOPER_KEY to the API key value from the APIs & auth > Registered apps
-# tab of
-#   https://cloud.google.com/console
-# Please ensure that you have enabled the YouTube Data API for your project.
 
 
 class YouTubeConnection(object):
@@ -159,10 +153,10 @@ def main():
 
     commentlist, names, links = ytc.main_func(search_word, nr_of_results)
 
-    for name in names:
-        print name
-        for comment in commentlist:
-            print comment
+    # for name in names:
+    #     print name
+    #     for comment in commentlist:
+    #         print comment
 
 if __name__ == "__main__":
     main()
