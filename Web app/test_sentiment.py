@@ -22,7 +22,6 @@ URL = ["https://www.youtube.com/watch?v=OoOHkJYeFDg"]
 YTS = service.YouTubeService()
 POS_NEG_LIST = [3, 11, 9, 5, 6, 8]
 POS_NEG_LISTS = [[1, 3, 6, 7], [0, 12, 3, 8, 9]]
-RATING_LISTS = [[4, 6, 9, 7], [0, 11, 3, 1, 9]]
 LD = LanguageDetector()
 developer_key = config.DEVELOPER_KEY
 youtube_api_version = config.YOUTUBE_API_VERSION

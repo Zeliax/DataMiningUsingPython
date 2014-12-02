@@ -12,6 +12,7 @@ youtube_api_version = config.YOUTUBE_API_VERSION
 youtube_api_service_name = config.YOUTUBE_API_SERVICE_NAME
 ytc = YouTubeConnection(developer_key, youtube_api_version, youtube_api_service_name)
 
+
 @app.route('/')  # URL-path to homepage
 @app.route('/index')
 def index():
@@ -20,7 +21,7 @@ def index():
     Keyword arguments:
     commentlist -- a list of lists of comments
     """
-    title='Youtube Sentiment Analysis' #setting the title
+    title = 'Youtube Sentiment Analysis'  # setting the title
     paragraph = "Welcome!"
     return render_template('index.html',
                            title=title,
@@ -53,17 +54,16 @@ def search():
         pos_neg = list_divider(sentiment)
         plot_list, hist_plot_list = generate_plot_list(pos_neg, ratings)
         zipped = zip(names, embedded, plot_list, hist_plot_list)
-        flash('Search requested for "%s"' %
-        (search_word))
+        flash('Search requested for "%s"' % (search_word))
         return render_template('search.html',
-                           form=form,
-                           sentiment=sentiment,
-                           commentlist=commentlist,
-                           zipped=zipped,
-                           pos_neg=pos_neg,
-                           links=links,
-                           ratings=ratings,
-                           embedded=embedded)
+                               form=form,
+                               sentiment=sentiment,
+                               commentlist=commentlist,
+                               zipped=zipped,
+                               pos_neg=pos_neg,
+                               links=links,
+                               ratings=ratings,
+                               embedded=embedded)
     return render_template('search.html',
                            form=form,
                            sentiment=sentiment,
