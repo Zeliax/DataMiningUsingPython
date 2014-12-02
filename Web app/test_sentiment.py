@@ -22,6 +22,7 @@ URL = ["https://www.youtube.com/watch?v=OoOHkJYeFDg"]
 YTS = service.YouTubeService()
 POS_NEG_LIST = [3, 11, 9, 5, 6, 8]
 POS_NEG_LISTS = [[1, 3, 6, 7], [0, 12, 3, 8, 9]]
+RATING_LISTS = [[4, 6, 9, 7], [0, 11, 3, 1, 9]]
 LD = LanguageDetector()
 developer_key = config.DEVELOPER_KEY
 youtube_api_version = config.YOUTUBE_API_VERSION
@@ -67,15 +68,16 @@ def test_yt_search():
     argparser1.add_argument("--q", help="Search term", default=SEARCH_WORD1)
     argparser1.add_argument("--max-results", help="Max results",
                             default=NR_OF_RESULTS1)
-    args = argparser1.parse_args()
-    assert YTC.youtube_search(args) > 0  # Testing for parenthesis in name
-
-client = app.test_client()
+    args1 = argparser1.parse_args()
+    assert YTC.youtube_search(args1) > 0  # Testing for parenthesis in name
 
 
 def test_webapp():
+    client = app.test_client()
     frontpage = client.get('/')
     assert frontpage._status == "200 OK"
+    search_page = client.get('/search')
+    assert search_page._status == "200 OK"
 
 
 def test_main_func():
