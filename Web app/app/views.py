@@ -10,7 +10,8 @@ import requests
 developer_key = config.DEVELOPER_KEY
 youtube_api_version = config.YOUTUBE_API_VERSION
 youtube_api_service_name = config.YOUTUBE_API_SERVICE_NAME
-ytc = YouTubeConnection(developer_key, youtube_api_version, youtube_api_service_name)
+ytc = YouTubeConnection(developer_key, youtube_api_version,
+                        youtube_api_service_name)
 
 
 @app.route('/')  # URL-path to homepage
@@ -30,9 +31,11 @@ def index():
 def search():
     """Define data for search.html.
 
-    The form is defined. Data from the form is used to retrieve lists of comments, names,
-    links and embedded through YouTubeConnection. Then it retrieve a sentiment score list from sentiment_analysis. 
-    A list of ratings from get_video_rating and to lists of html strings from generate_plot_list. 
+    The form is defined. Data from the form is used to retrieve lists of
+    comments, names, links and embedded through YouTubeConnection.
+    Then it retrieve a sentiment score list from sentiment_analysis.
+    A list of ratings from get_video_rating and to lists of html strings from
+    generate_plot_list.
 
     All the lists is zipped and send through the template to the search.html.
     """
@@ -52,7 +55,8 @@ def search():
         no_of_results = 1
         search_word = request.form['search_word']
         no_of_results = request.form['no_of_results']
-        commentlist, names, links, embedded = ytc.main_func(search_word, no_of_results)
+        commentlist, names, links, embedded = ytc.main_func(search_word,
+                                                            no_of_results)
         assert commentlist
         sentiment = sentiment_analysis(commentlist, word_dict)
         ratings = ytc.get_video_rating(links)
