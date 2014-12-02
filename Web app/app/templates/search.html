@@ -24,20 +24,19 @@
         {% endif %}
       {% endwith %}
       
-      {% if commentlist %}
+      {% if zipped %}
       <hr>
       
       <h2>Videos and analysis</h2>
       <div class="container">
         <div class="row">
-          {% for name, emb, link, plot, hist in zipped %}
+          {% for name, emb, plot, hist in zipped %}
           <div class="col-md-6">
             <h4>{{ name.decode('utf-8') }}</h4>
             <embed src="{{ emb }}" width="450" height="300"><br>
-            <a href="{{ link.decode('utf-8') }}">See it on youtube</a>
           </div>
           <div class="col-md-6">
-            <h4>Sentiment analysis</h4>
+            <h4>Sentiment analysis:</h4>
             {{ plot|safe }}
             {{ hist|safe }}
           </div>
@@ -46,8 +45,6 @@
 
      {% endfor %}
     {% endif %}
-    
-    {% if sentiment %}
 <!--       <hr>
       <h2>Sentiment Analysis:</h2>
       <strong>Video comments:</strong>
@@ -58,5 +55,4 @@
           {% endfor %}
         {% endfor %}
  -->
-    {% endif %}
 {% endblock %}

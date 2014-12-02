@@ -52,7 +52,7 @@ def search():
         assert ratings
         pos_neg = list_divider(sentiment)
         plot_list, hist_plot_list = generate_plot_list(pos_neg, ratings)
-        zipped = zip(names, embedded, links, plot_list, hist_plot_list)
+        zipped = zip(names, embedded, plot_list, hist_plot_list)
         flash('Search requested for "%s"' %
         (search_word))
         return render_template('search.html',
