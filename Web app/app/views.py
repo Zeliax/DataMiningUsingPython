@@ -16,10 +16,8 @@ ytc = YouTubeConnection(developer_key, youtube_api_version, youtube_api_service_
 @app.route('/')  # URL-path to homepage
 @app.route('/index')
 def index():
-    """Calculates the mean sentiment of each comment.
-
-    Keyword arguments:
-    commentlist -- a list of lists of comments
+    """Define data for index.html.
+    A title and a paragraph is send through the template to the index.html.
     """
     title = 'Youtube Sentiment Analysis'  # setting the title
     paragraph = "Welcome!"
@@ -30,6 +28,14 @@ def index():
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
+    """Define data for search.html.
+
+    The form is defined. Data from the form is used to retrieve lists of comments, names,
+    links and embedded through YouTubeConnection. Then it retrieve a sentiment score list from sentiment_analysis. 
+    A list of ratings from get_video_rating and to lists of html strings from generate_plot_list. 
+
+    All the lists is zipped and send through the template to the search.html.
+    """
     form = SearchForm()
     commentlist = []
     sentiment = []
@@ -43,10 +49,10 @@ def search():
     embedded = []
     word_dict = wordlist_to_dict()
     if form.validate_on_submit():
-        nr_of_results = 1
+        no_of_results = 1
         search_word = request.form['search_word']
-        nr_of_results = request.form['nr_of_results']
-        commentlist, names, links, embedded = ytc.main_func(search_word, nr_of_results)
+        no_of_results = request.form['no_of_results']
+        commentlist, names, links, embedded = ytc.main_func(search_word, no_of_results)
         assert commentlist
         sentiment = sentiment_analysis(commentlist, word_dict)
         ratings = ytc.get_video_rating(links)
@@ -57,19 +63,7 @@ def search():
         flash('Search requested for "%s"' % (search_word))
         return render_template('search.html',
                                form=form,
-                               sentiment=sentiment,
-                               commentlist=commentlist,
-                               zipped=zipped,
-                               pos_neg=pos_neg,
-                               links=links,
-                               ratings=ratings,
-                               embedded=embedded)
+                               zipped=zipped)
     return render_template('search.html',
                            form=form,
-                           sentiment=sentiment,
-                           commentlist=commentlist,
-                           zipped=zipped,
-                           pos_neg=pos_neg,
-                           links=links,
-                           ratings=ratings,
-                           embedded=embedded)
+                           zipped=zipped)

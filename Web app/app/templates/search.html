@@ -4,55 +4,45 @@
 {% block content %}
   <h1>Search for videos</h1>
   <br>
-  
+
   <form id="searchForm" method="POST" class="form">
-  	{{ form.hidden_tag() }}
-  	<div class="form-group">
-  		<label for="search_word">Search word:</label>
-  		<input class="form-control" id="search_word" name="search_word" type="text" placeholder="Please type your search word here...">
-      <br>
-      <label for="nr_of_results">No. of videos:</label>
-      <input class="form-control" id="nr_of_results" name="nr_of_results" type="text" placeholder="Please type a number of videos...">
-  	</div>
-  	<button class="btn btn-default" type="submit">Search</button>
-  </form>
-      {% with messages = get_flashed_messages() %}
-        {% if messages %}
-          {% for message in messages %}
-            {{ message }}
-          {% endfor %}
-        {% endif %}
-      {% endwith %}
-      
-      {% if zipped %}
-      <hr>
-      
-      <h2>Videos and analysis</h2>
-      <div class="container">
-        <div class="row">
-          {% for name, emb, plot, hist in zipped %}
-          <div class="col-md-6">
-            <h4>{{ name.decode('utf-8') }}</h4>
-            <embed src="{{ emb }}" width="450" height="300"><br>
-          </div>
-          <div class="col-md-6">
-            <h4>Sentiment analysis:</h4>
-            {{ plot|safe }}
-            {{ hist|safe }}
-          </div>
-        </div>
+    {{ form.hidden_tag() }}
+      <div class="form-group">
+        <label for="search_word">Search word:</label>
+        <input class="form-control" id="search_word" name="search_word" type="text" placeholder="Please type your search word here...">
+        <br>
+        <label for="no_of_results">No. of videos:</label>
+        <input class="form-control" id="no_of_results" name="no_of_results" type="text" placeholder="Please type a number of videos...">
       </div>
-
-     {% endfor %}
+    <button class="btn btn-default" type="submit">Search</button>
+  </form>
+  
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+        {{ message }}
+      {% endfor %}
     {% endif %}
-<!--       <hr>
-      <h2>Sentiment Analysis:</h2>
-      <strong>Video comments:</strong>
+  {% endwith %}
 
-      {% for list in commentlist %}
-          {% for comment in list %}
-            <p> {{ comment.decode('utf-8') }}</p>
-          {% endfor %}
-        {% endfor %}
- -->
+  {% if zipped %}
+  <hr>
+  <h2>Videos and analysis</h2>
+  <div class="container">
+    <div class="row">
+      {% for name, emb, plot, hist in zipped %}
+      <div class="col-md-6">
+        <h4>{{ name.decode('utf-8') }}</h4>
+        <embed src="{{ emb }}" width="450" height="300"><br>
+      </div>
+      <div class="col-md-6">
+        <h4>Sentiment analysis:</h4>
+        {{ plot|safe }}
+        {{ hist|safe }}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  
+  {% endif %}
 {% endblock %}
