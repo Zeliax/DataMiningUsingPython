@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+"""Used to download different data from YouTube."""
 from apiclient.discovery import build
 from apiclient.errors import HttpError
 from gdata.youtube import service
@@ -10,17 +11,19 @@ import config
 
 
 class YouTubeConnection(object):
-    """    """
+
+    """Module with functions used to interact with YouTube."""
+
     def __init__(self, developer_key, youtube_api_version,
                  youtube_api_service_name):
+        """Initialize the class with config parameters and YouTubeService."""
         self.yts = service.YouTubeService()
         self.developer_key = config.DEVELOPER_KEY
         self.youtube_api_version = config.YOUTUBE_API_VERSION
         self.youtube_api_service_name = config.YOUTUBE_API_SERVICE_NAME
 
     def youtube_search(self, arguments):
-        """Performs a YouTube search using Google API V3 and formats list to
-        desired output.
+        """Perform a YouTube search and formats list to desired output.
 
         Function using YouTube API V3 to fetch videos from YouTube and
         returning a list of video ids and a list video names by splitting the
@@ -67,7 +70,7 @@ class YouTubeConnection(object):
         return video_ids_list, video_names_list
 
     def comments_generator(self, video_id):
-        """Uses gdata api to download comments given a video id."""
+        """Using gdata api to download comments given a video id."""
         urlpattern = ('http://gdata.youtube.com/feeds/api/videos/' + video_id +
                       '/comments?orderby=published&start-index=%d&'
                       'max-results=25')
@@ -106,7 +109,7 @@ class YouTubeConnection(object):
         return embedded_list
 
     def get_video_rating(self, url_list):
-        """Downloads likes and dislikes to a list based on video url."""
+        """Download likes and dislikes to a list based on video url."""
         rating_list = []
         for url in url_list:
             video = pafy.new(url)
@@ -114,9 +117,13 @@ class YouTubeConnection(object):
         return rating_list
 
     def main_func(self, search_word, nr_of_results):
-        """Performs a youtube_search and returns a nested list with comments, a
-        list with names, and a list with links of the videos (optionally: a
-        list with embedded video links).
+        """Perform a youtube_search and returns different lists.
+
+        Return:
+        comment_list -> list with comments
+        names -> list with video names
+        links -> list with links for videos
+        embedded -> list with links for embedded videos
         """
         argparser = argparse.ArgumentParser(add_help=False)
         argparser.add_argument("--q", help="Search term", default=search_word)
