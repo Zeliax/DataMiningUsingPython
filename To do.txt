@@ -1,3 +1,23 @@
+Fejl:
+
+Søgning uden antal videoer
+
+
+
+Mangler:
+Lables på graferne: sentiment og thumbs (Har de skrevet trækker meget ned, hvis det mangler..)
+
+
+Forslag:
+antal likes/dislikes på plottet så man kan se hvor mange det er beregnet over?
+Hvad gør vi med videoer med ingen kommetarer på engelsk? Den giver 100% positiv.. 
+
+
+
+
+
+
+
 To do:
 
 - Check for frequently used words which are not in the word list. 
