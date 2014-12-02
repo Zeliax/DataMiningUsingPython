@@ -3,6 +3,9 @@
 import matplotlib.pylab as plt
 import matplotlib
 import mpld3
+# import numpy
+# import random
+# from time import sleep
 
 
 def pie_chart(fractions_list):
@@ -13,7 +16,7 @@ def pie_chart(fractions_list):
     fractions_list -- list of two components; positive and negative counts.
     """
     labels = 'Positive', 'Negative'
-    colors = ('g', 'r')
+    colors = ('#4CAF5', '#F44336')
     matplotlib.rcParams['text.color'] = 'white'
     matplotlib.rcParams['lines.linewidth'] = 2
     matplotlib.rcParams['patch.edgecolor'] = 'white'
@@ -21,12 +24,21 @@ def pie_chart(fractions_list):
     matplotlib.rcParams['font.size'] = 12
 
     fig = plt.figure()
-    for i in xrange(1, 3):
-        plt.subplot(1, 2, i)
-        plt.pie(fractions_list[i - 1], labels=labels, autopct='%1.1f%%',
-                colors=colors)
 
-    fig.subplots_adjust(hspace=1)
+    ax1 = fig.add_subplot(1, 2, 1)
+    ax1.pie(fractions_list[0], labels=labels, autopct='%1.1f%%',
+            colors=colors)
+    ax1.axis('equal')
+    ax1.set_title('Sentiment Score')
+
+    ax2 = fig.add_subplot(1, 2, 2)
+    ax2.pie(fractions_list[1], labels=labels, autopct='%1.1f%%',
+            colors=colors)
+    ax2.axis('equal')
+    ax2.set_title('Likes/Dislikes')
+
+    fig.tight_layout()
+
     return fig
 
 
@@ -44,9 +56,23 @@ def hist_graph(sentiment_list, bins):
 
     fig = plt.figure()
 
-    n, bins, patches = plt.hist(sentiment_list, bins, normed=1, histtype='bar',
-                                rwidth=0.8, stacked=True)
-    plt.setp(patches, 'facecolor', 'b', 'alpha', 0.75)
+    ax = fig.add_subplot(1, 1, 1)
+    ax.set_title('Histogram displaying Sentiment Bins')
+    ax.set_xlabel('Bins')
+    ax.set_ylabel('Comment Count')
+
+    n, bins, patches = ax.hist(sentiment_list, bins, normed=1, histtype='bar',
+                               rwidth=0.6, stacked=True)
+
+    for bin_, patch in zip(bins, patches):
+        if bin_ >= 7:
+            patch.set_facecolor('#4CAF50')
+            patch.set_label('Positive')
+        elif bin_ <= 6:
+            patch.set_facecolor('#F44336')
+            patch.set_label('Negative')
+
+    fig.tight_layout()
 
     return fig
 
@@ -55,6 +81,7 @@ def generate_pie_plots(sentiment_list, rating_list):
     """Given list of sentiments and a list of ratings, generate pie charts."""
     plot_list = []
     for sentiment, rating in zip(sentiment_list, rating_list):
+        print [sentiment, rating]
         fig = pie_chart([sentiment, rating])
         # plot_list.append(fig)
         plot_list.append(mpld3.fig_to_html(fig))
@@ -86,12 +113,12 @@ def list_divider(nested_list):
 
 def main():
     """Manual testing of all internal methods."""
-    #Testing pie chart
+    # #Testing pie chart
     # scores1 = numpy.ones(50)
     # sent_score1 = [random.randrange(0, 12, 1) for _ in scores1]
     # scores2 = numpy.ones(50)
     # sent_score2 = [random.randrange(0, 12, 1) for _ in scores2]
-    #Testing hist graph
+    # #Testing hist graph
     # scores3 = numpy.ones(2)
     # rat_score1 = [random.randrange(0, 12, 1) for _ in scores3]
     # scores4 = numpy.ones(2)
@@ -100,7 +127,7 @@ def main():
     # lal_list = []
     # lal_list.append(sent_score1)
     # lal_list.append(sent_score2)
-    # sentiment_list = list_divider(lal_list)
+    # # sentiment_list = list_divider(lal_list)
 
     # rating_list = []
     # rating_list.append(rat_score1)
@@ -117,20 +144,6 @@ def main():
     # for chart in pie_chart_list:
     #     chart.show()
     #     sleep(2)
-
-    # generate_plot_list(fractions_list, new_list)
-
-    # chart = pie_chart(fractions_list)
-    # chart.show()
-    # sleep(2)
-
-    #Testing histogram
-    # ones_list = numpy.ones(50)
-    # interval_list = [random.randrange(0, 12, 1) for _ in ones_list]
-
-    # hist = hist_graph(interval_list)
-    # hist.show()
-    # sleep(2)
 
 if __name__ == '__main__':
     main()
