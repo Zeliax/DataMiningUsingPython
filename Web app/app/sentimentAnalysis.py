@@ -8,7 +8,8 @@ import os
 def wordlist_to_dict():
     """Create a dictionary from a wordlist"""
     path = os.getcwd()  # Runs from web app folder
-    word_list = codecs.open(path + "\\app\\FINN-wordlist.txt", "r", encoding='utf8')
+    word_list = codecs.open(path + "\\app\\FINN-wordlist.txt", "r",
+                            encoding='utf8')
 
     def parse_line(line):
         word, sentiment = line.split('\t')
@@ -19,7 +20,7 @@ def wordlist_to_dict():
 
 
 def sentiment(words, word_dict):
-    """Calculaltes the sentiment score for each word from a tokenized sentence'
+    """Calculaltes the sentiment score for each word from a tokenized sentence.
        ' and stores them in a list."""
     sent_values = [word_dict[word] for word in words if word in word_dict]
     if not sent_values:
@@ -40,7 +41,8 @@ def sentiment_analysis(commentlist, wordlist):
     for video in commentlist:
         video_sentiment = []
         for comment in video:
-            if ((ld.get_language(comment) == 'english') and (type(comment) is str)):
+            if ((ld.get_language(comment) == 'english') and (type(comment) is
+                                                             str)):
                 comment = comment.lower()
                 comment = " ".join([word for word in comment.split()
                                     if "http" not in word])

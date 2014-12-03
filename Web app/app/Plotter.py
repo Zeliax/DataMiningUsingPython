@@ -3,9 +3,9 @@
 import matplotlib.pylab as plt
 import matplotlib
 import mpld3
-import numpy
-import random
-from time import sleep
+# import numpy
+# import random
+# from time import sleep
 
 
 def pie_chart(fractions_list):
