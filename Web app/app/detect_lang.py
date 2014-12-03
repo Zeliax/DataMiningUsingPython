@@ -16,7 +16,8 @@ class LanguageDetector(object):
         input_words = wordpunct_tokenize(input_text)
         language_likelihood = {}
         for language, stopword_set in self.lang_stopwords.items():
-            language_likelihood[language] = len(set(input_words) & stopword_set)
+            language_likelihood[language] = len(set(input_words) &
+                                                stopword_set)
         return language_likelihood
 
     def get_language(self, input_text):
