@@ -2,5 +2,7 @@
 *.pyc
 *.pem
 *.out
+lextab.py
+yacctab.py
 Web app\app\views.pyc
 Web app\app\__init__.pyc

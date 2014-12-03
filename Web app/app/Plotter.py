@@ -3,9 +3,9 @@
 import matplotlib.pylab as plt
 import matplotlib
 import mpld3
-# import numpy
-# import random
-# from time import sleep
+import numpy
+import random
+from time import sleep
 
 
 def pie_chart(fractions_list):
@@ -16,8 +16,9 @@ def pie_chart(fractions_list):
     fractions_list -- list of two components; positive and negative counts.
     """
     labels = 'Positive', 'Negative'
-    colors = ('green', 'red')
-    matplotlib.rcParams['text.color'] = 'white'
+    # colors = ['green', 'red']
+    colors = ['#4CAF50', '#F44336']
+    matplotlib.rcParams['text.color'] = '#263238'
     matplotlib.rcParams['lines.linewidth'] = 2
     matplotlib.rcParams['patch.edgecolor'] = 'white'
     matplotlib.rcParams['font.style'] = 'oblique'
@@ -48,7 +49,7 @@ def hist_graph(sentiment_list, bins):
     Keyword arguments:
     interval_list -- list of sentiment scores; scores between 0-12.
     """
-    matplotlib.rcParams['text.color'] = 'white'
+    matplotlib.rcParams['text.color'] = '#263238'
     matplotlib.rcParams['lines.linewidth'] = 2
     matplotlib.rcParams['patch.edgecolor'] = 'white'
     matplotlib.rcParams['font.style'] = 'oblique'
@@ -115,35 +116,35 @@ def main():
     """Manual testing of all internal methods."""
     # #Testing pie chart
     # scores1 = numpy.ones(50)
-    # sent_score1 = [random.randrange(0, 12, 1) for _ in scores1]
+    # sent_score1 = [random.randrange(0, 13, 1) for _ in scores1]
     # scores2 = numpy.ones(50)
-    # sent_score2 = [random.randrange(0, 12, 1) for _ in scores2]
+    # sent_score2 = [random.randrange(0, 13, 1) for _ in scores2]
+
     # #Testing hist graph
     # scores3 = numpy.ones(2)
-    # rat_score1 = [random.randrange(0, 12, 1) for _ in scores3]
+    # rat_score1 = [random.randrange(0, 13, 1) for _ in scores3]
     # scores4 = numpy.ones(2)
-    # rat_score2 = [random.randrange(0, 12, 1) for _ in scores4]
+    # rat_score2 = [random.randrange(0, 13, 1) for _ in scores4]
 
     # lal_list = []
     # lal_list.append(sent_score1)
     # lal_list.append(sent_score2)
-    # # sentiment_list = list_divider(lal_list)
+    # sentiment_list = list_divider(lal_list)
 
     # rating_list = []
     # rating_list.append(rat_score1)
     # rating_list.append(rat_score2)
 
-    # print lal_list
-
-    # hist_plot_list = genereate_hist_plots(lal_list)
-    # for plot in hist_plot_list:
-    #     plot.show()
-    #     sleep(2)
-
     # pie_chart_list = generate_pie_plots(sentiment_list, rating_list)
     # for chart in pie_chart_list:
     #     chart.show()
     #     sleep(2)
+
+    # hist_plot_list = genereate_hist_plots(lal_list)
+    # print lal_list
+    # for plot in hist_plot_list:
+    #     plot.show()
+    #     sleep(5)
 
 if __name__ == '__main__':
     main()

@@ -1,11 +1,10 @@
-from flask import render_template, flash, redirect, request, make_response, g
+from flask import render_template, flash, request
 from app import app
 from .forms import SearchForm
 from YouTubeConnection import YouTubeConnection
-from sentimentAnalysis import sentiment_analysis, wordlist_to_dict, sentiment
-from Plotter import list_divider, pie_chart, generate_pie_plots, genereate_hist_plots
+from sentimentAnalysis import sentiment_analysis, wordlist_to_dict
+from Plotter import list_divider, generate_pie_plots, genereate_hist_plots
 import config
-import requests
 
 developer_key = config.DEVELOPER_KEY
 youtube_api_version = config.YOUTUBE_API_VERSION
@@ -45,7 +44,6 @@ def search():
     names = []
     links = []
     zipped = []
-    zip_plots = []
     pos_neg = []
     ratings = []
     plot_list = []
@@ -61,7 +59,7 @@ def search():
         ratings = ytc.get_video_rating(links)
         pos_neg = list_divider(sentiment)
         plot_list = generate_pie_plots(pos_neg, ratings)
-        hist_plot_list = genereate_hist_plots(pos_neg)
+        hist_plot_list = genereate_hist_plots(sentiment)
         zipped = zip(names, embedded, plot_list, hist_plot_list)
         flash('Search requested for "%s"' % (search_word))
         return render_template('search.html',
