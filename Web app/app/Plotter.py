@@ -15,6 +15,7 @@ def pie_chart(fractions_list):
     Keyword arguments:
     fractions_list -- list of two components; positive and negative counts.
     """
+    labels = ['Positive', 'Negative']
     colors = ['#4CAF50', '#F44336']
     matplotlib.rcParams['text.color'] = '#263238'
     matplotlib.rcParams['lines.linewidth'] = 2
@@ -25,16 +26,24 @@ def pie_chart(fractions_list):
     fig = plt.figure()
 
     ax1 = fig.add_subplot(1, 2, 1)
-    ax1.pie(fractions_list[0], autopct='%1.1f%%', colors=colors)
-    ax1.axis('equal')
-    ax1.set_title('Sentiment Score')
-    ax1.legend()
+    if fractions_list[0] == [0, 0]:
+        ax1.text(0.1, 0.1, 'There is no plot to display', fontsize=12)
+    else:
+        ax1.pie(fractions_list[0], labels=labels, autopct='%1.1f%%',
+                colors=colors)
+        ax1.axis('equal')
+        ax1.set_title('Sentiment Score')
+        ax1.legend()
 
     ax2 = fig.add_subplot(1, 2, 2)
-    ax2.pie(fractions_list[1], autopct='%1.1f%%', colors=colors)
-    ax2.axis('equal')
-    ax2.set_title('Likes/Dislikes')
-    ax2.legend()
+    if fractions_list[1] == [0, 0]:
+        ax2.text(0.1, 0.1, 'There is no plot to display', fontsize=12)
+    else:
+        ax2.pie(fractions_list[1], labels=labels, autopct='%1.1f%%',
+                colors=colors)
+        ax2.axis('equal')
+        ax2.set_title('Likes/Dislikes')
+        ax2.legend()
 
     fig.tight_layout()
 
@@ -60,18 +69,22 @@ def hist_graph(sentiment_list, bins):
     ax.set_xlabel('Bins')
     ax.set_ylabel('Comment Count')
 
-    n, bins, patches = ax.hist(sentiment_list, bins, normed=1, histtype='bar',
-                               rwidth=0.6, stacked=True)
+    if sentiment_list == []:
+        ax.text(0.1, 0.1, 'There is no plot to display', fontsize=12)
+    else:
+        n, bins, patches = ax.hist(sentiment_list, bins, normed=1,
+                                   histtype='bar', rwidth=0.6, stacked=True)
 
-    for bin_, patch in zip(bins, patches):
-        if bin_ >= 7:
-            patch.set_facecolor('#4CAF50')
-            patch.set_label('Positive')
-        elif bin_ <= 6:
-            patch.set_facecolor('#F44336')
-            patch.set_label('Negative')
+        for bin_, patch in zip(bins, patches):
+            if bin_ > 6:
+                patch.set_facecolor('#4CAF50')
+                patch.set_label('Positive')
+            elif bin_ <= 6:
+                patch.set_facecolor('#F44336')
+                patch.set_label('Negative')
 
     fig.tight_layout()
+    plt.xticks(bins)
 
     return fig
 
@@ -101,7 +114,7 @@ def genereate_hist_plots(sentiment_list):
 def pos_neg_counter(sentiment_list):
     """Count the positive/negative comments in a list."""
     pos = len([sent for sent in sentiment_list if sent > 6 and sent <= 12])
-    neg = len([sent for sent in sentiment_list if sent < 6 and sent >= 0])
+    neg = len([sent for sent in sentiment_list if sent <= 6 and sent >= 0])
     return [pos, neg]
 
 

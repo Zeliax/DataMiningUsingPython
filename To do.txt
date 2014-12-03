@@ -10,8 +10,11 @@ Lables på graferne: sentiment og thumbs (Har de skrevet trækker meget ned, hvi
 Forslag:
 antal likes/dislikes på plottet så man kan se hvor mange det er beregnet over?
 Hvad gør vi med videoer med ingen kommetarer på engelsk? Den giver 100% positiv.. 
-Custom farver på pie charts
 
+Charts:
+Vis tal på pie charts
+Vis tal på hist plot
+Fjern baggrund på pie chart legend
 
 
 
