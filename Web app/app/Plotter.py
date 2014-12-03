@@ -16,7 +16,7 @@ def pie_chart(fractions_list):
     fractions_list -- list of two components; positive and negative counts.
     """
     labels = 'Positive', 'Negative'
-    colors = ('#4CAF5', '#F44336')
+    colors = ('green', 'red')
     matplotlib.rcParams['text.color'] = 'white'
     matplotlib.rcParams['lines.linewidth'] = 2
     matplotlib.rcParams['patch.edgecolor'] = 'white'

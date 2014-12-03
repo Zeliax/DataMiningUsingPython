@@ -3,7 +3,7 @@ from app import app
 from .forms import SearchForm
 from YouTubeConnection import YouTubeConnection
 from sentimentAnalysis import sentiment_analysis, wordlist_to_dict, sentiment
-from Plotter import list_divider, pie_chart, generate_plot_list
+from Plotter import list_divider, pie_chart, generate_pie_plots, genereate_hist_plots
 import config
 import requests
 
@@ -57,12 +57,11 @@ def search():
         no_of_results = request.form['no_of_results']
         commentlist, names, links, embedded = ytc.main_func(search_word,
                                                             no_of_results)
-        assert commentlist
         sentiment = sentiment_analysis(commentlist, word_dict)
         ratings = ytc.get_video_rating(links)
-        assert ratings
         pos_neg = list_divider(sentiment)
-        plot_list, hist_plot_list = generate_plot_list(pos_neg, ratings)
+        plot_list = generate_pie_plots(pos_neg, ratings)
+        hist_plot_list = genereate_hist_plots(pos_neg)
         zipped = zip(names, embedded, plot_list, hist_plot_list)
         flash('Search requested for "%s"' % (search_word))
         return render_template('search.html',
