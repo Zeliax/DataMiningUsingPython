@@ -15,8 +15,6 @@ def pie_chart(fractions_list):
     Keyword arguments:
     fractions_list -- list of two components; positive and negative counts.
     """
-    labels = 'Positive', 'Negative'
-    # colors = ['green', 'red']
     colors = ['#4CAF50', '#F44336']
     matplotlib.rcParams['text.color'] = '#263238'
     matplotlib.rcParams['lines.linewidth'] = 2
@@ -27,16 +25,16 @@ def pie_chart(fractions_list):
     fig = plt.figure()
 
     ax1 = fig.add_subplot(1, 2, 1)
-    ax1.pie(fractions_list[0], labels=labels, autopct='%1.1f%%',
-            colors=colors)
+    ax1.pie(fractions_list[0], autopct='%1.1f%%', colors=colors)
     ax1.axis('equal')
     ax1.set_title('Sentiment Score')
+    ax1.legend()
 
     ax2 = fig.add_subplot(1, 2, 2)
-    ax2.pie(fractions_list[1], labels=labels, autopct='%1.1f%%',
-            colors=colors)
+    ax2.pie(fractions_list[1], autopct='%1.1f%%', colors=colors)
     ax2.axis('equal')
     ax2.set_title('Likes/Dislikes')
+    ax2.legend()
 
     fig.tight_layout()
 
