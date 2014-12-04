@@ -57,10 +57,10 @@ def search():
         no_of_results = request.form['no_of_results']
         commentlist, names, links, embedded = ytc.main_func(search_word,
                                                             no_of_results)
-        sentiment = sentiment_analysis(commentlist, word_dict)
+        sentiment, unknown_list = sentiment_analysis(commentlist, word_dict)
         ratings = ytc.get_video_rating(links)
-        pos_neg = list_divider(sentiment)
-        plot_list = generate_pie_plots(pos_neg, ratings)
+        pos_neg, unknown = list_divider(sentiment, unknown_list)
+        plot_list = generate_pie_plots(pos_neg, ratings, unknown)
         bins = range(1, 13)
         hist_plot_list = genereate_hist_plots(sentiment, bins)
         zipped = zip(names, embedded, plot_list, hist_plot_list)
