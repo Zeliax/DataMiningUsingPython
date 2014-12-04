@@ -13,7 +13,7 @@ class LanguageDetector(object):
                                for language in stopwords._fileids}
 
     def get_language_likelihood(self, input_text):
-        """Find the langiage likelihood for a string.
+        """Find the language likelihood for a string.
 
         Return a dictionary of languages and their likelihood of being the
         language of the comment.
