@@ -3,9 +3,6 @@
 import matplotlib.pylab as plt
 import matplotlib
 import mpld3
-# import numpy
-# import random
-# from time import sleep
 
 
 def pie_chart(sentiment_list, rating_list):
@@ -17,12 +14,12 @@ def pie_chart(sentiment_list, rating_list):
     """
 
     #Calculate differences in sentiment and likes/dislikes
-    sent_pos_amount = sentiment_list[0]
-    sent_neg_amount = sentiment_list[2]
-    rate_pos_amount = rating_list[0]
-    rate_neg_amount = rating_list[1]
+    # sent_pos_amount = sentiment_list[0]
+    # sent_neg_amount = sentiment_list[2]
+    # rate_pos_amount = rating_list[0]
+    # rate_neg_amount = rating_list[1]
 
-    sent_labels = ['Positive', 'Neutral', 'Negative']
+    sent_labels = ['Positive', 'Unknown', 'Negative']
     sent_colors = ['#4CAF50', '#FFC107', '#F44336']
     rate_labels = ['Positive', 'Negative']
     rate_colors = ['#4CAF50', '#F44336']
@@ -32,7 +29,7 @@ def pie_chart(sentiment_list, rating_list):
     matplotlib.rcParams['font.style'] = 'oblique'
     matplotlib.rcParams['font.size'] = 12
 
-    fig = plt.figure()
+    fig = plt.figure(figsize=[3, 4])
 
     ax1 = fig.add_subplot(1, 2, 1)
     if sentiment_list == [0, 0, 0]:
@@ -104,7 +101,7 @@ def hist_graph(sentiment_list, bins):
             if bin_ >= 8:
                 patch.set_facecolor('#4CAF50')
                 patch.set_label('Positive')
-            elif bin_ >= 6 and bin_ < 8:
+            elif bin_ >= 6 and bin_ < 7:
                 patch.set_facecolor('#FFC107')
                 patch.set_label('Neutral')
             elif bin_ < 6:
@@ -122,7 +119,6 @@ def generate_pie_plots(sentiment_list, rating_list):
     plot_list = []
     for sentiment, rating in zip(sentiment_list, rating_list):
         fig = pie_chart(sentiment, rating)
-        # plot_list.append(fig)
         plot_list.append(mpld3.fig_to_html(fig))
     return plot_list
 
@@ -132,7 +128,6 @@ def genereate_hist_plots(sentiment_list, bins):
     plot_list = []
     for sentiment in sentiment_list:
         fig = hist_graph(sentiment, bins)
-        # plot_list.append(fig)
         plot_list.append(mpld3.fig_to_html(fig))
     return plot_list
 
@@ -140,7 +135,7 @@ def genereate_hist_plots(sentiment_list, bins):
 def pos_neu_neg_counter(sentiment_list):
     """Count the positive/negative comments in a list."""
     pos = len([sent for sent in sentiment_list if sent >= 8])
-    neu = len([sent for sent in sentiment_list if sent >= 6 and sent < 8])
+    neu = len([sent for sent in sentiment_list if sent >= 6 and sent < 7])
     neg = len([sent for sent in sentiment_list if sent < 6])
     return [pos, neu, neg]
 
@@ -148,40 +143,3 @@ def pos_neu_neg_counter(sentiment_list):
 def list_divider(nested_list):
     """Input mapped based on pos_neg_counter function."""
     return map(pos_neu_neg_counter, nested_list)
-
-
-def main():
-    """Manual testing of all internal methods."""
-    # #Testing pie chart
-    # scores1 = numpy.ones(50)
-    # sent_score1 = [random.randrange(0, 13, 1) for _ in scores1]
-    # scores2 = numpy.ones(50)
-    # sent_score2 = [random.randrange(0, 13, 1) for _ in scores2]
-
-    # #Testing hist graph
-    # scores3 = numpy.ones(2)
-    # rat_score1 = [random.randrange(0, 13, 1) for _ in scores3]
-    # scores4 = numpy.ones(2)
-    # rat_score2 = [random.randrange(0, 13, 1) for _ in scores4]
-
-    # lal_list = []
-    # lal_list.append(sent_score1)
-    # lal_list.append(sent_score2)
-    # sentiment_list = list_divider(lal_list)
-
-    # rating_list = []
-    # rating_list.append(rat_score1)
-    # rating_list.append(rat_score2)
-
-    # pie_chart_list = generate_pie_plots(sentiment_list, rating_list)
-    # for chart in pie_chart_list:
-    #     chart.show()
-    #     sleep(2)
-
-    # hist_plot_list = genereate_hist_plots(lal_list)
-    # for plot in hist_plot_list:
-    #     plot.show()
-    #     sleep(5)
-
-if __name__ == '__main__':
-    main()
