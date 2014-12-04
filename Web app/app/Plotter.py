@@ -15,6 +15,13 @@ def pie_chart(sentiment_list, rating_list):
     Keyword arguments:
     fractions_list -- list of two components; positive and negative counts.
     """
+
+    #Calculate differences in sentiment and likes/dislikes
+    sent_pos_amount = sentiment_list[0]
+    sent_neg_amount = sentiment_list[2]
+    rate_pos_amount = rating_list[0]
+    rate_neg_amount = rating_list[1]
+
     sent_labels = ['Positive', 'Neutral', 'Negative']
     sent_colors = ['#4CAF50', '#FFC107', '#F44336']
     rate_labels = ['Positive', 'Negative']

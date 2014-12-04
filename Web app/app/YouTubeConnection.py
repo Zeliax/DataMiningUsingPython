@@ -148,29 +148,3 @@ class YouTubeConnection(object):
                                  if comment.content.text is not None])
 
         return comment_list, names, links, embedded
-
-
-def main():
-    """Used for manual testing of functions."""
-    #How to run YouTubeConnection now
-    developer_key = config.DEVELOPER_KEY
-    youtube_api_version = config.YOUTUBE_API_VERSION
-    youtube_api_service_name = config.YOUTUBE_API_SERVICE_NAME
-    ytc = YouTubeConnection(developer_key, youtube_api_version,
-                            youtube_api_service_name)
-
-    searchList = ['cocio', 'dog']
-    search_word = searchList[0]
-    nr_of_results = 1
-
-    commentlist, names, links = ytc.main_func(search_word, nr_of_results)
-
-    print ytc.get_video_rating(links)
-
-    # for name in names:
-    #     print name
-    #     for comment in commentlist:
-    #         print comment
-
-if __name__ == "__main__":
-    main()
