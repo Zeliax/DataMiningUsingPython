@@ -30,7 +30,7 @@ def pie_chart(sentiment_list, rating_list, unknown_nr):
 
     fig = plt.figure(figsize=[6, 6])
 
-    nr_of_unknown_string = unknown_nr + 'unknown comments'
+    nr_of_unknown_string = str(unknown_nr) + 'unknown comments'
 
     ax1 = fig.add_subplot(1, 2, 1)
     if sentiment_list == [0, 0, 0]:
