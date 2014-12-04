@@ -53,7 +53,7 @@ def sentiment_analysis(commentlist, wordlist):
                                     if "http" not in word])
                 words = tokenizer.tokenize(comment)
                 sentiment_score = sentiment(words, wordlist)
-                if sentiment == -1:
+                if sentiment_score == -1:
                     neutral.append(sentiment_score)
                 else:
                 # video_sentiment is a list of sentiments for each video.
