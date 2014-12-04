@@ -12,7 +12,7 @@ def dict_translator(filename):
 
     dict_file = open(filename, 'w')
     for output in outputs:
-        output[1] = int(output[1]) + 5
+        output[1] = int(output[1]) - 5
         dict_file.write(output[0] + '\t' + str(output[1]) + '\n')
     dict_file.close()
 
