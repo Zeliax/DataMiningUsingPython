@@ -29,11 +29,13 @@ def pie_chart(sentiment_list, rating_list):
     matplotlib.rcParams['font.style'] = 'oblique'
     matplotlib.rcParams['font.size'] = 12
 
-    fig = plt.figure(figsize=[3, 4])
+    fig = plt.figure(figsize=[6, 6])
 
     ax1 = fig.add_subplot(1, 2, 1)
     if sentiment_list == [0, 0, 0]:
-        ax1.text(0.1, 0.5, 'There is no plot to display', fontsize=20,
+        ax1.text(0.1, 0.5,
+                 'There is no plot to display',
+                 fontsize=18,
                  color='#263238')
     else:
         _, texts, _ = ax1.pie(sentiment_list,
@@ -50,7 +52,9 @@ def pie_chart(sentiment_list, rating_list):
 
     ax2 = fig.add_subplot(1, 2, 2)
     if rating_list == [0, 0, 0]:
-        ax2.text(0.1, 0.5, 'There is no plot to display', fontsize=20,
+        ax2.text(0.1, 0.5,
+                 'There is no plot to display',
+                 fontsize=20,
                  color='#263238')
     else:
         _, texts, _ = ax2.pie(rating_list,
@@ -81,24 +85,30 @@ def hist_graph(sentiment_list, bins):
     matplotlib.rcParams['font.style'] = 'oblique'
     matplotlib.rcParams['font.size'] = 12
 
-    fig = plt.figure()
+    fig = plt.figure(figsize=[6, 6])
 
-    ax = fig.add_subplot(1, 1, 1)
-    ax.set_title('Histogram displaying Sentiment Bins')
-    ax.set_xlabel('Bins')
-    ax.set_ylabel('Comment Count')
-    ax.set_xticks(bins[:-1])
+    subfig = fig.add_subplot(1, 1, 1)
+    subfig.set_title('Histogram displaying Sentiment Bins')
+    subfig.set_xlabel('Bins')
+    subfig.set_ylabel('Comment Count')
+    subfig.set_xticks(bins[:-1])
 
     if sentiment_list == []:
-        ax.text(3, 0.5, 'There is no plot to display', fontsize=25,
-                color='#263238')
+        subfig.text(3, 0.5,
+                    'There is no plot to display',
+                    fontsize=20,
+                    color='#263238')
     else:
-        n, bins, patches = ax.hist(sentiment_list, bins=bins, normed=1,
-                                   histtype='bar', rwidth=0.6, stacked=True,
-                                   align='left')
+        _, bins, patches = subfig.hist(sentiment_list,
+                                       bins=bins,
+                                       normed=1,
+                                       histtype='bar',
+                                       rwidth=0.6,
+                                       stacked=True,
+                                       align='left')
 
         for bin_, patch in zip(bins, patches):
-            if bin_ >= 8:
+            if bin_ >= 7:
                 patch.set_facecolor('#4CAF50')
                 patch.set_label('Positive')
             elif bin_ >= 6 and bin_ < 7:
