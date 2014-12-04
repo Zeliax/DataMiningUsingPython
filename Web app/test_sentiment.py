@@ -21,6 +21,7 @@ ID = '-EBSfd3YlKQ'
 URL = ["https://www.youtube.com/watch?v=OoOHkJYeFDg"]
 YTS = service.YouTubeService()
 POS_NEG_LIST = [3, 11, 9, 5, 6, 8]
+UNKNOWN_LIST = [-1, -1, -1, -1, -1]
 POS_NEG_LISTS = [[1, 3, 6, 7], [0, 12, 3, 8, 9]]
 LD = LanguageDetector()
 developer_key = config.DEVELOPER_KEY
@@ -88,27 +89,27 @@ def test_rating():
 
 
 def test_pos_neg_counter():
-    assert pos_neg_counter(POS_NEG_LIST) == [3, 2]
+    assert pos_neg_counter(POS_NEG_LIST) == [4, 2]
 
 
 def test_list_divider():
-    assert list_divider(POS_NEG_LISTS) == [[1, 2], [3, 2]]
+    assert list_divider(POS_NEG_LISTS, UNKNOWN_LIST) == ([[2, 2], [3, 2]], 5)
 
 
 def test_sentiment_value():
-    assert sentiment(TOKENIZED_WORDS, WORDDICT) == [4]
-    assert sentiment(EMPTY_LIST, WORDDICT) == [6]
-    assert sentiment(['is'], WORDDICT) == [6]
+    assert sentiment(TOKENIZED_WORDS, WORDDICT) == [3]
+    assert sentiment(EMPTY_LIST, WORDDICT) == [-1]
+    assert sentiment(['is'], WORDDICT) == [-1]
 
 
 def test_sentiment_analysis():
-    assert sentiment_analysis(COMMENTSLIST, WORDDICT) == [[8.5]]
-    assert sentiment_analysis(EMPTY_LIST_LIST, WORDDICT) == [[]]
+    assert sentiment_analysis(COMMENTSLIST, WORDDICT) == ([[7.5]], [])
+    assert sentiment_analysis(EMPTY_LIST_LIST, WORDDICT) == ([[]], [])
 
 
 def test_worddict():
     assert type(wordlist_to_dict()) == dict
-    assert WORDDICT['happy'] == 9
+    assert WORDDICT['happy'] == 8
 
 
 def test_language_detector():
