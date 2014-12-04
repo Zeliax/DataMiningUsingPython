@@ -28,7 +28,7 @@ def sentiment(words, word_dict):
     """
     sent_values = [word_dict[word] for word in words if word in word_dict]
     if not sent_values:
-        sent_values = [6]
+        sent_values = [-1]
     return sent_values
 
 
@@ -41,6 +41,7 @@ def sentiment_analysis(commentlist, wordlist):
     #total_sentiment = 0
     tokenizer = RegexpTokenizer(r'[a-z]+')
     all_sentiment = []
+    neutral = []
     ld = LanguageDetector()
     for video in commentlist:
         video_sentiment = []
@@ -51,8 +52,12 @@ def sentiment_analysis(commentlist, wordlist):
                 comment = " ".join([word for word in comment.split()
                                     if "http" not in word])
                 words = tokenizer.tokenize(comment)
+                sentiment_score = sentiment(words, wordlist)
+                if sentiment == -1:
+                    neutral.append(sentiment_score)
+                else:
                 # video_sentiment is a list of sentiments for each video.
-                video_sentiment.append(np.mean(sentiment(words, wordlist)))
+                    video_sentiment.append(np.mean(sentiment_score))
         # all_sentiment is a list of sentiment scores for all the videos.
         all_sentiment.append(video_sentiment)
-    return all_sentiment
+    return all_sentiment, neutral
