@@ -64,8 +64,9 @@ def search():
                                                     unknown_list)
         pie_plot_list = generate_pie_plots(pos_neg_count, ratings,
                                            unknown_count)
-        bins = range(1, 13)
-        hist_plot_list = genereate_hist_plots(sentiment_list, bins)
+        bins = range(0, 13)
+        hist_plot_list = genereate_hist_plots(sentiment_list, bins,
+                                              unknown_list)
         zipped = zip(names, embedded, pie_plot_list, hist_plot_list)
         flash('Search requested for "%s"' % (search_word))
         return render_template('search.html',

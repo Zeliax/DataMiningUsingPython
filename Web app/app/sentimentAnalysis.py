@@ -62,4 +62,4 @@ def sentiment_analysis(commentlist, wordlist):
         # all_sentiment is a list of sentiment scores for all the videos.
         all_unknown.append(neutral)
         all_sentiment.append(video_sentiment)
-    return all_sentiment, neutral
+    return all_sentiment, all_unknown

@@ -14,10 +14,12 @@ def pie_chart(sentiment_list, rating_list, unknown_nr):
     """
 
     #Calculate differences in sentiment and likes/dislikes
-    # sent_pos_amount = sentiment_list[0]
-    # sent_neg_amount = sentiment_list[2]
-    # rate_pos_amount = rating_list[0]
-    # rate_neg_amount = rating_list[1]
+    sent_pos_amount = sentiment_list[0]
+    sent_neg_amount = sentiment_list[1]
+    total_sent = sent_neg_amount + sent_pos_amount + unknown_nr
+    rate_pos_amount = rating_list[0]
+    rate_neg_amount = rating_list[1]
+    total_rate = rate_neg_amount + rate_pos_amount
 
     labels = ['Positive', 'Negative']
     colors = ['#4CAF50', '#F44336']
@@ -26,19 +28,19 @@ def pie_chart(sentiment_list, rating_list, unknown_nr):
     matplotlib.rcParams['lines.linewidth'] = 2
     matplotlib.rcParams['patch.edgecolor'] = 'white'
     matplotlib.rcParams['font.style'] = 'oblique'
-    matplotlib.rcParams['font.size'] = 12
+    matplotlib.rcParams['font.size'] = 13
 
     fig = plt.figure(figsize=[6, 6])
 
-    nr_of_unknown_string = str(unknown_nr) + 'unknown comments'
-
     ax1 = fig.add_subplot(1, 2, 1)
-    if sentiment_list == [0, 0, 0]:
+    if sentiment_list == [0, 0]:
         ax1.text(0.1, 0.5,
                  'There is no plot to display',
                  fontsize=18,
                  color='#263238')
     else:
+        nr_of_unknown_string = str(unknown_nr) + ' unknown comments'
+        total_sent_string = str(total_sent) + ' total comments'
         _, texts, _ = ax1.pie(sentiment_list,
                               labels=labels,
                               autopct='%1.1f%%',
@@ -49,13 +51,17 @@ def pie_chart(sentiment_list, rating_list, unknown_nr):
         ax1.set_title('Sentiment Score')
         ax1.set_axis_off()
         ax1.legend()
-        ax1.text(0.06, 0.06,
+        ax1.text(-0.8, -1.8,
                  nr_of_unknown_string,
-                 fontsize=12,
+                 fontsize=14,
+                 color='#263238')
+        ax1.text(-0.8, -2.0,
+                 total_sent_string,
+                 fontsize=14,
                  color='#263238')
 
     ax2 = fig.add_subplot(1, 2, 2)
-    if rating_list == [0, 0, 0]:
+    if rating_list == [0, 0]:
         ax2.text(0.1, 0.5,
                  'There is no plot to display',
                  fontsize=20,
@@ -65,29 +71,37 @@ def pie_chart(sentiment_list, rating_list, unknown_nr):
                               labels=labels,
                               autopct='%1.1f%%',
                               colors=colors)
+        total_rate_string = str(total_rate) + ' total ratings'
         ax2.axis('equal')
         texts[0].set_fontsize(0)
         texts[1].set_fontsize(0)
         ax2.set_title('Likes/Dislikes')
         ax2.set_axis_off()
         ax2.legend()
+        ax2.text(-0.8, -2.0,
+                 total_rate_string,
+                 fontsize=14,
+                 color='#263238')
 
     fig.tight_layout()
 
     return fig
 
 
-def hist_graph(sentiment_list, bins):
+def hist_graph(sentiment_list, bins, unknown_nr):
     """Method for plotting a historgraph of input.
 
     Keyword arguments:
     interval_list -- list of sentiment scores; scores between 0-12.
     """
+    unknown_list = [(number + 12) for number in unknown_nr]
+    sentiment_list.extend(unknown_list)
+
     matplotlib.rcParams['text.color'] = '#263238'
     matplotlib.rcParams['lines.linewidth'] = 2
     matplotlib.rcParams['patch.edgecolor'] = 'white'
     matplotlib.rcParams['font.style'] = 'oblique'
-    matplotlib.rcParams['font.size'] = 12
+    matplotlib.rcParams['font.size'] = 13
 
     fig = plt.figure(figsize=[6, 6])
 
@@ -112,36 +126,39 @@ def hist_graph(sentiment_list, bins):
                                        align='left')
 
         for bin_, patch in zip(bins, patches):
-            if bin_ >= 7:
+            if bin_ > 5 and bin_ < 11:
                 patch.set_facecolor('#4CAF50')
                 patch.set_label('Positive')
-            elif bin_ >= 6 and bin_ < 7:
-                patch.set_facecolor('#FFC107')
-                patch.set_label('Neutral')
-            elif bin_ < 6:
+            elif bin_ < 5:
                 patch.set_facecolor('#F44336')
                 patch.set_label('Negative')
+            elif bin_ >= 5 and bin_ < 6:
+                patch.set_facecolor('#FFC107')
+                patch.set_label('Neutral')
+            elif bin_ == 11:
+                patch.set_facecolor('#BDBDBD')
+                patch.set_label('Unknown')
 
     fig.tight_layout()
-    plt.xticks(bins[:-1])
 
     return fig
 
 
-def generate_pie_plots(sentiment_list, rating_list, unknown_nr):
+def generate_pie_plots(sentiment_list, rating_list, unknown_list):
     """Given list of sentiments and a list of ratings, generate pie charts."""
     plot_list = []
-    for sentiment, rating in zip(sentiment_list, rating_list):
-        fig = pie_chart(sentiment, rating, unknown_nr)
+    for sentiment, rating, unknown in zip(sentiment_list, rating_list,
+                                          unknown_list):
+        fig = pie_chart(sentiment, rating, unknown)
         plot_list.append(mpld3.fig_to_html(fig))
     return plot_list
 
 
-def genereate_hist_plots(sentiment_list, bins):
+def genereate_hist_plots(sentiment_list, bins, unknown_list):
     """Given a sentiment list, generate plots."""
     plot_list = []
-    for sentiment in sentiment_list:
-        fig = hist_graph(sentiment, bins)
+    for sentiment, unknown in zip(sentiment_list, unknown_list):
+        fig = hist_graph(sentiment, bins, unknown)
         plot_list.append(mpld3.fig_to_html(fig))
     return plot_list
 
@@ -162,5 +179,5 @@ def pos_neg_counter(sentiment_list):
 def list_divider(nested_list, unknown_list):
     """Input mapped based on pos_neg_counter function."""
     pos_neg_count = map(pos_neg_counter, nested_list)
-    unknown_nr = unknown_list_counter(unknown_list)
-    return pos_neg_count, unknown_nr
+    unknown_count = map(unknown_list_counter, nested_list)
+    return pos_neg_count, unknown_count
