@@ -136,7 +136,7 @@ def hist_graph(sentiment_list, bins, unknown_nr):
                 patch.set_facecolor('#FFC107')
                 patch.set_label('Neutral')
             elif bin_ == 11:
-                patch.set_facecolor('#BDBDBD')
+                patch.set_facecolor('#9E9E9E')
                 patch.set_label('Unknown')
 
     fig.tight_layout()
