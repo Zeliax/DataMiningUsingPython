@@ -16,6 +16,7 @@ EMPTY_LIST = []
 COMMENTSLIST = [['Lol I actually thought that was pretty good cause at first I'
                  ' thought it would just be legit cheesy haha']]
 EMPTY_LIST_LIST = [[]]
+NO_WORDS = ['this is test']
 ID_LIST = ['12g34h5T', 'sg09G876', '5A67sD89x']
 ID = '-EBSfd3YlKQ'
 URL = ["https://www.youtube.com/watch?v=OoOHkJYeFDg"]
@@ -105,6 +106,7 @@ def test_sentiment_value():
 def test_sentiment_analysis():
     assert sentiment_analysis(COMMENTSLIST, WORDDICT) == ([[7.5]], [])
     assert sentiment_analysis(EMPTY_LIST_LIST, WORDDICT) == ([[]], [])
+    #assert sentiment_analysis(NO_WORDS, WORDDICT) == ([[]], [-1])
 
 
 def test_worddict():
