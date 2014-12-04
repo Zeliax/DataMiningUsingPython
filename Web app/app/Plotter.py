@@ -154,13 +154,15 @@ def unknown_list_counter(unknown_list):
 
 def pos_neg_counter(sentiment_list):
     """Count the positive/negative comments in a list."""
-    positive = len([sent for sent in sentiment_list if sent > 6])
-    negative = len([sent for sent in sentiment_list if sent <= 6])
+    positive = len([sent for sent in sentiment_list if sent > 5])
+    negative = len([sent for sent in sentiment_list if sent <= 5])
     return [positive, negative]
 
 
 def list_divider(nested_list, unknown_list):
     """Input mapped based on pos_neg_counter function."""
+    print 'Nested list = ', nested_list
+    print 'Uknown list = ', unknown_list
     pos_neg_count = map(pos_neg_counter, nested_list)
     unknown_nr = unknown_list_counter(unknown_list)
     return pos_neg_count, unknown_nr
