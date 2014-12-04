@@ -154,8 +154,8 @@ def unknown_list_counter(unknown_list):
 
 def pos_neg_counter(sentiment_list):
     """Count the positive/negative comments in a list."""
-    positive = len([sent for sent in sentiment_list if sent > 6])
-    negative = len([sent for sent in sentiment_list if sent <= 6])
+    positive = len([sent for sent in sentiment_list if sent > 5])
+    negative = len([sent for sent in sentiment_list if sent <= 5])
     return [positive, negative]
 
 
