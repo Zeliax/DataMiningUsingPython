@@ -2,7 +2,7 @@
 """ Testing the functions in this final program."""
 from app.YouTubeConnection import YouTubeConnection
 from app.sentimentAnalysis import wordlist_to_dict, sentiment, sentiment_analysis
-from app.Plotter import pos_neg_counter, list_divider
+from app.Plotter import pos_neg_counter, unknown_list_counter, list_divider, generate_pie_plots, genereate_hist_plots
 from app.detect_lang import LanguageDetector
 from gdata.youtube import service
 from app import config
@@ -16,7 +16,7 @@ EMPTY_LIST = []
 COMMENTSLIST = [['Lol I actually thought that was pretty good cause at first I'
                  ' thought it would just be legit cheesy haha']]
 EMPTY_LIST_LIST = [[]]
-NO_WORDS = ['this is test']
+NO_WORDS = [['this is test']]
 ID_LIST = ['12g34h5T', 'sg09G876', '5A67sD89x']
 ID = '-EBSfd3YlKQ'
 URL = ["https://www.youtube.com/watch?v=OoOHkJYeFDg"]
@@ -89,24 +89,35 @@ def test_rating():
     assert YTC.get_video_rating(URL) >= [4579, 509]
 
 
-def test_pos_neg_counter():
+def test_generate_pie_plots():
+    assert len(generate_pie_plots([[400, 100]], [[345, 59]], UNKNOWN_LIST)) > 0
+
+
+def test_genereate_hist_plots():
+    assert len(genereate_hist_plots(POS_NEG_LISTS, range(0, 13),
+                                    [[-1, -1, -1], [-1, -1, -1]])) > 0
+
+
+def test_counter():
     assert pos_neg_counter(POS_NEG_LIST) == [4, 2]
+    assert unknown_list_counter(UNKNOWN_LIST) == 5
 
 
 def test_list_divider():
-    assert list_divider(POS_NEG_LISTS, UNKNOWN_LIST) == ([[2, 2], [3, 2]], 5)
+    assert list_divider(POS_NEG_LISTS, UNKNOWN_LIST) == ([[5, 2], [6, 2]],
+                                                         [7, 8])
 
 
 def test_sentiment_value():
     assert sentiment(TOKENIZED_WORDS, WORDDICT) == [3]
-    assert sentiment(EMPTY_LIST, WORDDICT) == [-1]
-    assert sentiment(['is'], WORDDICT) == [-1]
+    assert sentiment(EMPTY_LIST, WORDDICT) == -1
+    assert sentiment(['is'], WORDDICT) == -1
 
 
 def test_sentiment_analysis():
-    assert sentiment_analysis(COMMENTSLIST, WORDDICT) == ([[7.5]], [])
-    assert sentiment_analysis(EMPTY_LIST_LIST, WORDDICT) == ([[]], [])
-    #assert sentiment_analysis(NO_WORDS, WORDDICT) == ([[]], [-1])
+    assert sentiment_analysis(COMMENTSLIST, WORDDICT) == ([[7.5]], [[]])
+    assert sentiment_analysis(EMPTY_LIST_LIST, WORDDICT) == ([[]], [[]])
+    assert sentiment_analysis(NO_WORDS, WORDDICT) == ([[]], [[-1]])
 
 
 def test_worddict():
