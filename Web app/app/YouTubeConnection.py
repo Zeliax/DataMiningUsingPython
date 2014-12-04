@@ -73,7 +73,7 @@ class YouTubeConnection(object):
         """Using gdata api to download comments given a video id."""
         urlpattern = ('http://gdata.youtube.com/feeds/api/videos/' + video_id +
                       '/comments?orderby=published&start-index=%d&'
-                      'max-results=25')
+                      'max-results=35')
         index = 1
         url = urlpattern % index
         comment_feed = self.yts.GetYouTubeVideoCommentFeed(uri=url)

@@ -27,21 +27,28 @@
 
   {% if zipped %}
   <hr>
-  <h2>Videos and analysis</h2>
   <div class="container">
     <div class="row">
+      <center><h2>Videos and analysis</h2><center><br>
       {% for name, emb, plot, hist in zipped %}
       <div class="col-md-12">
-        <h4>{{ name.decode('utf-8') }}</h4>
-        <embed src="{{ emb }}" width="600" height="450"><br>
+        <center><h4>{{ name.decode('utf-8') }}</h4></center>
+        <center><embed src="{{ emb }}" width="600" height="450"></center><br>
       </div>
     </div>
     <div class="row">
       <div class="col-md-12">
         <br>
-        <h4>Sentiment analysis:</h4>
+        <center><h3>Sentiment analysis</h3><center>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
         {{ plot|safe }}
+      </div>
+      <div class="col-md-6">
         {{ hist|safe }}
+        <br>
       </div>
       {% endfor %}
     </div>
