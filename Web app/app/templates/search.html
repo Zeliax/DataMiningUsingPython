@@ -31,11 +31,14 @@
   <div class="container">
     <div class="row">
       {% for name, emb, plot, hist in zipped %}
-      <div class="col-md-6">
+      <div class="col-md-12">
         <h4>{{ name.decode('utf-8') }}</h4>
-        <embed src="{{ emb }}" width="450" height="300"><br>
+        <embed src="{{ emb }}" width="600" height="450"><br>
       </div>
-      <div class="col-md-6">
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <br>
         <h4>Sentiment analysis:</h4>
         {{ plot|safe }}
         {{ hist|safe }}
