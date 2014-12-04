@@ -1,15 +1,20 @@
+"""Contains the class LanguageDetector."""
 from nltk.corpus import stopwords   # stopwords to detect language
 from nltk import wordpunct_tokenize  # function to split up our words
 
 
 class LanguageDetector(object):
-    """Detects the language of a given string"""
+
+    """Detects the language of a given string."""
+
     def __init__(self):
+        """ Initilize the class."""
         self.lang_stopwords = {language: set(stopwords.words(language))
                                for language in stopwords._fileids}
 
     def get_language_likelihood(self, input_text):
-        """
+        """Find the language likelihood for a string.
+
         Return a dictionary of languages and their likelihood of being the
         language of the comment.
         """
@@ -22,6 +27,6 @@ class LanguageDetector(object):
         return language_likelihood
 
     def get_language(self, input_text):
-        """Return the most likely language of the given comment"""
+        """Return the most likely language of the given comment."""
         likelihoods = self.get_language_likelihood(input_text)
         return sorted(likelihoods, key=likelihoods.get, reverse=True)[0]

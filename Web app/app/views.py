@@ -1,3 +1,4 @@
+"""Modules used to define the index.html and the search.html."""
 from flask import render_template, flash, request
 from app import app
 from .forms import SearchForm
@@ -34,8 +35,8 @@ def search():
     The form is defined. Data from the form is used to retrieve lists of
     comments, names, links and embedded through YouTubeConnection.
     Then it retrieve a sentiment score list from sentiment_analysis.
-    A list of ratings from get_video_rating and to lists of html strings from
-    generate_plot_list.
+    A list of ratings from get_video_rating and two lists of html strings from
+    generate_pie_plots and genereate_hist_plots.
 
     All the lists are zipped and send through the template to the search.html.
     """
