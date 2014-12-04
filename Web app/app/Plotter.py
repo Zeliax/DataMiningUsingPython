@@ -36,7 +36,7 @@ def pie_chart(sentiment_list, rating_list, unknown_nr):
     if sentiment_list == [0, 0]:
         ax1.text(0.1, 0.5,
                  'There is no plot to display',
-                 fontsize=18,
+                 fontsize=16,
                  color='#263238')
     else:
         nr_of_unknown_string = str(unknown_nr) + ' unknown comments'
@@ -64,7 +64,7 @@ def pie_chart(sentiment_list, rating_list, unknown_nr):
     if rating_list == [0, 0]:
         ax2.text(0.1, 0.5,
                  'There is no plot to display',
-                 fontsize=20,
+                 fontsize=16,
                  color='#263238')
     else:
         _, texts, _ = ax2.pie(rating_list,
@@ -163,21 +163,19 @@ def genereate_hist_plots(sentiment_list, bins, unknown_list):
     return plot_list
 
 
-def unknown_list_counter(unknown_list):
-    """ """
-    unknowns = len([unknown for unknown in unknown_list])
-    return unknowns
-
-
-def pos_neg_counter(sentiment_list):
-    """Count the positive/negative comments in a list."""
-    positive = len([sent for sent in sentiment_list if sent > 5])
-    negative = len([sent for sent in sentiment_list if sent <= 5])
-    return [positive, negative]
-
-
 def list_divider(nested_list, unknown_list):
-    """Input mapped based on pos_neg_counter function."""
+    """Inputs are mapped based on sub-functions."""
+
+    def unknown_list_counter(unknown_list):
+        """Count the amount of unknown sentiment scores."""
+        return len([unknown for unknown in unknown_list])
+
+    def pos_neg_counter(sentiment_list):
+        """Count the positive/negative comments in a list."""
+        positive = len([sent for sent in sentiment_list if sent > 5])
+        negative = len([sent for sent in sentiment_list if sent <= 5])
+        return [positive, negative]
+
     pos_neg_count = map(pos_neg_counter, nested_list)
-    unknown_count = map(unknown_list_counter, nested_list)
+    unknown_count = map(unknown_list_counter, unknown_list)
     return pos_neg_count, unknown_count
