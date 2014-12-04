@@ -12,9 +12,9 @@ antal likes/dislikes på plottet så man kan se hvor mange det er beregnet over?
 Hvad gør vi med videoer med ingen kommetarer på engelsk? Den giver 100% positiv.. 
 
 Charts:
-Vis tal på pie charts
+Skifte label i hist plot
 Vis tal på hist plot
-Fjern baggrund på pie chart legend
+Fjern ramme på pie chart legend
 
 
 
