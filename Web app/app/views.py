@@ -42,13 +42,13 @@ def search():
     """
     form = SearchForm()
     commentlist = []
-    sentiment = []
+    sentiment_list = []
     names = []
     links = []
     zipped = []
-    # pos_neg = []
+    pos_neg_count = []
     ratings = []
-    plot_list = []
+    pie_plot_list = []
     embedded = []
     word_dict = wordlist_to_dict()
     if form.validate_on_submit():
@@ -62,10 +62,11 @@ def search():
         ratings = ytc.get_video_rating(links)
         pos_neg_count, unknown_count = list_divider(sentiment_list,
                                                     unknown_list)
-        plot_list = generate_pie_plots(pos_neg_count, ratings, unknown_count)
+        pie_plot_list = generate_pie_plots(pos_neg_count, ratings,
+                                           unknown_count)
         bins = range(1, 13)
-        hist_plot_list = genereate_hist_plots(sentiment, bins)
-        zipped = zip(names, embedded, plot_list, hist_plot_list)
+        hist_plot_list = genereate_hist_plots(sentiment_list, bins)
+        zipped = zip(names, embedded, pie_plot_list, hist_plot_list)
         flash('Search requested for "%s"' % (search_word))
         return render_template('search.html',
                                form=form,

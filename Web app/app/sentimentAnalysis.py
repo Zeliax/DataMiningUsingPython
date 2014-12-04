@@ -41,10 +41,11 @@ def sentiment_analysis(commentlist, wordlist):
     #total_sentiment = 0
     tokenizer = RegexpTokenizer(r'[a-z]+')
     all_sentiment = []
-    neutral = []
+    all_unknown = []
     ld = LanguageDetector()
     for video in commentlist:
         video_sentiment = []
+        neutral = []
         for comment in video:
             if ((ld.get_language(comment) == 'english') and (type(comment) is
                                                              str)):
@@ -59,5 +60,6 @@ def sentiment_analysis(commentlist, wordlist):
                 # video_sentiment is a list of sentiments for each video.
                     video_sentiment.append(np.mean(sentiment_score))
         # all_sentiment is a list of sentiment scores for all the videos.
+        all_unknown.append(neutral)
         all_sentiment.append(video_sentiment)
     return all_sentiment, neutral

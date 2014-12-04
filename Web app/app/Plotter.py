@@ -49,7 +49,7 @@ def pie_chart(sentiment_list, rating_list, unknown_nr):
         ax1.set_title('Sentiment Score')
         ax1.set_axis_off()
         ax1.legend()
-        ax1.text(0.1, 0.1,
+        ax1.text(0.06, 0.06,
                  nr_of_unknown_string,
                  fontsize=12,
                  color='#263238')
@@ -161,8 +161,6 @@ def pos_neg_counter(sentiment_list):
 
 def list_divider(nested_list, unknown_list):
     """Input mapped based on pos_neg_counter function."""
-    print 'Nested list = ', nested_list
-    print 'Uknown list = ', unknown_list
     pos_neg_count = map(pos_neg_counter, nested_list)
     unknown_nr = unknown_list_counter(unknown_list)
     return pos_neg_count, unknown_nr
