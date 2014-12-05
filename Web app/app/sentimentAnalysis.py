@@ -38,7 +38,7 @@ def sentiment_analysis(commentlist, wordlist):
     Keyword arguments:
     commentlist -- a list of lists of comments
     """
-    #total_sentiment = 0
+    # total_sentiment = 0
     tokenizer = RegexpTokenizer(r'[a-z]+')
     all_sentiment = []
     all_unknown = []
@@ -57,7 +57,7 @@ def sentiment_analysis(commentlist, wordlist):
                 if sentiment_score == -1:
                     neutral.append(sentiment_score)
                 else:
-                # video_sentiment is a list of sentiments for each video.
+                    # video_sentiment is a list of sentiments for each video.
                     video_sentiment.append(np.mean(sentiment_score))
         # all_sentiment is a list of sentiment scores for all the videos.
         all_unknown.append(neutral)

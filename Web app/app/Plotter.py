@@ -13,7 +13,7 @@ def pie_chart(sentiment_list, rating_list, unknown_nr):
     rating_list -> list of two components; likes and dislikes.
     unknown_nr -> comment amount that have not been given a sentiment score.
     """
-    #Calculate differences in sentiment and likes/dislikes
+    # Calculate differences in sentiment and likes/dislikes
     sent_pos_amount = sentiment_list[0]
     sent_neg_amount = sentiment_list[1]
     total_sent = sent_neg_amount + sent_pos_amount + unknown_nr

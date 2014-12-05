@@ -43,23 +43,23 @@ class YouTubeConnection(object):
 
         videos = []
 
-      # Add each result to the appropriate list, and then display the lists of
-      # matching videos, channels, and playlists
+        # Add each result to the appropriate list, and then display the lists
+        # of matching videos, channels, and playlists
         for search_result in search_response.get("items", []):
             # If result matches a video, append it to the video list
             if search_result["id"]["kind"] == "youtube#video":
                 videos.append("%s (%s)" % (search_result["snippet"]["title"],
                                            search_result["id"]["videoId"]))
 
-        #Splitting and formatting the ''videos'' list:
+        # Splitting and formatting the ''videos'' list:
         video_ids_list = []
         video_names_list = []
 
         for video in videos:
             video_ids_list.append(video.split('(')[-1][:-1])
             paran_count = video.count("(")
-            #If a paranthesis exists in title get the last occurance of the
-            #paranthesis
+            # If a paranthesis exists in title get the last occurance of the
+            # paranthesis
             if paran_count > 1:
                 video = video.split("(")
                 video_name = "(".join(video[:paran_count])
