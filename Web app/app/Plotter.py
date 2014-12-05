@@ -6,15 +6,13 @@ import mpld3
 
 
 def pie_chart(sentiment_list, rating_list, unknown_nr):
-    """
-    Plotting two piecharts of input.
+    """Plotting two piecharts of input.
 
     Keyword arguments:
     fractions_list -> list of two components; positive and negative counts.
     rating_list -> list of two components; likes and dislikes.
     unknown_nr -> comment amount that have not been given a sentiment score.
     """
-
     #Calculate differences in sentiment and likes/dislikes
     sent_pos_amount = sentiment_list[0]
     sent_neg_amount = sentiment_list[1]
@@ -178,8 +176,7 @@ def genereate_hist_plots(sentiment_list, bins, unknown_list):
 
 
 def list_divider(nested_list, unknown_list):
-    """Inputs are mapped based on sub-functions."""
-
+    """The inputs are mapped based on sub-functions."""
     def unknown_list_counter(unknown_list):
         """Count the amount of unknown sentiment scores."""
         return len([unknown for unknown in unknown_list])
