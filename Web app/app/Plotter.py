@@ -7,10 +7,12 @@ import mpld3
 
 def pie_chart(sentiment_list, rating_list, unknown_nr):
     """
-    Plotting a piechart of input.
+    Plotting two piecharts of input.
 
     Keyword arguments:
-    fractions_list -- list of two components; positive and negative counts.
+    fractions_list -> list of two components; positive and negative counts.
+    rating_list -> list of two components; likes and dislikes.
+    unknown_nr -> comment amount that have not been given a sentiment score.
     """
 
     #Calculate differences in sentiment and likes/dislikes
@@ -92,7 +94,9 @@ def hist_graph(sentiment_list, bins, unknown_nr):
     """Method for plotting a historgraph of input.
 
     Keyword arguments:
-    interval_list -- list of sentiment scores; scores between 0-12.
+    sentiment_list -> list of sentiment scores; scores.
+    bins -> bins to fit the sentiment scores in
+    unknown_nr -> comment amount that have not been given a sentiment score.
     """
     unknown_list = [(number + 12) for number in unknown_nr]
     sentiment_list.extend(unknown_list)
@@ -145,7 +149,12 @@ def hist_graph(sentiment_list, bins, unknown_nr):
 
 
 def generate_pie_plots(sentiment_list, rating_list, unknown_list):
-    """Given list of sentiments and a list of ratings, generate pie charts."""
+    """Given list of sentiments and a list of ratings, generate pie charts.
+
+    sentiment_list -> list of amount positive/negative comments.
+    rating_list -> list of amount likes/dislikes.
+    unknown_list -> list of number of un-analysed comments.
+    """
     plot_list = []
     for sentiment, rating, unknown in zip(sentiment_list, rating_list,
                                           unknown_list):
@@ -155,7 +164,12 @@ def generate_pie_plots(sentiment_list, rating_list, unknown_list):
 
 
 def genereate_hist_plots(sentiment_list, bins, unknown_list):
-    """Given a sentiment list, generate plots."""
+    """Given a sentiment list, bin and unknown count list, generate plots.
+
+    sentiment_list -> list of amount positive/negative comments
+    bins -> bins to fit the sentiment scores in
+    unknown_list -> list of amount that have not been given a sentiment score.
+    """
     plot_list = []
     for sentiment, unknown in zip(sentiment_list, unknown_list):
         fig = hist_graph(sentiment, bins, unknown)
