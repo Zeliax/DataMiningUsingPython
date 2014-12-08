@@ -98,10 +98,9 @@ def test_genereate_hist_plots():
                                     [[-1, -1, -1], [-1, -1, -1]])) > 0
 
 
-
-
 def test_list_divider():
-    assert list_divider(POS_NEG_LISTS, [UNKNOWN_LIST]) == ([[5, 2],[6, 2]], [5])
+    assert list_divider(POS_NEG_LISTS, [UNKNOWN_LIST]) == ([[5, 2], [6, 2]],
+                                                           [5])
 
 
 def test_sentiment_value():
