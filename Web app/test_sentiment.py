@@ -2,7 +2,7 @@
 """ Testing the functions in this final program."""
 from app.YouTubeConnection import YouTubeConnection
 from app.sentimentAnalysis import wordlist_to_dict, sentiment, sentiment_analysis
-from app.Plotter import pos_neg_counter, unknown_list_counter, list_divider, generate_pie_plots, genereate_hist_plots
+from app.Plotter import list_divider, generate_pie_plots, genereate_hist_plots
 from app.detect_lang import LanguageDetector
 from gdata.youtube import service
 from app import config
@@ -98,14 +98,10 @@ def test_genereate_hist_plots():
                                     [[-1, -1, -1], [-1, -1, -1]])) > 0
 
 
-def test_counter():
-    assert pos_neg_counter(POS_NEG_LIST) == [4, 2]
-    assert unknown_list_counter(UNKNOWN_LIST) == 5
 
 
 def test_list_divider():
-    assert list_divider(POS_NEG_LISTS, UNKNOWN_LIST) == ([[5, 2], [6, 2]],
-                                                         [7, 8])
+    assert list_divider(POS_NEG_LISTS, [UNKNOWN_LIST]) == ([[5, 2],[6, 2]], [5])
 
 
 def test_sentiment_value():
